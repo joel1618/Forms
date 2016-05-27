@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
     angular.module('Services')
-    .service('FormDetailsTypService', ['$http', '$q', 'breeze', 'breezeservice',
+    .service('FormDetailsTypeService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
             this.deferredRequest = null;
@@ -18,7 +18,7 @@
                 if (predicate != null) {
                     query = query.where(predicate);
                 }
-                query = query.orderByDesc('CreatedDateTime').skip(page * pageSize).take(pageSize);
+                query = query.orderByDesc('Id').skip(page * pageSize).take(pageSize);
 
                 breezeservice.executeQuery(query).then(function (data) {
                     deferred.resolve(data.httpResponse.data);
@@ -51,7 +51,7 @@
             this.Create = function (item) {
                 var deferred = $q.defer();
 
-                $http.post('/breeze/FormApi/Create', item)
+                $http.post('/breeze/FormDetailsTypeApi/Create', item)
                 .then(function (response) {
                     deferred.resolve(response);
                 }, function (response) {

@@ -30,14 +30,11 @@ namespace Forms.Repositories
 
         public async Task<FormEntity> Create(FormEntity item)
         {
-            using (var context = new FormsEntities())
-            {
-                item.Id = Guid.NewGuid();
-                item.CreatedDateTime = DateTime.Now;
-                var entity = context.Forms.Add(item);
-                context.SaveChanges();
-                return entity;
-            }
+            item.Id = Guid.NewGuid();
+            item.CreatedDateTime = DateTime.Now;
+            var entity = context.Forms.Add(item);
+            context.SaveChanges();
+            return entity;
         }
 
         public async Task<FormEntity> Update(Guid id, FormEntity item)

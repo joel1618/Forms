@@ -15,7 +15,7 @@
                         <label for="">Publish Url</label>
                         <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary pull-right" ng-click="FormCreate()">Create</button>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="FormCreate()">Create</button>
                 </form>
             </div>
             <div class="col-md-6">
@@ -25,6 +25,11 @@
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Name" placeholder="Name" required />
                     </fieldset>
                     <fieldset class="form-group">
+                        <label for="">Form Type</label>
+                        <select class="form-control input-sm" ng-model="SelectedFormDetailType" ng-options="Item.Name for Item in FormDetailTypes" required></select>
+                        <!--<input type="text" ng-model="Item.Name" uib-typeahead="Product for Product in Products | filter:$viewValue | limitTo:8" class="form-control">-->
+                    </fieldset>
+                    <fieldset class="form-group">
                         <label for="">Form Item Description</label>
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Description" placeholder="Description" />
                     </fieldset>
@@ -32,7 +37,7 @@
                         <label for="">Form Item Title</label>
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Title" placeholder="Title" />
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary pull-right">Create</button>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="FormDetailCreate()">Create</button>
                 </form>
             </div>
         </div>
@@ -45,7 +50,7 @@
                             <th>Form Name</th>
                         </tr>
                     </thead>
-                    <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" ng-style="Form.Id === SelectedFormRow ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                    <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" ng-style="Form.Id === SelectedFormRow.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
                         <tr>
                             <td><button class="btn btn-sm btn-danger" ng-click="FormDelete(Form.Id)">Delete</button></td>
                             <td>{{Form.Name}}</td>

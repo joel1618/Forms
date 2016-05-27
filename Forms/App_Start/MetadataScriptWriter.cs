@@ -1,6 +1,5 @@
 ﻿using Breeze.ContextProvider.EF6;
 using Forms;
-using Merchandiser;
 using System;
 using System.Collections.Generic;
 using System.IO;

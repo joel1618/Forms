@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using AspNetUsersInfoEntity = Forms.AspNetUsersInfo;
 
-namespace Merchandiser.Repositories
+namespace Forms.Repositories
 {
     public class AspNetUsersInfoRepository
     {

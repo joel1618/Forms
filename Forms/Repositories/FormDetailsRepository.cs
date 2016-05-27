@@ -9,12 +9,14 @@ namespace Forms.Repositories
 {
     public class FormDetailsRepository
     {
+        FormsEntities context;
+        public FormDetailsRepository()
+        {
+            this.context = new FormsEntities();
+        }
         public IQueryable<FormDetailEntity> Search()
         {
-            using (var context = new FormsEntities())
-            {
-                return context.FormDetails;
-            }
+            return context.FormDetails;
         }
 
         public async Task<FormDetailEntity> Get(Guid id)
