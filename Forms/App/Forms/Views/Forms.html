@@ -1,0 +1,74 @@
+﻿<div ng-controller="FormsController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <form>
+                    <fieldset class="form-group">
+                        <label for="">Form Name</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempForm.Name" placeholder="Name" required />
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="">Form Description</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempForm.Description" placeholder="Description" />
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="">Publish Url</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
+                    </fieldset>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right" ng-click="FormCreate()">Create</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <form>
+                    <fieldset class="form-group">
+                        <label for="">Form Item Name</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempFormItem.Name" placeholder="Name" required />
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="">Form Item Description</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempFormItem.Description" placeholder="Description" />
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="">Form Item Title</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempFormItem.Title" placeholder="Title" />
+                    </fieldset>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right">Create</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Form Name</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" ng-style="Form.Id === SelectedFormRow ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                        <tr>
+                            <td><button class="btn btn-sm btn-danger" ng-click="FormDelete(Form.Id)">Delete</button></td>
+                            <td>{{Form.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Form Item Name</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="FormItem in FormDetails">
+                        <tr>
+                            <td><button class="btn btn-sm btn-danger" ng-click="FormItemDelete(Item.Id)">Delete</button></td>
+                            <td>{{FormItem.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Forms.Models;
+using Merchandiser.Repositories;
 
 namespace Forms.Controllers
 {
@@ -155,15 +156,18 @@ namespace Forms.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    AspNetUsersInfoRepository repository = new AspNetUsersInfoRepository();
+                    var item = new AspNetUsersInfo() { Id = Guid.NewGuid().ToString(), AspNetUsersId = UserManager.FindByEmail(model.Email).Id, FirstName = model.FirstName, LastName = model.LastName };
+                    repository.Create(item);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Merchandise");
                 }
                 AddErrors(result);
             }

@@ -10,7 +10,8 @@ namespace Forms.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Form");
+            //return View();
         }
 
         public ActionResult About()

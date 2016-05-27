@@ -1,0 +1,57 @@
+﻿using Breeze.WebApi2;
+using Forms.Models;
+using Forms.Repositories;
+using Microsoft.AspNet.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using FormDetailsTypeEntity = Forms.FormDetailsType;
+
+namespace Forms.Controllers.api.v1.breeze
+{
+    [BreezeController]
+    public class FormDetailsTypeApiController : ApiController
+    {
+        FormDetailsTypeRepository repository;
+        public FormDetailsTypeApiController()
+        {
+            this.repository = new FormDetailsTypeRepository();
+        }
+        [HttpGet]
+        public IQueryable<FormDetailsTypeViewModel> Search()
+        {
+            return repository.Search().Select(x => new FormDetailsTypeViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name
+            });
+        }
+
+        [HttpPost]
+        public async Task<FormDetailsTypeEntity> Get(Guid id)
+        {
+            return await repository.Get(id);
+        }
+
+        [HttpPost]
+        public async Task<FormDetailsTypeEntity> Create(FormDetailsTypeEntity item)
+        {
+            return await repository.Create(item);
+        }
+
+        [HttpPut]
+        public async Task<FormDetailsTypeEntity> Update(Guid id, FormDetailsTypeEntity item)
+        {
+            return await repository.Update(id, item);
+        }
+
+        [HttpDelete]
+        public async void Delete(Guid id)
+        {
+            repository.Delete(id);
+        }
+    }
+}

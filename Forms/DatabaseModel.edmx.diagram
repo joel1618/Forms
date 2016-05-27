@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c068db5c8c1d4ccaa43d74507cbbbc94" Name="Diagram1" ZoomLevel="55" >
+        <EntityTypeShape EntityType="FormsModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="FormsModel.AspNetRole" Width="1.5" PointX="0.75" PointY="8.5" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="3.875" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="17.375" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUser" Width="1.5" PointX="3" PointY="6.875" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUsersInfo" Width="1.5" PointX="5.25" PointY="14.625" />
+        <EntityTypeShape EntityType="FormsModel.Form" Width="1.5" PointX="5.25" PointY="11.125" />
+        <EntityTypeShape EntityType="FormsModel.FormDetail" Width="1.5" PointX="8.25" PointY="7.375" />
+        <EntityTypeShape EntityType="FormsModel.FormDetailsOption" Width="1.5" PointX="6" PointY="7.25" />
+        <EntityTypeShape EntityType="FormsModel.FormDetailsOptionDetail" Width="1.5" PointX="8.25" PointY="4.25" />
+        <EntityTypeShape EntityType="FormsModel.FormDetailsType" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="FormsModel.Value" Width="1.5" PointX="7.5" PointY="12.125" />
+        <EntityTypeShape EntityType="FormsModel.ValueDetail" Width="1.5" PointX="10.5" PointY="7.875" />
+        <AssociationConnector Association="FormsModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="FormsModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="FormsModel.FK_AspNetUsersInfo_AspNetUsers" />
+        <AssociationConnector Association="FormsModel.FK_Form_AspNetUsers" />
+        <AssociationConnector Association="FormsModel.FK_FormDetails_AspNetUsers" />
+        <AssociationConnector Association="FormsModel.FK_Value_AspNetUsers" />
+        <AssociationConnector Association="FormsModel.FK_ValueDetails_AspNetUsers" />
+        <AssociationConnector Association="FormsModel.FK_Value_Form" />
+        <AssociationConnector Association="FormsModel.FK_FormDetails_Form" />
+        <AssociationConnector Association="FormsModel.FK_FormDetails_FormDetailsOption" />
+        <AssociationConnector Association="FormsModel.FK_ValueDetails_FormDetails" />
+        <AssociationConnector Association="FormsModel.FK_FormDetailsOptionDetails_FormDetailsOption" />
+        <AssociationConnector Association="FormsModel.AspNetUserRoles" />
+        <AssociationConnector Association="FormsModel.FK_FormDetails_Form1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
