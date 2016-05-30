@@ -17,6 +17,7 @@ namespace Forms
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FormDetail()
         {
+            this.FormDetailsOptions = new HashSet<FormDetailsOption>();
             this.ValueDetails = new HashSet<ValueDetail>();
         }
     
@@ -26,17 +27,17 @@ namespace Forms
         public string Description { get; set; }
         public string Title { get; set; }
         public System.Guid FormDetailsTypeId { get; set; }
-        public Nullable<System.Guid> FormDetailsOptionId { get; set; }
+        public bool IsRequired { get; set; }
         public string UserId { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public System.DateTime ModifiedDateTime { get; set; }
-        public bool IsRequired { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Form Form { get; set; }
         public virtual FormDetailsType FormDetailsType { get; set; }
-        public virtual FormDetailsOption FormDetailsOption { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormDetailsOption> FormDetailsOptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ValueDetail> ValueDetails { get; set; }
-        public virtual Form Form { get; set; }
     }
 }

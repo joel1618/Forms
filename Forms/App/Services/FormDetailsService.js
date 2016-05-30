@@ -85,7 +85,7 @@
             this.Delete = function (id) {
                 var deferred = $q.defer();
 
-                $http.delete('/breeze/FormsApi/Delete/' + id)
+                $http.delete('/breeze/FormDetailsApi/Delete/' + id)
                 .then(function (response) {
                     deferred.resolve(response);
                 }, function (response) {

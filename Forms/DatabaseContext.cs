@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Forms.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -24,7 +25,10 @@ namespace Forms
             //modelBuilder.Configurations.Add(new ConflictDtoConfiguration());
         }
 
-        public DbSet<Form> Form { get; set; }
-        public DbSet<FormDetail> FormDetails { get; set; }
+        //public DbSet<Form> Form { get; set; }
+        //public DbSet<FormDetail> FormDetails { get; set; }
+        public DbSet<FormViewModel> FormViewModel { get; set; }
+        public DbSet<FormDetailViewModel> FormDetailsViewModel { get; set; }
+        public DbSet<FormDetailOptionViewModel> FOrmDetailsOptionViewModel { get; set; }
     }
 }

@@ -21,9 +21,9 @@ namespace Forms.Controllers.api.v1.breeze
             this.repository = new FormDetailsTypeRepository();
         }
         [HttpGet]
-        public IQueryable<FormDetailsTypeViewModel> Search()
+        public IQueryable<FormDetailTypeViewModel> Search()
         {
-            return repository.Search().Select(x => new FormDetailsTypeViewModel()
+            return repository.Search().Select(x => new FormDetailTypeViewModel()
             {
                 Id = x.Id,
                 Name = x.Name

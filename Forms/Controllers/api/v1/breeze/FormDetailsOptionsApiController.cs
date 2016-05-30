@@ -11,19 +11,20 @@ using FormDetailsOptionEntity = Forms.FormDetailsOption;
 namespace Forms.Controllers.api.v1.breeze
 {
     [BreezeController]
-    public class FormDetailsOptionApiController : ApiController
+    public class FormDetailsOptionsApiController : ApiController
     {
-        FormDetailsOptionRepository repository;
-        public FormDetailsOptionApiController()
+        FormDetailsOptionsRepository repository;
+        public FormDetailsOptionsApiController()
         {
-            this.repository = new FormDetailsOptionRepository();
+            this.repository = new FormDetailsOptionsRepository();
         }
         [HttpGet]
-        public IQueryable<FormDetailsOptionViewModel> Search()
+        public IQueryable<FormDetailOptionViewModel> Search()
         {
-            return repository.Search().Select(x => new FormDetailsOptionViewModel()
+            return repository.Search().Select(x => new FormDetailOptionViewModel()
             {
                 Id = x.Id,
+                FormDetailsId = x.FormDetailsId,
                 Name = x.Name
             });
         }

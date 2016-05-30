@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
     angular.module('Services')
-    .service('FormDetailsOptionDetailsService', ['$http', '$q', 'breeze', 'breezeservice',
+    .service('FormDetailsOptionsService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
             this.deferredRequest = null;
@@ -14,11 +14,11 @@
                     this.deferredRequest = null;
                 }
                 var deferred = $q.defer();
-                var query = breeze.EntityQuery.from('FormDetailsOptionDetailsApi/Search');
+                var query = breeze.EntityQuery.from('FormDetailsOptionsApi/Search');
                 if (predicate != null) {
                     query = query.where(predicate);
                 }
-                query = query.orderByDesc('CreatedDateTime').skip(page * pageSize).take(pageSize);
+                query = query.orderByDesc('Name').skip(page * pageSize).take(pageSize);
 
                 breezeservice.executeQuery(query).then(function (data) {
                     deferred.resolve(data.httpResponse.data);
@@ -51,7 +51,7 @@
             this.Create = function (item) {
                 var deferred = $q.defer();
 
-                $http.post('/breeze/FormApi/Create', item)
+                $http.post('/breeze/FormDetailsOptionsApi/Create', item)
                 .then(function (response) {
                     deferred.resolve(response);
                 }, function (response) {
@@ -85,7 +85,7 @@
             this.Delete = function (id) {
                 var deferred = $q.defer();
 
-                $http.delete('/breeze/FormApi/Delete/' + id)
+                $http.delete('/breeze/FormDetailsOptionsApi/Delete/' + id)
                 .then(function (response) {
                     deferred.resolve(response);
                 }, function (response) {

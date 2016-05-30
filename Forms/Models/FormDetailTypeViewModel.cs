@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Forms.Models
 {
-    public class FormDetailsOptionViewModel
+    public class FormDetailTypeViewModel
     {
         public System.Guid Id { get; set; }
         public string Name { get; set; }

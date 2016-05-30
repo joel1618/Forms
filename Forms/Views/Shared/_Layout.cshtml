@@ -29,13 +29,13 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
+    @RenderBody()
+    @*<div class="container body-content">*@
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Dynamic Forms</p>
         </footer>
-    </div>
+   @*</div>*@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

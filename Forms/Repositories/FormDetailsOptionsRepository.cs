@@ -3,47 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using FormDetailsOptionDetailEntity = Forms.FormDetailsOptionDetail;
+using FormDetailsOptionEntity = Forms.FormDetailsOption;
 
 namespace Forms.Repositories
 {
-    public class FormDetailsOptionDetailsRepository
+    public class FormDetailsOptionsRepository
     {
         FormsEntities context;
-        public FormDetailsOptionDetailsRepository()
+        public FormDetailsOptionsRepository()
         {
             this.context = new FormsEntities();
         }
-        public IQueryable<FormDetailsOptionDetailEntity> Search()
+        public IQueryable<FormDetailsOptionEntity> Search()
         {
-            return context.FormDetailsOptionDetails;
+            return context.FormDetailsOptions;
         }
 
-        public async Task<FormDetailsOptionDetailEntity> Get(Guid id)
+        public async Task<FormDetailsOptionEntity> Get(Guid id)
         {
             using (var context = new FormsEntities())
             {
-                var entity = context.FormDetailsOptionDetails.Find(id);
+                var entity = context.FormDetailsOptions.Find(id);
                 return entity;
             }
         }
 
-        public async Task<FormDetailsOptionDetailEntity> Create(FormDetailsOptionDetailEntity item)
+        public async Task<FormDetailsOptionEntity> Create(FormDetailsOptionEntity item)
         {
             using (var context = new FormsEntities())
             {
                 item.Id = Guid.NewGuid();
-                var entity = context.FormDetailsOptionDetails.Add(item);
+                var entity = context.FormDetailsOptions.Add(item);
                 context.SaveChanges();
                 return entity;
             }
         }
 
-        public async Task<FormDetailsOptionDetailEntity> Update(Guid id, FormDetailsOptionDetailEntity item)
+        public async Task<FormDetailsOptionEntity> Update(Guid id, FormDetailsOptionEntity item)
         {
             using (var context = new FormsEntities())
             {
-                var entity = context.FormDetailsOptionDetails.Find(id);
+                var entity = context.FormDetailsOptions.Find(id);
                 entity.Name = item.Name;
                 context.SaveChanges();
                 return entity;
@@ -54,8 +54,8 @@ namespace Forms.Repositories
         {
             using (var context = new FormsEntities())
             {
-                var entity = context.FormDetailsOptionDetails.Find(id);
-                context.FormDetailsOptionDetails.Remove(entity);
+                var entity = context.FormDetailsOptions.Find(id);
+                context.FormDetailsOptions.Remove(entity);
                 context.SaveChanges();
             }
         }

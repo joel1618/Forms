@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Forms.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,7 +51,6 @@ namespace Forms.Repositories
                 entity.Description = item.Description;
                 entity.Title = item.Title;
                 entity.FormDetailsTypeId = item.FormDetailsTypeId;
-                entity.FormDetailsOptionId = item.FormDetailsOptionId;
                 entity.ModifiedDateTime = DateTime.Now;
                 context.SaveChanges();
                 return entity;

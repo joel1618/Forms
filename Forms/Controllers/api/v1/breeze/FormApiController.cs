@@ -16,11 +16,11 @@ namespace Forms.Controllers.api.v1.breeze
     public class FormApiController : ApiController
     {
         [HttpGet]
-        public IQueryable<FormEntityViewModel> Search()
+        public IQueryable<FormViewModel> Search()
         {
             FormRepository formRepository = new FormRepository();
             var userId = User.Identity.GetUserId();
-            return formRepository.Search().Where(e => e.UserId == userId).Select(x => new FormEntityViewModel()
+            return formRepository.Search().Where(e => e.UserId == userId).Select(x => new FormViewModel()
             {
                 Description = x.Description,
                 Id = x.Id,

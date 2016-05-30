@@ -17,8 +17,8 @@ namespace Forms
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Form()
         {
-            this.Values = new HashSet<Value>();
             this.FormDetails = new HashSet<FormDetail>();
+            this.Values = new HashSet<Value>();
         }
     
         public System.Guid Id { get; set; }
@@ -31,8 +31,8 @@ namespace Forms
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Value> Values { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDetail> FormDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Value> Values { get; set; }
     }
 }

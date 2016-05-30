@@ -14,19 +14,10 @@ namespace Forms
     
     public partial class FormDetailsOption
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public FormDetailsOption()
-        {
-            this.FormDetails = new HashSet<FormDetail>();
-            this.FormDetailsOptionDetails = new HashSet<FormDetailsOptionDetail>();
-        }
-    
         public System.Guid Id { get; set; }
+        public System.Guid FormDetailsId { get; set; }
         public string Name { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FormDetail> FormDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FormDetailsOptionDetail> FormDetailsOptionDetails { get; set; }
+        public virtual FormDetail FormDetail { get; set; }
     }
 }

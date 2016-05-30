@@ -97,25 +97,17 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="FormDetailsTypeId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="FormDetailsOptionId" Type="uniqueidentifier" />
           <Property Name="IsRequired" Type="bit" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedDateTime" Type="date" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="date" Nullable="false" />
         </EntityType>
-        <EntityType Name="FormDetailsOption">
+        <EntityType Name="FormDetailsOptions">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FormDetailsOptionDetails">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="FormDetailsOptionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FormDetailsId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
         </EntityType>
         <EntityType Name="FormDetailsType">
@@ -265,31 +257,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FormDetails_FormDetailsOption">
-          <End Role="FormDetailsOption" Type="Self.FormDetailsOption" Multiplicity="0..1">
+        <Association Name="FK_FormDetailsOptions_FormDetails">
+          <End Role="FormDetails" Type="Self.FormDetails" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="FormDetails" Type="Self.FormDetails" Multiplicity="*" />
+          <End Role="FormDetailsOptions" Type="Self.FormDetailsOptions" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="FormDetailsOption">
+            <Principal Role="FormDetails">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="FormDetails">
-              <PropertyRef Name="FormDetailsOptionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FormDetailsOptionDetails_FormDetailsOption">
-          <End Role="FormDetailsOption" Type="Self.FormDetailsOption" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="FormDetailsOptionDetails" Type="Self.FormDetailsOptionDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FormDetailsOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FormDetailsOptionDetails">
-              <PropertyRef Name="FormDetailsOptionId" />
+            <Dependent Role="FormDetailsOptions">
+              <PropertyRef Name="FormDetailsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -355,8 +333,7 @@
           <EntitySet Name="AspNetUsersInfo" EntityType="Self.AspNetUsersInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Form" EntityType="Self.Form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormDetails" EntityType="Self.FormDetails" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FormDetailsOption" EntityType="Self.FormDetailsOption" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FormDetailsOptionDetails" EntityType="Self.FormDetailsOptionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormDetailsOptions" EntityType="Self.FormDetailsOptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormDetailsType" EntityType="Self.FormDetailsType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Value" EntityType="Self.Value" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ValueDetails" EntityType="Self.ValueDetails" Schema="dbo" store:Type="Tables" />
@@ -396,13 +373,9 @@
             <End Role="Form" EntitySet="Form" />
             <End Role="FormDetails" EntitySet="FormDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_FormDetails_FormDetailsOption" Association="Self.FK_FormDetails_FormDetailsOption">
-            <End Role="FormDetailsOption" EntitySet="FormDetailsOption" />
+          <AssociationSet Name="FK_FormDetailsOptions_FormDetails" Association="Self.FK_FormDetailsOptions_FormDetails">
             <End Role="FormDetails" EntitySet="FormDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormDetailsOptionDetails_FormDetailsOption" Association="Self.FK_FormDetailsOptionDetails_FormDetailsOption">
-            <End Role="FormDetailsOption" EntitySet="FormDetailsOption" />
-            <End Role="FormDetailsOptionDetails" EntitySet="FormDetailsOptionDetails" />
+            <End Role="FormDetailsOptions" EntitySet="FormDetailsOptions" />
           </AssociationSet>
           <AssociationSet Name="FK_Value_AspNetUsers" Association="Self.FK_Value_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -435,7 +408,6 @@
           <EntitySet Name="Forms" EntityType="FormsModel.Form" />
           <EntitySet Name="FormDetails" EntityType="FormsModel.FormDetail" />
           <EntitySet Name="FormDetailsOptions" EntityType="FormsModel.FormDetailsOption" />
-          <EntitySet Name="FormDetailsOptionDetails" EntityType="FormsModel.FormDetailsOptionDetail" />
           <EntitySet Name="FormDetailsTypes" EntityType="FormsModel.FormDetailsType" />
           <EntitySet Name="Values" EntityType="FormsModel.Value" />
           <EntitySet Name="ValueDetails" EntityType="FormsModel.ValueDetail" />
@@ -467,6 +439,10 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="ValueDetail" EntitySet="ValueDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_FormDetails_Form1" Association="FormsModel.FK_FormDetails_Form1">
+            <End Role="Form" EntitySet="Forms" />
+            <End Role="FormDetail" EntitySet="FormDetails" />
+          </AssociationSet>
           <AssociationSet Name="FK_Value_Form" Association="FormsModel.FK_Value_Form">
             <End Role="Form" EntitySet="Forms" />
             <End Role="Value" EntitySet="Values" />
@@ -475,25 +451,17 @@
             <End Role="FormDetailsType" EntitySet="FormDetailsTypes" />
             <End Role="FormDetail" EntitySet="FormDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_FormDetails_FormDetailsOption" Association="FormsModel.FK_FormDetails_FormDetailsOption">
-            <End Role="FormDetailsOption" EntitySet="FormDetailsOptions" />
+          <AssociationSet Name="FK_FormDetailsOptions_FormDetails" Association="FormsModel.FK_FormDetailsOptions_FormDetails">
             <End Role="FormDetail" EntitySet="FormDetails" />
+            <End Role="FormDetailsOption" EntitySet="FormDetailsOptions" />
           </AssociationSet>
           <AssociationSet Name="FK_ValueDetails_FormDetails" Association="FormsModel.FK_ValueDetails_FormDetails">
             <End Role="FormDetail" EntitySet="FormDetails" />
             <End Role="ValueDetail" EntitySet="ValueDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_FormDetailsOptionDetails_FormDetailsOption" Association="FormsModel.FK_FormDetailsOptionDetails_FormDetailsOption">
-            <End Role="FormDetailsOption" EntitySet="FormDetailsOptions" />
-            <End Role="FormDetailsOptionDetail" EntitySet="FormDetailsOptionDetails" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="FormsModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormDetails_Form1" Association="FormsModel.FK_FormDetails_Form1">
-            <End Role="Form" EntitySet="Forms" />
-            <End Role="FormDetail" EntitySet="FormDetails" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -582,8 +550,8 @@
           <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ModifiedDateTime" Type="DateTime" Precision="0" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_Form_AspNetUsers" FromRole="Form" ToRole="AspNetUser" />
-          <NavigationProperty Name="Values" Relationship="FormsModel.FK_Value_Form" FromRole="Form" ToRole="Value" />
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_Form1" FromRole="Form" ToRole="FormDetail" />
+          <NavigationProperty Name="Values" Relationship="FormsModel.FK_Value_Form" FromRole="Form" ToRole="Value" />
         </EntityType>
         <EntityType Name="FormDetail">
           <Key>
@@ -595,34 +563,24 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="FormDetailsTypeId" Type="Guid" Nullable="false" />
-          <Property Name="FormDetailsOptionId" Type="Guid" />
+          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_FormDetails_AspNetUsers" FromRole="FormDetail" ToRole="AspNetUser" />
-          <NavigationProperty Name="FormDetailsType" Relationship="FormsModel.FK_FormDetails_Form" FromRole="FormDetail" ToRole="FormDetailsType" />
-          <NavigationProperty Name="FormDetailsOption" Relationship="FormsModel.FK_FormDetails_FormDetailsOption" FromRole="FormDetail" ToRole="FormDetailsOption" />
-          <NavigationProperty Name="ValueDetails" Relationship="FormsModel.FK_ValueDetails_FormDetails" FromRole="FormDetail" ToRole="ValueDetail" />
-          <Property Name="IsRequired" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Form" Relationship="FormsModel.FK_FormDetails_Form1" FromRole="FormDetail" ToRole="Form" />
+          <NavigationProperty Name="FormDetailsType" Relationship="FormsModel.FK_FormDetails_Form" FromRole="FormDetail" ToRole="FormDetailsType" />
+          <NavigationProperty Name="FormDetailsOptions" Relationship="FormsModel.FK_FormDetailsOptions_FormDetails" FromRole="FormDetail" ToRole="FormDetailsOption" />
+          <NavigationProperty Name="ValueDetails" Relationship="FormsModel.FK_ValueDetails_FormDetails" FromRole="FormDetail" ToRole="ValueDetail" />
         </EntityType>
         <EntityType Name="FormDetailsOption">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FormDetailsId" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_FormDetailsOption" FromRole="FormDetailsOption" ToRole="FormDetail" />
-          <NavigationProperty Name="FormDetailsOptionDetails" Relationship="FormsModel.FK_FormDetailsOptionDetails_FormDetailsOption" FromRole="FormDetailsOption" ToRole="FormDetailsOptionDetail" />
-        </EntityType>
-        <EntityType Name="FormDetailsOptionDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="FormDetailsOptionId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="FormDetailsOption" Relationship="FormsModel.FK_FormDetailsOptionDetails_FormDetailsOption" FromRole="FormDetailsOptionDetail" ToRole="FormDetailsOption" />
+          <NavigationProperty Name="FormDetail" Relationship="FormsModel.FK_FormDetailsOptions_FormDetails" FromRole="FormDetailsOption" ToRole="FormDetail" />
         </EntityType>
         <EntityType Name="FormDetailsType">
           <Key>
@@ -746,8 +704,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_FormDetails_Form1">
+          <End Type="FormsModel.Form" Role="Form" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FormsModel.FormDetail" Role="FormDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FormDetail">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Value_Form">
-          <End Type="FormsModel.Form" Role="Form" Multiplicity="1" />
+          <End Type="FormsModel.Form" Role="Form" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="FormsModel.Value" Role="Value" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Form">
@@ -770,20 +744,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FormDetails_FormDetailsOption">
-          <End Type="FormsModel.FormDetailsOption" Role="FormDetailsOption" Multiplicity="0..1" />
-          <End Type="FormsModel.FormDetail" Role="FormDetail" Multiplicity="*" />
+        <Association Name="FK_FormDetailsOptions_FormDetails">
+          <End Type="FormsModel.FormDetail" Role="FormDetail" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FormsModel.FormDetailsOption" Role="FormDetailsOption" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="FormDetailsOption">
+            <Principal Role="FormDetail">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="FormDetail">
-              <PropertyRef Name="FormDetailsOptionId" />
+            <Dependent Role="FormDetailsOption">
+              <PropertyRef Name="FormDetailsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ValueDetails_FormDetails">
-          <End Type="FormsModel.FormDetail" Role="FormDetail" Multiplicity="1" />
+          <End Type="FormsModel.FormDetail" Role="FormDetail" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="FormsModel.ValueDetail" Role="ValueDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FormDetail">
@@ -794,35 +772,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FormDetailsOptionDetails_FormDetailsOption">
-          <End Type="FormsModel.FormDetailsOption" Role="FormDetailsOption" Multiplicity="1" />
-          <End Type="FormsModel.FormDetailsOptionDetail" Role="FormDetailsOptionDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FormDetailsOption">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FormDetailsOptionDetail">
-              <PropertyRef Name="FormDetailsOptionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Type="FormsModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="FormsModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_FormDetails_Form1">
-          <End Type="FormsModel.Form" Role="Form" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="FormsModel.FormDetail" Role="FormDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Form">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FormDetail">
-              <PropertyRef Name="FormId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -911,11 +863,10 @@
           <EntitySetMapping Name="FormDetails">
             <EntityTypeMapping TypeName="FormsModel.FormDetail">
               <MappingFragment StoreEntitySet="FormDetails">
-                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="FormDetailsOptionId" ColumnName="FormDetailsOptionId" />
+                <ScalarProperty Name="IsRequired" ColumnName="IsRequired" />
                 <ScalarProperty Name="FormDetailsTypeId" ColumnName="FormDetailsTypeId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -927,17 +878,9 @@
           </EntitySetMapping>
           <EntitySetMapping Name="FormDetailsOptions">
             <EntityTypeMapping TypeName="FormsModel.FormDetailsOption">
-              <MappingFragment StoreEntitySet="FormDetailsOption">
+              <MappingFragment StoreEntitySet="FormDetailsOptions">
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FormDetailsOptionDetails">
-            <EntityTypeMapping TypeName="FormsModel.FormDetailsOptionDetail">
-              <MappingFragment StoreEntitySet="FormDetailsOptionDetails">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="FormDetailsOptionId" ColumnName="FormDetailsOptionId" />
+                <ScalarProperty Name="FormDetailsId" ColumnName="FormDetailsId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

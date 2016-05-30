@@ -1,7 +1,8 @@
 ﻿<div ng-controller="FormsController">
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-6">
+            <div class="col-md-3">
+                <h2>Forms</h2>
                 <form>
                     <fieldset class="form-group">
                         <label for="">Form Name</label>
@@ -15,17 +16,32 @@
                         <label for="">Publish Url</label>
                         <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary" ng-click="FormCreate()">Create</button>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateForm()">Create</button>
                 </form>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Form Name</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                        <tr>
+                            <td><button class="btn btn-sm btn-danger" ng-click="DeleteForm(Form)">Delete</button></td>
+                            <td>{{Form.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
+                <h2>Form Details</h2>
                 <form>
                     <fieldset class="form-group">
                         <label for="">Form Item Name</label>
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Name" placeholder="Name" required />
                     </fieldset>
                     <fieldset class="form-group">
-                        <label for="">Form Type</label>
+                        <label for="">Form Type</label>*
                         <select class="form-control input-sm" ng-model="SelectedFormDetailType" ng-options="Item.Name for Item in FormDetailTypes" required></select>
                         <!--<input type="text" ng-model="Item.Name" uib-typeahead="Product for Product in Products | filter:$viewValue | limitTo:8" class="form-control">-->
                     </fieldset>
@@ -37,28 +53,8 @@
                         <label for="">Form Item Title</label>
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Title" placeholder="Title" />
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary" ng-click="FormDetailCreate()">Create</button>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetail()" ng-disabled="SelectedForm == null">Create</button>
                 </form>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="col-md-6">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Form Name</th>
-                        </tr>
-                    </thead>
-                    <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" ng-style="Form.Id === SelectedFormRow.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
-                        <tr>
-                            <td><button class="btn btn-sm btn-danger" ng-click="FormDelete(Form.Id)">Delete</button></td>
-                            <td>{{Form.Name}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
                 <table class="table">
                     <thead>
                         <tr>
@@ -66,13 +62,39 @@
                             <th>Form Item Name</th>
                         </tr>
                     </thead>
-                    <tbody ng-repeat="FormItem in FormDetails">
+                    <tbody ng-repeat="FormItem in FormDetails" ng-click="FormItemRowClick(FormItem)" ng-style="FormItem.Id === SelectedFormDetail.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
                         <tr>
-                            <td><button class="btn btn-sm btn-danger" ng-click="FormItemDelete(Item.Id)">Delete</button></td>
+                            <td><button class="btn btn-sm btn-danger" ng-click="DeleteFormDetail(FormItem)">Delete</button></td>
                             <td>{{FormItem.Name}}</td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="col-md-3" ng-show="SelectedFormDetail.FormDetailsTypeId == '21c07d80-eb02-46f6-89c9-a8f5769432dc'">
+                <h2>Form Detail Options</h2>
+                <form>
+                    <fieldset class="form-group">
+                        <label for="">Form Item Name</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempFormDetailOption.Name" placeholder="Name" required />
+                    </fieldset>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetailOption()" ng-disabled="SelectedFormDetail == null">Create</button>
+                </form>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Form Detail Option Name</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="FormDetailOption in FormDetailsOptions" ng-click="FormDetailOptionRowClick(FormItem)" ng-style="FormDetailOption.Id === SelectedFormDetailOption.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                        <tr>
+                            <td><button class="btn btn-sm btn-danger" ng-click="DeleteFormDetailOption(FormDetailOption)">Delete</button></td>
+                            <td>{{FormDetailOption.Name}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
             </div>
         </div>
     </div>
