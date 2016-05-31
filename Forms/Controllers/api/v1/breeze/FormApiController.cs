@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -15,6 +16,11 @@ namespace Forms.Controllers.api.v1.breeze
     [BreezeController]
     public class FormApiController : ApiController
     {
+        FormRepository repository;
+        public FormApiController()
+        {
+            this.repository = new FormRepository();
+        }
         [HttpGet]
         public IQueryable<FormViewModel> Search()
         {
@@ -33,10 +39,19 @@ namespace Forms.Controllers.api.v1.breeze
         }
 
         [HttpGet]
-        public async Task<FormEntity> Get(Guid id)
+        public async Task<IHttpActionResult> Get(Guid id)
         {
-            FormRepository formRepository = new FormRepository();
-            return await formRepository.Get(id);
+            var item = await repository.Get(id);
+            return Content(HttpStatusCode.OK, new FormViewModel()
+            {
+                Description = item.Description,
+                Id = item.Id,
+                CreatedDateTime = item.CreatedDateTime,
+                ModifiedDateTime = item.ModifiedDateTime,   
+                Name = item.Name,
+                UserId = item.UserId,
+                PublishUrl = item.PublishUrl,
+            });
         }
 
         [HttpPost]

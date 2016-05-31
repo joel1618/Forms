@@ -38,7 +38,7 @@
 
             $http({
                 method: 'Get',
-                url: '/FormsApi/Get/' + id,
+                url: '/breeze/FormApi/Get/' + id,
             }).success(function (data, status, headers, config) {
                 deferred.resolve(data);
             }).error(function (msg, code) {
