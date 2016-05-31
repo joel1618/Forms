@@ -19,6 +19,9 @@ namespace Forms
         public string UserId { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
+        public Nullable<decimal> Latitude { get; set; }
+        public Nullable<decimal> Longitude { get; set; }
+        public bool IsSent { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Form Form { get; set; }

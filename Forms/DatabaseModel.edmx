@@ -124,6 +124,9 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FormId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="IsSent" Type="bit" Nullable="false" />
           <Property Name="CreatedDateTime" Type="date" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="date" />
         </EntityType>
@@ -136,6 +139,7 @@
           <Property Name="FormDetailsId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsSent" Type="bit" Nullable="false" />
           <Property Name="CreatedDateTime" Type="date" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="date" />
         </EntityType>
@@ -601,6 +605,9 @@
           <Property Name="ModifiedDateTime" Type="DateTime" Precision="0" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_Value_AspNetUsers" FromRole="Value" ToRole="AspNetUser" />
           <NavigationProperty Name="Form" Relationship="FormsModel.FK_Value_Form" FromRole="Value" ToRole="Form" />
+          <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="IsSent" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="ValueDetail">
           <Key>
@@ -615,6 +622,7 @@
           <Property Name="ModifiedDateTime" Type="DateTime" Precision="0" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_ValueDetails_AspNetUsers" FromRole="ValueDetail" ToRole="AspNetUser" />
           <NavigationProperty Name="FormDetail" Relationship="FormsModel.FK_ValueDetails_FormDetails" FromRole="ValueDetail" ToRole="FormDetail" />
+          <Property Name="IsSent" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="FormsModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -896,6 +904,9 @@
           <EntitySetMapping Name="Values">
             <EntityTypeMapping TypeName="FormsModel.Value">
               <MappingFragment StoreEntitySet="Value">
+                <ScalarProperty Name="IsSent" ColumnName="IsSent" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -907,6 +918,7 @@
           <EntitySetMapping Name="ValueDetails">
             <EntityTypeMapping TypeName="FormsModel.ValueDetail">
               <MappingFragment StoreEntitySet="ValueDetails">
+                <ScalarProperty Name="IsSent" ColumnName="IsSent" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
