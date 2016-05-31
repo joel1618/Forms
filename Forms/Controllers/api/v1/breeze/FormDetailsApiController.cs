@@ -30,8 +30,13 @@ namespace Forms.Controllers.api.v1.breeze
                 ModifiedDateTime = x.ModifiedDateTime,
                 Name = x.Name,
                 Title = x.Title,
-                UserId = x.UserId
-            }); ;
+                UserId = x.UserId,
+                FormDetailsType = new FormDetailTypeViewModel()
+                {
+                    Id = x.FormDetailsType.Id,
+                    Name = x.FormDetailsType.Name
+                }
+            });
         }
 
         [HttpGet]

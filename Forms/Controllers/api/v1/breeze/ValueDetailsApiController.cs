@@ -31,7 +31,7 @@ namespace Forms.Controllers.api.v1.breeze
             });
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<ValueDetailEntity> Get(Guid id)
         {
             return await repository.Get(id);

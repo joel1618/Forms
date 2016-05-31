@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Net;
 using FormDetailsTypeEntity = Forms.FormDetailsType;
 
 namespace Forms.Controllers.api.v1.breeze
@@ -30,10 +31,15 @@ namespace Forms.Controllers.api.v1.breeze
             });
         }
 
-        [HttpPost]
-        public async Task<FormDetailsTypeEntity> Get(Guid id)
+        [HttpGet]
+        public async Task<IHttpActionResult> Get(Guid id)
         {
-            return await repository.Get(id);
+            var item = await repository.Get(id);            
+            return Content(HttpStatusCode.OK, new FormDetailTypeViewModel()
+            {
+                Id = item.Id,
+                Name = item.Name
+            });
         }
 
         [HttpPost]

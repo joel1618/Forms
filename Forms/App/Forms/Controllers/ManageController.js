@@ -5,7 +5,7 @@
     function controller($scope, $routeParams, $http, $location, $timeout, breezeservice, breeze,
         FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailService) {
         var pageSize = 10;
-        $scope.SelectedForm = null; $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null;
+        $scope.SelectedForm = null; $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null; $scope.SelectedFormDetailType = null;
         $scope.SelectedFormDetailType = null;
         $scope.ClearTemp = function () {
             $scope.TempForm = { Id: '', Name: '', Description: '', PublishUrl: '' };
@@ -74,8 +74,10 @@
         };
 
         $scope.FormItemRowClick = function (item) {
-            debugger;
             $scope.SelectedFormDetail = item;
+            FormDetailsTypeService.Get(item.FormDetailsTypeId).then(function(data){
+                $scope.SelectedFormDetailType = data;
+            });
             $scope.SearchFormDetailOptions(item.Id);
         };
 

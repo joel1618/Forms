@@ -29,7 +29,7 @@ namespace Forms.Controllers.api.v1.breeze
             });
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<FormDetailsOptionEntity> Get(Guid id)
         {
             return await repository.Get(id);

@@ -7,5 +7,4 @@
         var pageSize = 10;
         $scope.id = $routeParams.id;
     }]);
-
 })(moment);

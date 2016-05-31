@@ -32,7 +32,7 @@ namespace Forms.Controllers.api.v1.breeze
             });
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<FormEntity> Get(Guid id)
         {
             FormRepository formRepository = new FormRepository();
