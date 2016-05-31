@@ -1,4 +1,4 @@
-﻿<div ng-controller="FormsController">
+﻿<div ng-controller="ManageController">
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-3">
@@ -49,9 +49,13 @@
                         <label for="">Form Item Description</label>
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Description" placeholder="Description" />
                     </fieldset>
-                    <fieldset class="form-group">
+                    <!--<fieldset class="form-group">
                         <label for="">Form Item Title</label>
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Title" placeholder="Title" />
+                    </fieldset>-->
+                    <fieldset class="form-group">
+                        <label for="">Is Required</label>
+                        <input type="checkbox" ng-model="TempFormItem.IsRequired"/>
                     </fieldset>
                     <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetail()" ng-disabled="SelectedForm == null">Create</button>
                 </form>

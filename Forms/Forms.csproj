@@ -300,8 +300,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Forms\App.js" />
-    <Content Include="App\Forms\Controllers\FormsController.js" />
-    <Content Include="App\Forms\Views\Forms.html" />
+    <Content Include="App\Forms\Controllers\FormController.js" />
+    <Content Include="App\Forms\Controllers\ManageController.js" />
+    <Content Include="App\Forms\Views\Form.html" />
+    <Content Include="App\Forms\Views\Manage.html" />
     <Content Include="App\Services\Breeze\breezeservice.js" />
     <Content Include="App\Services\FormDetailsOptionsService.js" />
     <Content Include="App\Services\FormDetailsTypeService.js" />
@@ -342,6 +344,7 @@
     <Content Include="Scripts\breeze.debug.js" />
     <Content Include="Scripts\breeze.directives.js" />
     <Content Include="Scripts\breeze.min.js" />
+    <Content Include="Scripts\Dependencies\angular-local-storage\angular-local-storage.js" />
     <Content Include="Scripts\Dependencies\angular-ui-bootstrap\0.14.3\ui-bootstrap.js" />
     <Content Include="Scripts\Dependencies\angular-ui-grid\3.0.7\ui-grid.css" />
     <Content Include="Scripts\Dependencies\angular-ui-grid\3.0.7\ui-grid.js" />

@@ -1,6 +1,6 @@
 ﻿(function (moment) {
     "use strict";
-    angular.module('Forms').controller('FormsController', ['$scope', '$routeParams', '$http', '$location', '$timeout', 'breezeservice', 'breeze',
+    angular.module('Forms').controller('ManageController', ['$scope', '$routeParams', '$http', '$location', '$timeout', 'breezeservice', 'breeze',
         'FormService', 'FormDetailsService', 'FormDetailsTypeService','FormDetailsOptionsService','ValueService','ValueDetailsService',
     function controller($scope, $routeParams, $http, $location, $timeout, breezeservice, breeze,
         FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailService) {
