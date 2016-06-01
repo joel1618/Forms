@@ -1,35 +1,56 @@
 ﻿(function () {
     "use strict";
     angular.module('Services')
-    .service('FormCacheService', ['$http', '$q', 'breeze', 'breezeservice', 'localStorageService', 'FormService',
-        function ($http, $q, breeze, breezeservice, localStorageService, FormService) {
+    .service('FormCacheService', ['$http', '$q', 'breeze', 'breezeservice', 'FormService',
+        function ($http, $q, breeze, breezeservice, FormService) {
         var _self = this;
         this.deferredRequest = null;
 
         this.Get = function(id)
         {
             var deferred = $q.defer();
-            FormService.Get(id).then(function (data) {
-                if(localStorageService.isSupported)
-                {
-                    var item = localStorageService.get('Form ' + id);
-                    if(item != null){                        
-                        if (data.ModifiedDateTime > item.ModifiedDateTime) {
-                            localStorageService.set('Form ' + id, data);
-                        }
+            var database = new localStorageDB("FormsDatabase", localStorage);
+            $http({
+                method: 'Get',
+                url: '/breeze/FormApi/Get/' + id,
+            }).success(function (data, status, headers, config) {
+                var item = database.queryAll("Form", { query: function (row) { if (row.Id == Id) { return true; } else { return false; } }, limit: 1 });
+                if (item != null) {
+                    if (data.ModifiedDateTime > item.ModifiedDateTime) {
+                        //Update
+                        database.insertOrUpdate("Form", { Id: Id }, {
+                            Name: item.Name,
+                            Description: item.Description,
+                            PublishUrl: item.PublishUrl,
+                            UserId: item.UserId,
+                            CreatedDateTime: item.CreatedDateTime,
+                            ModifiedDateTime: item.ModifiedDateTime
+                        });
+                        database.commit();
                     }
-                    else {
-                        localStorageService.set('Form ' + id, data);
-                    }
-                    deferred.resolve(localStorageService.get('Form ' + id));
                 }
-            }, function (error) {
-                if(localStorageService.isSupported)
-                {
-                    deferred.resolve(localStorageService.get('Form ' + id));
+                else {
+                    //Create
+                    database.insertOrUpdate("Form", { Id: Id }, {
+                        Name: item.Name,
+                        Description: item.Description,
+                        PublishUrl: item.PublishUrl,
+                        UserId: item.UserId,
+                        CreatedDateTime: item.CreatedDateTime,
+                        ModifiedDateTime: item.ModifiedDateTime
+                    });
+                    database.commit();
                 }
-                deferred.resolve(null);
+                item = database.queryAll("Form", { query: function (row) { if (row.Id == Id) { return true; } else { return false; } }, limit: 1 });
+                deferred.resolve(item);
+            }).error(function (msg, code) {
+                var item = database.queryAll("Form", { query: function (row) { if (row.Id == Id) { return true; } else { return false; } }, limit: 1 });
+                if (item != null) {
+                    deferred.resolve(item);
+                }
+                deferred.reject(msg);
             });
+
             return deferred.promise;
         }
     }]);

@@ -311,6 +311,7 @@
     <Content Include="App\Services\FormDetailsService.js" />
     <Content Include="App\Services\FormService.js" />
     <Content Include="App\Services\Form\FormCacheService.js" />
+    <Content Include="App\Services\LocalDatabase\LocalDatabaseService.js" />
     <Content Include="App\Services\Services.js" />
     <Content Include="App\Services\ValueDetailsService.js" />
     <Content Include="App\Services\ValueService.js" />
@@ -357,6 +358,7 @@
     <Content Include="Scripts\Dependencies\breezejs\1.5.5\breeze.debug.js" />
     <Content Include="Scripts\Dependencies\breezejs\adapters\breeze.bridge.angular.js" />
     <Content Include="Scripts\Dependencies\jquery\2.2.1\jquery.js" />
+    <Content Include="Scripts\Dependencies\local-storage-database\2.3.1\localstoragedb.js" />
     <Content Include="Scripts\Dependencies\momentjs\2.10.6\moment.js" />
     <Content Include="Scripts\Dependencies\ngmap\googlemapapi.js" />
     <Content Include="Scripts\Dependencies\ngmap\ng-map.js" />

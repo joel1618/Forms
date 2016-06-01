@@ -1,10 +1,16 @@
-﻿var app = angular.module('Forms', ['ngRoute', 'ui.grid', 'ui.bootstrap', 'ngAnimate', 'breeze.angular', 'Services', 'LocalStorageModule']);
+﻿var app = angular.module('Forms', ['ngRoute', 'ui.grid', 'ui.bootstrap', 'ngAnimate', 'breeze.angular', 'Services']);
 
-//https://github.com/grevory/angular-local-storage
-app.config(function (localStorageServiceProvider) {
-    localStorageServiceProvider
-      .setPrefix('DynamicForms')
-      .setNotify(true, true)
+////https://github.com/grevory/angular-local-storage
+//app.config(function (localStorageServiceProvider) {
+//    localStorageServiceProvider
+//      .setPrefix('DynamicForms')
+//      .setNotify(true, true)
+//});
+
+app.config(function(){
+    //Call local storage database create
+    var service = new LocalDatabaseService();
+    service.CreateDatabase();
 });
 
 app.config(['$routeProvider', function ($routeProvider) {
@@ -18,4 +24,4 @@ app.config(['$routeProvider', function ($routeProvider) {
         .otherwise({
             redirectTo: '/'
         });
-}])
+}]);
