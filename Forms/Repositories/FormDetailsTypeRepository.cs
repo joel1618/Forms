@@ -33,6 +33,7 @@ namespace Forms.Repositories
             using (var context = new FormsEntities())
             {
                 item.Id = Guid.NewGuid();
+                item.CreatedDateTime = DateTime.Now;
                 var entity = context.FormDetailsTypes.Add(item);
                 context.SaveChanges();
                 return entity;
@@ -45,6 +46,7 @@ namespace Forms.Repositories
             {
                 var entity = context.FormDetailsTypes.Find(id);
                 entity.Name = item.Name;
+                entity.ModifiedDateTime = DateTime.Now;
                 context.SaveChanges();
                 return entity;
             }
