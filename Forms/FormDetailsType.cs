@@ -22,6 +22,9 @@ namespace Forms
     
         public System.Guid Id { get; set; }
         public string Name { get; set; }
+        public System.DateTime CreatedDateTime { get; set; }
+        public Nullable<System.DateTime> ModifiedDateTime { get; set; }
+        public Nullable<System.DateTime> SyncDateTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDetail> FormDetails { get; set; }

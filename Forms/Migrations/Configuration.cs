@@ -28,52 +28,62 @@ namespace Forms.Migrations
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Password"
+                Name = "Password",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Phone Number"
+                Name = "Phone Number",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Text"
+                Name = "Text",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Number"
+                Name = "Number",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Radio"
+                Name = "Radio",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Drop Down"
+                Name = "Drop Down",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Checkbox"
+                Name = "Checkbox",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Date"
+                Name = "Date",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "Picture"
+                Name = "Picture",
+                CreatedDateTime = DateTime.Now
             });
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),
-                Name = "File"
+                Name = "File",
+                CreatedDateTime = DateTime.Now
             });
         }
     }

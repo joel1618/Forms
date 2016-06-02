@@ -22,6 +22,7 @@ namespace Forms
         public System.DateTime CreatedDateTime { get; set; }
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public bool IsSent { get; set; }
+        public Nullable<System.DateTime> SyncDateTime { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual FormDetail FormDetail { get; set; }

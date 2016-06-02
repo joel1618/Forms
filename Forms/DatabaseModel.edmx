@@ -84,8 +84,9 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="PublishUrl" Type="nvarchar" MaxLength="1000" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="CreatedDateTime" Type="date" Nullable="false" />
-          <Property Name="ModifiedDateTime" Type="date" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="SyncDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="FormDetails">
           <Key>
@@ -99,8 +100,9 @@
           <Property Name="FormDetailsTypeId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="IsRequired" Type="bit" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="CreatedDateTime" Type="date" Nullable="false" />
-          <Property Name="ModifiedDateTime" Type="date" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="SyncDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="FormDetailsOptions">
           <Key>
@@ -109,6 +111,9 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FormDetailsId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="SyncDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="FormDetailsType">
           <Key>
@@ -116,6 +121,9 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="SyncDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="Value">
           <Key>
@@ -127,8 +135,9 @@
           <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" />
           <Property Name="IsSent" Type="bit" Nullable="false" />
-          <Property Name="CreatedDateTime" Type="date" Nullable="false" />
-          <Property Name="ModifiedDateTime" Type="date" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="SyncDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="ValueDetails">
           <Key>
@@ -140,8 +149,9 @@
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="IsSent" Type="bit" Nullable="false" />
-          <Property Name="CreatedDateTime" Type="date" Nullable="false" />
-          <Property Name="ModifiedDateTime" Type="date" />
+          <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="datetime" />
+          <Property Name="SyncDateTime" Type="datetime" />
         </EntityType>
         <Association Name="FK_AspNetUsersInfo_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -551,11 +561,12 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PublishUrl" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ModifiedDateTime" Type="DateTime" Precision="0" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_Form_AspNetUsers" FromRole="Form" ToRole="AspNetUser" />
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_Form1" FromRole="Form" ToRole="FormDetail" />
           <NavigationProperty Name="Values" Relationship="FormsModel.FK_Value_Form" FromRole="Form" ToRole="Value" />
+          <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="FormDetail">
           <Key>
@@ -569,13 +580,14 @@
           <Property Name="FormDetailsTypeId" Type="Guid" Nullable="false" />
           <Property Name="IsRequired" Type="Boolean" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ModifiedDateTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_FormDetails_AspNetUsers" FromRole="FormDetail" ToRole="AspNetUser" />
           <NavigationProperty Name="Form" Relationship="FormsModel.FK_FormDetails_Form1" FromRole="FormDetail" ToRole="Form" />
           <NavigationProperty Name="FormDetailsType" Relationship="FormsModel.FK_FormDetails_Form" FromRole="FormDetail" ToRole="FormDetailsType" />
           <NavigationProperty Name="FormDetailsOptions" Relationship="FormsModel.FK_FormDetailsOptions_FormDetails" FromRole="FormDetail" ToRole="FormDetailsOption" />
           <NavigationProperty Name="ValueDetails" Relationship="FormsModel.FK_ValueDetails_FormDetails" FromRole="FormDetail" ToRole="ValueDetail" />
+          <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="FormDetailsOption">
           <Key>
@@ -585,6 +597,9 @@
           <Property Name="FormDetailsId" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FormDetail" Relationship="FormsModel.FK_FormDetailsOptions_FormDetails" FromRole="FormDetailsOption" ToRole="FormDetail" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="FormDetailsType">
           <Key>
@@ -593,6 +608,9 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_Form" FromRole="FormDetailsType" ToRole="FormDetail" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Value">
           <Key>
@@ -601,13 +619,14 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="FormId" Type="Guid" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ModifiedDateTime" Type="DateTime" Precision="0" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_Value_AspNetUsers" FromRole="Value" ToRole="AspNetUser" />
           <NavigationProperty Name="Form" Relationship="FormsModel.FK_Value_Form" FromRole="Value" ToRole="Form" />
           <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="IsSent" Type="Boolean" Nullable="false" />
+          <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ValueDetail">
           <Key>
@@ -618,11 +637,12 @@
           <Property Name="FormDetailsId" Type="Guid" Nullable="false" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ModifiedDateTime" Type="DateTime" Precision="0" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_ValueDetails_AspNetUsers" FromRole="ValueDetail" ToRole="AspNetUser" />
           <NavigationProperty Name="FormDetail" Relationship="FormsModel.FK_ValueDetails_FormDetails" FromRole="ValueDetail" ToRole="FormDetail" />
           <Property Name="IsSent" Type="Boolean" Nullable="false" />
+          <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="FormsModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -858,6 +878,7 @@
           <EntitySetMapping Name="Forms">
             <EntityTypeMapping TypeName="FormsModel.Form">
               <MappingFragment StoreEntitySet="Form">
+                <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -871,6 +892,7 @@
           <EntitySetMapping Name="FormDetails">
             <EntityTypeMapping TypeName="FormsModel.FormDetail">
               <MappingFragment StoreEntitySet="FormDetails">
+                <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -887,6 +909,9 @@
           <EntitySetMapping Name="FormDetailsOptions">
             <EntityTypeMapping TypeName="FormsModel.FormDetailsOption">
               <MappingFragment StoreEntitySet="FormDetailsOptions">
+                <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FormDetailsId" ColumnName="FormDetailsId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -896,6 +921,9 @@
           <EntitySetMapping Name="FormDetailsTypes">
             <EntityTypeMapping TypeName="FormsModel.FormDetailsType">
               <MappingFragment StoreEntitySet="FormDetailsType">
+                <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -904,6 +932,7 @@
           <EntitySetMapping Name="Values">
             <EntityTypeMapping TypeName="FormsModel.Value">
               <MappingFragment StoreEntitySet="Value">
+                <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
                 <ScalarProperty Name="IsSent" ColumnName="IsSent" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
@@ -918,6 +947,7 @@
           <EntitySetMapping Name="ValueDetails">
             <EntityTypeMapping TypeName="FormsModel.ValueDetail">
               <MappingFragment StoreEntitySet="ValueDetails">
+                <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
                 <ScalarProperty Name="IsSent" ColumnName="IsSent" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />

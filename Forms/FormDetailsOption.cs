@@ -17,6 +17,9 @@ namespace Forms
         public System.Guid Id { get; set; }
         public System.Guid FormDetailsId { get; set; }
         public string Name { get; set; }
+        public System.DateTime CreatedDateTime { get; set; }
+        public Nullable<System.DateTime> ModifiedDateTime { get; set; }
+        public Nullable<System.DateTime> SyncDateTime { get; set; }
     
         public virtual FormDetail FormDetail { get; set; }
     }

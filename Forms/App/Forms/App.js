@@ -7,11 +7,11 @@
 //      .setNotify(true, true)
 //});
 
-app.config(function(){
+//http://stackoverflow.com/questions/19276095/execute-code-at-startup-of-angular-application
+app.run(['LocalDatabaseService', function(LocalDatabaseService){
     //Call local storage database create
-    var service = new LocalDatabaseService();
-    service.CreateDatabase();
-});
+    LocalDatabaseService.CreateDatabase();
+}]);
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
