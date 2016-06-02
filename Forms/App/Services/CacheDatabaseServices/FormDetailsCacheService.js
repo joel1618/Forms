@@ -4,6 +4,7 @@
     .service('FormDetailsCacheService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
+            var database = new localStorageDB("FormsDatabase", localStorage);
             this.deferredRequest = null;
 
             this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
@@ -14,19 +15,16 @@
                     this.deferredRequest = null;
                 }
                 var deferred = $q.defer();
-                var query = breeze.EntityQuery.from('FormDetailsApi/Search');
-                if (predicate != null) {
-                    query = query.where(predicate);
-                }
-                query = query.orderByDesc('CreatedDateTime').skip(page * pageSize).take(pageSize);
 
-                breezeservice.executeQuery(query).then(function (data) {
-                    deferred.resolve(data.httpResponse.data);
+                var items = database.queryAll("FormDetails", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
+                if (items != null) {
+                    deferred.resolve(items);
                     _self.deferredRequest = null;
-                }, function (msg, code) {
-                    deferred.reject(msg);
+                }
+                else {
+                    deferred.resolve(null);
                     _self.deferredRequest = null;
-                });
+                }
 
                 this.deferredRequest = deferred;
 
@@ -36,14 +34,13 @@
             this.Get = function (id) {
                 var deferred = $q.defer();
 
-                $http({
-                    method: 'Get',
-                    url: '/FormsApi/Get/' + id,
-                }).success(function (data, status, headers, config) {
-                    deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                });
+                var items = database.queryAll("FormDetails", { query: function (row) { if (row.Id == id) { return true; } else { return false; } }, limit: 1 });
+                if (items != null) {
+                    deferred.resolve(items[0]);
+                }
+                else {
+                    deferred.resolve(null);
+                }
 
                 return deferred.promise;
             };

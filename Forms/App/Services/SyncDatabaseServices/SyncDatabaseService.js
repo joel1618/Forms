@@ -5,14 +5,14 @@
         'FormDetailsOptionsService', 'FormDetailsTypeService', 'ValueService', 'ValueDetailsService',
         function ($http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService, ValueService, ValueDetailsService) {
             var databaseVersion = "1.0";
-            var lastSyncThresholdInMilliseconds = "600000"; //Time in milliseconds before doing another sync (10 minutes)
+            var lastSyncThresholdInSeconds = "60"; //Time in seconds before doing another sync (10 minutes)
             var databaseName = "FormsDatabase";
             var database = new localStorageDB(databaseName, localStorage);
             var pageSize = 100;
-            /*TODO: Remove later
-            database.drop(); database.commit();
-            var database = new localStorageDB(databaseName, localStorage);
-            */
+            //TODO: Remove later
+            //database.drop(); database.commit();
+            //var database = new localStorageDB(databaseName, localStorage);
+            //
 
             this.CreateDatabase = function () {
                 if (database.isNew()) {
@@ -49,11 +49,14 @@
             this.IsTimeForSync = function () {
                 var items = database.queryAll("SystemSettings", { query: function (row) { if (row.Id == "0") { return true; } else { return false; } }, limit: 1 });
                 var item = items[0];
-                if (item.LastSyncDateTime === null || Math.abs(item.LastSyncDateTime - new Date()) > lastSyncThresholdInMilliseconds) {
+                var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
+                var difference = duration.asSeconds();
+                debugger;
+                if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
                         Version: databaseVersion,
-                        LastSyncDateTime: new Date().toLocaleString()
+                        LastSyncDateTime: moment().format("MM/DD/YYYY HH:mm:ss")
                     });
                     database.commit();
                     return true;
@@ -63,6 +66,7 @@
 
             this.Synchronize = function () {
                 //Run via $interval in background when app is open?
+                //TODO: Check if internet accessible
                 if (this.IsTimeForSync()) {
                     //TODO: Notify globalscope variable somehow?
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSynching: true });
@@ -78,8 +82,9 @@
 
             this.SynchronizeForm = function () {
                 FormService.Search(null, 0, pageSize, false).then(function (data) {
+                    debugger;
                     //Capture current time
-                    var syncDateTime = moment();
+                    var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
                     angular.forEach(data, function (value, key) {
                         database.insertOrUpdate("Form", { Id: value.Id }, {
@@ -108,7 +113,7 @@
             this.SynchronizeFormDetails = function () {
                 FormDetailsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
-                    var syncDateTime = moment();
+                    var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
                     angular.forEach(data, function (value, key) {
                         database.insertOrUpdate("FormDetails", { Id: value.Id }, {
@@ -140,7 +145,7 @@
             this.SynchronizeFormDetailsOptions = function () {
                 FormDetailsOptionsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
-                    var syncDateTime = moment();
+                    var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
                     angular.forEach(data, function (value, key) {
                         database.insertOrUpdate("FormDetailsOptions", { Id: value.Id }, {
@@ -167,7 +172,7 @@
             this.SynchronizeFormDetailsType = function () {
                 FormDetailsTypeService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
-                    var syncDateTime = moment();
+                    var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
                     angular.forEach(data, function (value, key) {
                         database.insertOrUpdate("FormDetailsType", { Id: value.Id }, {

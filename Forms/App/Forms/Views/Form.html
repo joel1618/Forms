@@ -1,5 +1,7 @@
 ﻿<div ng-controller="FormController">
-    {{id}}
-
     {{Form.Name}}
+    <br/>
+    <div ng-repeat="Detail in FormDetails">
+        {{Detail.Id}}<br/>
+    </div>
 </div>

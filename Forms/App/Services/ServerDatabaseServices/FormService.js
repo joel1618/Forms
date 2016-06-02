@@ -21,6 +21,7 @@
             query = query.orderByDesc('CreatedDateTime').skip(page * pageSize).take(pageSize);
                         
             breezeservice.executeQuery(query).then(function (data) {
+                debugger;
                 deferred.resolve(data.httpResponse.data);
                 _self.deferredRequest = null;
             }, function (msg, code) {

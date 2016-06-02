@@ -3,7 +3,8 @@
     angular.module('Services')
     .service('FormCacheService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
-        var _self = this;
+        var _self = this;        
+        var database = new localStorageDB("FormsDatabase", localStorage);
         this.deferredRequest = null;
 
         this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
@@ -14,19 +15,16 @@
                 this.deferredRequest = null;
             }
             var deferred = $q.defer();
-            var query = breeze.EntityQuery.from('FormApi/Search');
-            if (predicate != null) {
-                query = query.where(predicate);
+
+            var items = database.queryAll("Form", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
+            if (items != null) {
+                deferred.resolve(items);
+                _self.deferredRequest = null;
             }
-            query = query.orderByDesc('CreatedDateTime').skip(page * pageSize).take(pageSize);
-                        
-            breezeservice.executeQuery(query).then(function (data) {
-                deferred.resolve(data.httpResponse.data);
+            else {
+                deferred.resolve(null);
                 _self.deferredRequest = null;
-            }, function (msg, code) {
-                deferred.reject(msg);
-                _self.deferredRequest = null;
-            });
+            }
             
             this.deferredRequest = deferred;
 
@@ -36,14 +34,14 @@
         this.Get = function (id) {
             var deferred = $q.defer();
 
-            $http({
-                method: 'Get',
-                url: '/breeze/FormApi/Get/' + id,
-            }).success(function (data, status, headers, config) {
-                deferred.resolve(data);
-            }).error(function (msg, code) {
-                deferred.reject(msg);
-            });
+            var items = database.queryAll("Form", { query: function (row) { if (row.Id == id) { return true; } else { return false; } }, limit: 1 });
+            debugger;
+            if (items != null) {
+                deferred.resolve(items[0]);
+            }
+            else {
+                deferred.resolve(null);
+            }
 
             return deferred.promise;
         };
