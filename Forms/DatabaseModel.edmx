@@ -84,6 +84,7 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="PublishUrl" Type="nvarchar" MaxLength="1000" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" />
           <Property Name="SyncDateTime" Type="datetime" />
@@ -98,8 +99,9 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="FormDetailsTypeId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="IsRequired" Type="bit" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsRequired" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" />
           <Property Name="SyncDateTime" Type="datetime" />
@@ -567,6 +569,7 @@
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_Form1" FromRole="Form" ToRole="FormDetail" />
           <NavigationProperty Name="Values" Relationship="FormsModel.FK_Value_Form" FromRole="Form" ToRole="Value" />
           <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="FormDetail">
           <Key>
@@ -588,6 +591,7 @@
           <NavigationProperty Name="FormDetailsOptions" Relationship="FormsModel.FK_FormDetailsOptions_FormDetails" FromRole="FormDetail" ToRole="FormDetailsOption" />
           <NavigationProperty Name="ValueDetails" Relationship="FormsModel.FK_ValueDetails_FormDetails" FromRole="FormDetail" ToRole="ValueDetail" />
           <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="FormDetailsOption">
           <Key>
@@ -878,6 +882,7 @@
           <EntitySetMapping Name="Forms">
             <EntityTypeMapping TypeName="FormsModel.Form">
               <MappingFragment StoreEntitySet="Form">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
@@ -892,6 +897,7 @@
           <EntitySetMapping Name="FormDetails">
             <EntityTypeMapping TypeName="FormsModel.FormDetail">
               <MappingFragment StoreEntitySet="FormDetails">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />

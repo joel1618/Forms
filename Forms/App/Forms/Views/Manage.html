@@ -3,9 +3,9 @@
         <div class="col-md-12">
             <div class="col-md-3">
                 <h2>Forms</h2>
-                <form>
+                <div ng-form="formForm">
                     <fieldset class="form-group">
-                        <label for="">Form Name</label>
+                        <label for="">Form Name</label>*
                         <input type="text" class="form-control input-sm" ng-model="TempForm.Name" placeholder="Name" required />
                     </fieldset>
                     <fieldset class="form-group">
@@ -16,8 +16,8 @@
                         <label for="">Publish Url</label>
                         <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateForm()">Create</button>
-                </form>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-disabled="!formForm.$valid" ng-click="CreateForm()">Create</button>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -35,14 +35,14 @@
             </div>
             <div class="col-md-3">
                 <h2>Form Details</h2>
-                <form>
+                <div ng-form="formDetails">
                     <fieldset class="form-group">
-                        <label for="">Form Item Name</label>
+                        <label for="">Form Item Name</label>*
                         <input type="text" class="form-control input-sm" ng-model="TempFormItem.Name" placeholder="Name" required />
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="">Form Type</label>*
-                        <select class="form-control input-sm" ng-model="SelectedFormDetailType" ng-options="Item.Name for Item in FormDetailTypes" required></select>
+                        <select class="form-control input-sm" ng-model="DropDownFormDetailType" ng-options="Item.Name for Item in FormDetailTypes" required></select>
                         <!--<input type="text" ng-model="Item.Name" uib-typeahead="Product for Product in Products | filter:$viewValue | limitTo:8" class="form-control">-->
                     </fieldset>
                     <fieldset class="form-group">
@@ -57,8 +57,8 @@
                         <label for="">Is Required</label>
                         <input type="checkbox" ng-model="TempFormItem.IsRequired"/>
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetail()" ng-disabled="SelectedForm == null">Create</button>
-                </form>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetail()" ng-disabled="SelectedForm == null || !formDetails.$valid">Create</button>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -76,13 +76,13 @@
             </div>
             <div class="col-md-3" ng-show="SelectedFormDetailType.Name == 'Drop Down'">
                 <h2>Form Detail Options</h2>
-                <form>
+                <div ng-form="formDetailsOptions">
                     <fieldset class="form-group">
-                        <label for="">Form Item Name</label>
+                        <label for="">Form Item Name</label>*
                         <input type="text" class="form-control input-sm" ng-model="TempFormDetailOption.Name" placeholder="Name" required />
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetailOption()" ng-disabled="SelectedFormDetail == null">Create</button>
-                </form>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetailOption()" ng-disabled="SelectedFormDetail == null || !formDetailsOptions.$valid">Create</button>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>

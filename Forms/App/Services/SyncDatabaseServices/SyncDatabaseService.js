@@ -1,17 +1,18 @@
 ﻿(function (moment) {
     "use strict";
     angular.module('Services')
-    .service('LocalDatabaseService', ['$http', '$q', 'breeze', 'breezeservice', 'FormService', 'FormDetailsService', 'FormDetailsOptionsService', 'FormDetailsTypeService',
-        function ($http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService) {
+    .service('LocalDatabaseService', ['$http', '$q', 'breeze', 'breezeservice', 'FormService', 'FormDetailsService',
+        'FormDetailsOptionsService', 'FormDetailsTypeService', 'ValueService', 'ValueDetailsService',
+        function ($http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService, ValueService, ValueDetailsService) {
             var databaseVersion = "1.0";
             var lastSyncThresholdInMilliseconds = "600000"; //Time in milliseconds before doing another sync (10 minutes)
             var databaseName = "FormsDatabase";
             var database = new localStorageDB(databaseName, localStorage);
             var pageSize = 100;
-            //TODO: Remove later
+            /*TODO: Remove later
             database.drop(); database.commit();
             var database = new localStorageDB(databaseName, localStorage);
-            //
+            */
 
             this.CreateDatabase = function () {
                 if (database.isNew()) {
@@ -33,11 +34,11 @@
 
             //TODO: Add ability to hide forms with data in them without deleting the data (IsActive field)
             this.SeedDatabase = function () {
-                database.createTable("SystemSettings", ["Id", "DatabaseVersion", "LastSyncDateTime"]);
-                database.insert("SystemSettings", { Id: "0", DatabaseVersion: databaseVersion, LastSyncDateTime: null });
+                database.createTable("SystemSettings", ["Id", "DatabaseVersion", "LastSyncDateTime", "IsSynching", "LastValueId"]);
+                database.insert("SystemSettings", { Id: "0", DatabaseVersion: databaseVersion, LastSyncDateTime: null, IsSynching: false, LastValueId: null });
 
-                database.createTable("Form", ["Id", "Name", "Description", "PublishUrl", "UserId", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
-                database.createTable("FormDetails", ["Id", "FormId", "Name", "Description", "Title", "FormDetailsTypeId", "IsRequired", "UserId", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("Form", ["Id", "Name", "Description", "PublishUrl", "UserId", "IsActive","CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("FormDetails", ["Id", "FormId", "Name", "Description", "Title", "FormDetailsTypeId", "IsRequired", "UserId", "IsActive","CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsOptions", ["Id", "Name", "FormDetailsId", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsType", ["Id", "Name", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("Value", ["Id", "FormId", "UserId", "Latitude", "Longitude", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
@@ -61,19 +62,20 @@
             }
 
             this.Synchronize = function () {
-                //Run via interval in background when app is open?
+                //Run via $interval in background when app is open?
                 if (this.IsTimeForSync()) {
                     //TODO: Notify globalscope variable somehow?
-                    //TODO: Add all sync routines
-                    debugger;
+                    database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSynching: true });
                     this.SynchronizeForm();
                     this.SynchronizeFormDetails();
                     this.SynchronizeFormDetailsOptions();
                     this.SynchronizeFormDetailsType();
+                    this.SynchronizeValue();
+                    this.SynchronizeValueDetails();
                 }
+                database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSynching: false });
             }
 
-            //TODO:
             this.SynchronizeForm = function () {
                 FormService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
@@ -103,7 +105,6 @@
                 });
             }
 
-            //TODO:
             this.SynchronizeFormDetails = function () {
                 FormDetailsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
@@ -136,7 +137,6 @@
                 });
             }
 
-            //TODO:
             this.SynchronizeFormDetailsOptions = function () {
                 FormDetailsOptionsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
@@ -164,7 +164,6 @@
                 });
             }
 
-            //TODO:
             this.SynchronizeFormDetailsType = function () {
                 FormDetailsTypeService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
@@ -191,14 +190,56 @@
                 });
             }
 
-            //TODO:
             this.SynchronizeValue = function () {
+                var items = database.queryAll("Value", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "0") { return true; } else { return false; } }, limit: 100 });
+                angular.forEach(items, function (value, key) {
+                    ValueService.Create(value).then(function (data) {
+                        database.insertOrUpdate("Value", { Id: data.Id }, {
+                            Id: value.Id,
+                            IsSent: "1"
+                        });
+                    });
+                });
 
+                items = database.queryAll("Value", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "1") { return true; } else { return false; } }, limit: 100 });
+                angular.forEach(items, function (value, key) {
+                    ValueService.Delete(value.Id).then(function (data) {
+                        database.deleteRows("Value", function (row) {
+                            if (row.Id === data.Id) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                    });
+                });
+                database.commit();
             }
-
-            //TODO:
+            
             this.SynchronizeValueDetails = function () {
+                var items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "0") { return true; } else { return false; } }, limit: 100 });
+                angular.forEach(items, function (value, key) {
+                    ValueDetailsService.Create(value).then(function (data) {
+                        database.insertOrUpdate("ValueDetails", { Id: data.Id }, {
+                            Id: value.Id,
+                            IsSent: "1"
+                        });
+                    });
+                });
 
+                items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "1") { return true; } else { return false; } }, limit: 100 });
+                angular.forEach(items, function (value, key) {
+                    ValueDetailsService.Delete(value.Id).then(function (data) {
+                        database.deleteRows("ValueDetails", function (row) {
+                            if (row.Id === data.Id) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+                    });
+                });
+                database.commit();
             }
         }]);
 })(moment);

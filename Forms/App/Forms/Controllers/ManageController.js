@@ -6,7 +6,6 @@
         FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailService) {
         var pageSize = 10;
         $scope.SelectedForm = null; $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null; $scope.SelectedFormDetailType = null;
-        $scope.SelectedFormDetailType = null;
         $scope.ClearTemp = function () {
             $scope.TempForm = { Id: '', Name: '', Description: '', PublishUrl: '' };
             $scope.TempFormItem = { Id: '', FormId: '', Name: '', Description: '', Title: '', FormDetailsTypeId: '', IsRequired: '' };
@@ -40,6 +39,7 @@
             FormService.Delete(item.Id).then(function (data) {
                 $scope.Forms = null; $scope.FormDetails = null; $scope.FormDetailsOptions = null;
                 $scope.SelectedForm = null; $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null;
+                $scope.Search();
             });
         }
         $scope.CreateForm = function () {
@@ -57,7 +57,7 @@
         }
 
         $scope.CreateFormDetail = function () {
-            $scope.TempFormItem.FormDetailsTypeId = $scope.SelectedFormDetailType.Id;
+            $scope.TempFormItem.FormDetailsTypeId = $scope.DropDownFormDetailType.Id;
             $scope.TempFormItem.FormId = $scope.SelectedForm.Id;
             FormDetailsService.Create($scope.TempFormItem).then(function (data) {
                 $scope.SearchFormDetails($scope.SelectedForm.Id);
