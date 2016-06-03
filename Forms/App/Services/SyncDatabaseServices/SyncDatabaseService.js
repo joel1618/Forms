@@ -51,7 +51,7 @@
                 var item = items[0];
                 var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
                 var difference = duration.asSeconds();
-                debugger;
+                
                 if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
@@ -82,7 +82,7 @@
 
             this.SynchronizeForm = function () {
                 FormService.Search(null, 0, pageSize, false).then(function (data) {
-                    debugger;
+                    
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
@@ -114,6 +114,7 @@
                 FormDetailsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
+                    
                     //Update record in database
                     angular.forEach(data, function (value, key) {
                         database.insertOrUpdate("FormDetails", { Id: value.Id }, {
