@@ -6,7 +6,7 @@
             var _self = this;
             this.deferredRequest = null;
 
-            this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
+             this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
                 cancelExistingSearch = cancelExistingSearch || false;
 
                 if (this.deferredRequest !== null && cancelExistingSearch) {
@@ -14,19 +14,17 @@
                     this.deferredRequest = null;
                 }
                 var deferred = $q.defer();
-                var query = breeze.EntityQuery.from('ValueDetailsApi/Search');
-                if (predicate != null) {
-                    query = query.where(predicate);
-                }
-                query = query.orderByDesc('CreatedDateTime').skip(page * pageSize).take(pageSize);
 
-                breezeservice.executeQuery(query).then(function (data) {
-                    deferred.resolve(data.httpResponse.data);
+                var items = database.queryAll("ValueDetails", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
+                debugger;
+                if (items != null) {
+                    deferred.resolve(items);
                     _self.deferredRequest = null;
-                }, function (msg, code) {
-                    deferred.reject(msg);
+                }
+                else {
+                    deferred.resolve(null);
                     _self.deferredRequest = null;
-                });
+                }
 
                 this.deferredRequest = deferred;
 

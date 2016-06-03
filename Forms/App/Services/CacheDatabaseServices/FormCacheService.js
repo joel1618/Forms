@@ -35,7 +35,6 @@
             var deferred = $q.defer();
 
             var items = database.queryAll("Form", { query: function (row) { if (row.Id == id) { return true; } else { return false; } }, limit: 1 });
-            debugger;
             if (items != null) {
                 deferred.resolve(items[0]);
             }

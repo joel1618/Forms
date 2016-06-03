@@ -17,7 +17,7 @@
                 var deferred = $q.defer();
 
                 var items = database.queryAll("FormDetails", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
-                debugger;
+
                 if (items != null) {
                     deferred.resolve(items);
                     _self.deferredRequest = null;

@@ -4,6 +4,7 @@
     .service('FormDetailsTypeCacheService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
+            var database = new localStorageDB("FormsDatabase", localStorage);
             this.deferredRequest = null;
 
             this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
@@ -36,14 +37,13 @@
             this.Get = function (id) {
                 var deferred = $q.defer();
 
-                $http({
-                    method: 'Get',
-                    url: '/breeze/FormDetailsTypeApi/Get/' + id,
-                }).success(function (data, status, headers, config) {
-                    deferred.resolve(data);
-                }).error(function (msg, code) {
-                    deferred.reject(msg);
-                });
+                var items = database.queryAll("FormDetailsType", { query: function (row) { if (row.Id == id) { return true; } else { return false; } }, limit: 1 });
+                if (items != null) {
+                    deferred.resolve(items[0]);
+                }
+                else {
+                    deferred.resolve(null);
+                }
 
                 return deferred.promise;
             };

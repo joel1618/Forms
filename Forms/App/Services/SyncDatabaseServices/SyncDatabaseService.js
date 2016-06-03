@@ -5,7 +5,8 @@
         'FormDetailsOptionsService', 'FormDetailsTypeService', 'ValueService', 'ValueDetailsService',
         function ($http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService, ValueService, ValueDetailsService) {
             var databaseVersion = "1.0";
-            var lastSyncThresholdInSeconds = "60"; //Time in seconds before doing another sync (10 minutes)
+            //TODO: Increase this number
+            var lastSyncThresholdInSeconds = "10"; //Time in seconds before doing another sync (10 minutes)
             var databaseName = "FormsDatabase";
             var database = new localStorageDB(databaseName, localStorage);
             var pageSize = 100;
@@ -114,7 +115,6 @@
                 FormDetailsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
-                    
                     //Update record in database
                     angular.forEach(data, function (value, key) {
                         database.insertOrUpdate("FormDetails", { Id: value.Id }, {

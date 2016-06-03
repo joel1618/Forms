@@ -1,7 +1,33 @@
 ﻿<div ng-controller="FormController">
-    {{Form.Name}}
-    <br/>
-    <div ng-repeat="Detail in FormDetails">
-        {{Detail.Name}}<br/>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <form>
+                    <fieldset class="form-group">
+                        <label for="">Form Name</label>
+                        {{Form.Name}}
+                    </fieldset>
+                    <fieldset>
+                        <label>Form Details</label>
+                        <div ng-repeat="Detail in FormDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.Id === SelectedFormDetail.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                            <div >{{Detail.Name}}</div><br />
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="col-md-9">
+                <form ng-show="SelectedFormDetail != null">
+                    <fieldset class="form-group">
+                        <label>{{SelectedFormDetail.Name}}</label>
+                        <input type="text" class="form-control input-sm" ng-model="tempValueDetail.Value" />
+                    </fieldset>
+                    <button class="btn btn-primary btn-sm" ng-click="Save()" ng-disabled="">
+                        <div ng-if="tempValueDetails.length < FormDetails.length - 1">Next</div>
+                        <div ng-if="tempValueDetails.length === FormDetails.length - 1">Save</div>
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
