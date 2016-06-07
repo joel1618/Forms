@@ -34,9 +34,9 @@ namespace Forms.Repositories
             {
                 item.Id = Guid.NewGuid();
                 item.CreatedDateTime = DateTime.Now;
-                var entity = context.Values.Add(item);
+                context.Values.Add(item);
                 context.SaveChanges();
-                return entity;
+                return item;
             }
         }
 

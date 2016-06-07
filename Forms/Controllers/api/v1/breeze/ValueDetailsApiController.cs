@@ -1,6 +1,7 @@
 ﻿using Breeze.WebApi2;
 using Forms.Models;
 using Forms.Repositories;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,7 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpPost]
         public async Task<ValueDetailEntity> Create(ValueDetailEntity item)
         {
+            item.UserId = User.Identity.GetUserId();
             return await repository.Create(item);
         }
 

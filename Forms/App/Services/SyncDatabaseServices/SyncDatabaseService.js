@@ -23,6 +23,7 @@
                 else {
                     var version = database.queryAll("SystemSettings");
                     if (version[0].DatabaseVersion !== databaseVersion) {
+                        debugger;
                         database.drop();
                         database.commit();
                         this.SeedDatabase();
@@ -35,8 +36,8 @@
 
             //TODO: Add ability to hide forms with data in them without deleting the data (IsActive field)
             this.SeedDatabase = function () {
-                database.createTable("SystemSettings", ["Id", "DatabaseVersion", "LastSyncDateTime", "IsSynching", "LastValueId"]);
-                database.insert("SystemSettings", { Id: "0", DatabaseVersion: databaseVersion, LastSyncDateTime: null, IsSynching: false, LastValueId: null });
+                database.createTable("SystemSettings", ["Id", "DatabaseVersion", "LastSyncDateTime", "IsSyncing", "LastValueId"]);
+                database.insert("SystemSettings", { Id: "0", DatabaseVersion: databaseVersion, LastSyncDateTime: null, IsSyncing: false, LastValueId: null });
 
                 database.createTable("Form", ["Id", "Name", "Description", "PublishUrl", "UserId", "IsActive","CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetails", ["Id", "FormId", "Name", "Description", "Title", "FormDetailsTypeId", "IsRequired", "UserId", "IsActive","CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
@@ -70,7 +71,7 @@
                 //TODO: Check if internet accessible
                 if (this.IsTimeForSync()) {
                     //TODO: Notify globalscope variable somehow?
-                    database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSynching: true });
+                    database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: true });
                     this.SynchronizeForm();
                     this.SynchronizeFormDetails();
                     this.SynchronizeFormDetailsOptions();
@@ -78,7 +79,7 @@
                     this.SynchronizeValue();
                     this.SynchronizeValueDetails();
                 }
-                database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSynching: false });
+                database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: false });
             }
 
             this.SynchronizeForm = function () {
@@ -197,12 +198,11 @@
             }
 
             this.SynchronizeValue = function () {
-
-                var items = database.queryAll("Value", { query: function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } }, limit: 100 });                
+                var items = database.queryAll("Value", { query: function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } }, limit: 100 });
                 debugger;
                 angular.forEach(items, function (value, key) {
                     ValueService.Create(value).then(function (data) {
-                        database.insertOrUpdate("Value", { Id: data.Id }, {
+                        database.insertOrUpdate("Value", { Id: value.Id }, {
                             Id: value.Id,
                             IsSent: true
                         });
@@ -226,9 +226,10 @@
             
             this.SynchronizeValueDetails = function () {
                 var items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } }, limit: 100 });
+                debugger;
                 angular.forEach(items, function (value, key) {
                     ValueDetailsService.Create(value).then(function (data) {
-                        database.insertOrUpdate("ValueDetails", { Id: data.Id }, {
+                        database.insertOrUpdate("ValueDetails", { Id: value.Id }, {
                             Id: value.Id,
                             IsSent: true
                         });
