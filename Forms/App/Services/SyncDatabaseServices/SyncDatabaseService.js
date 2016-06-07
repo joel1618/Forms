@@ -2,8 +2,8 @@
     "use strict";
     angular.module('Services')
     .service('LocalDatabaseService', ['$http', '$q', 'breeze', 'breezeservice', 'FormService', 'FormDetailsService',
-        'FormDetailsOptionsService', 'FormDetailsTypeService', 'ValueService', 'ValueDetailsService',
-        function ($http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService, ValueService, ValueDetailsService) {
+        'FormDetailsOptionsService', 'FormDetailsTypeService', 'ValueService', 'ValueDetailsService', 'ValueCacheService', 'ValueDetailsCacheService',
+        function ($http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService, ValueService, ValueDetailsService, ValueCacheService, ValueDetailsCacheService) {
             var databaseVersion = "1.0";
             //TODO: Increase this number
             var lastSyncThresholdInSeconds = "10"; //Time in seconds before doing another sync (10 minutes)
@@ -39,8 +39,8 @@
                 database.createTable("SystemSettings", ["Id", "DatabaseVersion", "LastSyncDateTime", "IsSyncing", "LastValueId"]);
                 database.insert("SystemSettings", { Id: "0", DatabaseVersion: databaseVersion, LastSyncDateTime: null, IsSyncing: false, LastValueId: null });
 
-                database.createTable("Form", ["Id", "Name", "Description", "PublishUrl", "UserId", "IsActive","CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
-                database.createTable("FormDetails", ["Id", "FormId", "Name", "Description", "Title", "FormDetailsTypeId", "IsRequired", "UserId", "IsActive","CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("Form", ["Id", "Name", "Description", "PublishUrl", "UserId", "IsActive", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("FormDetails", ["Id", "FormId", "Name", "Description", "Title", "FormDetailsTypeId", "IsRequired", "UserId", "IsActive", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsOptions", ["Id", "Name", "FormDetailsId", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsType", ["Id", "Name", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("Value", ["Id", "FormId", "UserId", "Latitude", "Longitude", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
@@ -53,7 +53,7 @@
                 var item = items[0];
                 var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
                 var difference = duration.asSeconds();
-                
+
                 if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
@@ -84,7 +84,7 @@
 
             this.SynchronizeForm = function () {
                 FormService.Search(null, 0, pageSize, false).then(function (data) {
-                    
+
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
@@ -99,16 +99,17 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
-                        //Delete records not on the server from local database
-                        database.deleteRows("Form", function (row) {
-                            if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
-                        database.commit()
                     });
+
+                    //Delete records not on the server from local database
+                    database.deleteRows("Form", function (row) {
+                        if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                    database.commit();
                 });
             }
 
@@ -131,16 +132,16 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
-                        //Delete records not on the server from local database
-                        database.deleteRows("FormDetails", function (row) {
-                            if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
-                        database.commit()
                     });
+                    //Delete records not on the server from local database
+                    database.deleteRows("FormDetails", function (row) {
+                        if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                    database.commit();
                 });
             }
 
@@ -158,16 +159,16 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
-                        //Delete records not on the server from local database
-                        database.deleteRows("FormDetailsOptions", function (row) {
-                            if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
-                        database.commit()
                     });
+                    //Delete records not on the server from local database
+                    database.deleteRows("FormDetailsOptions", function (row) {
+                        if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                    database.commit();
                 });
             }
 
@@ -184,71 +185,62 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
-                        //Delete records not on the server from local database
-                        database.deleteRows("FormDetailsType", function (row) {
-                            if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
-                        database.commit()
                     });
+                    //Delete records not on the server from local database
+                    database.deleteRows("FormDetailsType", function (row) {
+                        if (row.SyncDateTime == null || row.SyncDateTime < syncDateTime) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                    database.commit();
                 });
             }
 
             this.SynchronizeValue = function () {
-                var items = database.queryAll("Value", { query: function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } }, limit: 100 });
-                debugger;
-                angular.forEach(items, function (value, key) {
-                    ValueService.Create(value).then(function (data) {
-                        database.insertOrUpdate("Value", { Id: value.Id }, {
-                            Id: value.Id,
-                            IsSent: true
+                var predicate = function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } };
+                ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                    angular.forEach(items, function (value, key) {
+                        ValueService.Create(value).then(function (data) {
+                            database.insertOrUpdate("Value", { Id: value.Id }, {
+                                Id: data.Id,
+                                IsSent: true
+                            });
+                            //Set the detail rows ValueId FK to the PK that came back from the server.
+                            var valueHeaderRow = data;
+                            debugger;
+                            predicate = function (row) { if (row.ValueId == valueHeaderRow.Id) { return true; } else { return false; } };
+                            ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                                angular.forEach(items, function (value, key) {
+                                    database.insertOrUpdate("ValueDetails", { Id: value.Id }, {
+                                        Id: value.Id,
+                                        ValueId: valueHeaderRow.Id
+                                    });
+                                });
+                            });
                         });
                     });
+                    database.commit();
                 });
-
-                items = database.queryAll("Value", { query: function (row) { if (row.IsSent == false && row.IsDeleted == true) { return true; } else { return false; } }, limit: 100 });
-                angular.forEach(items, function (value, key) {
-                    ValueService.Delete(value.Id).then(function (data) {
-                        database.deleteRows("Value", function (row) {
-                            if (row.Id === data.Id) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        });
-                    });
-                });
-                database.commit();
+                //Handle deletes
             }
-            
-            this.SynchronizeValueDetails = function () {
-                var items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } }, limit: 100 });
-                debugger;
-                angular.forEach(items, function (value, key) {
-                    ValueDetailsService.Create(value).then(function (data) {
-                        database.insertOrUpdate("ValueDetails", { Id: value.Id }, {
-                            Id: value.Id,
-                            IsSent: true
-                        });
-                    });
-                });
 
-                items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == false && row.IsDeleted == true) { return true; } else { return false; } }, limit: 100 });
-                angular.forEach(items, function (value, key) {
-                    ValueDetailsService.Delete(value.Id).then(function (data) {
-                        database.deleteRows("ValueDetails", function (row) {
-                            if (row.Id === data.Id) {
-                                return true;
-                            } else {
-                                return false;
-                            }
+            this.SynchronizeValueDetails = function () {
+                var predicate = function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } };
+                ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                    angular.forEach(items, function (value, key) {
+                        ValueDetailsService.Create(value).then(function (data) {
+                            database.insertOrUpdate("ValueDetails", { Id: value.Id }, {
+                                Id: data.Id,
+                                IsSent: true
+                            });
                         });
                     });
+                    database.commit();
+                    debugger;
                 });
-                database.commit();
+                //Handle deletes
             }
         }]);
 })(moment);

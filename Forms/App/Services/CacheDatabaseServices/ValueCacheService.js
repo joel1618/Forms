@@ -52,6 +52,7 @@
                 item.Id = guid();
                 database.insertOrUpdate("Value", { Id: item.Id }, item);
                 database.commit();
+
                 deferred.resolve(item);
 
                 return deferred.promise;

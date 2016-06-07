@@ -1,9 +1,9 @@
 ﻿(function (moment) {
     "use strict";
     angular.module('Forms').controller('FormController', ['$scope', '$routeParams', '$http', '$q', '$location', '$timeout', 'breezeservice', 'breeze',
-        'FormCacheService', 'FormDetailsCacheService', 'FormDetailsTypeCacheService', 'FormDetailsOptionsCacheService', 'ValueCacheService', 'ValueDetailsCacheService', 'LocalDatabaseService',
+         'LocalDatabaseService','FormCacheService', 'FormDetailsCacheService', 'FormDetailsTypeCacheService', 'FormDetailsOptionsCacheService', 'ValueCacheService', 'ValueDetailsCacheService',
     function controller($scope, $routeParams, $http, $q, $location, $timeout, breezeservice, breeze,
-        FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService, LocalDatabaseService) {
+        LocalDatabaseService, FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService) {
         var id = $routeParams.id.toLowerCase();
         var pageSize = 10;
         $scope.Init = function () {
