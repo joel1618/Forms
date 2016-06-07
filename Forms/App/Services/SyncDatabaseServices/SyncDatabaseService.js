@@ -197,17 +197,19 @@
             }
 
             this.SynchronizeValue = function () {
-                var items = database.queryAll("Value", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "0") { return true; } else { return false; } }, limit: 100 });
+
+                var items = database.queryAll("Value", { query: function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } }, limit: 100 });                
+                debugger;
                 angular.forEach(items, function (value, key) {
                     ValueService.Create(value).then(function (data) {
                         database.insertOrUpdate("Value", { Id: data.Id }, {
                             Id: value.Id,
-                            IsSent: "1"
+                            IsSent: true
                         });
                     });
                 });
 
-                items = database.queryAll("Value", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "1") { return true; } else { return false; } }, limit: 100 });
+                items = database.queryAll("Value", { query: function (row) { if (row.IsSent == false && row.IsDeleted == true) { return true; } else { return false; } }, limit: 100 });
                 angular.forEach(items, function (value, key) {
                     ValueService.Delete(value.Id).then(function (data) {
                         database.deleteRows("Value", function (row) {
@@ -223,17 +225,17 @@
             }
             
             this.SynchronizeValueDetails = function () {
-                var items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "0") { return true; } else { return false; } }, limit: 100 });
+                var items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } }, limit: 100 });
                 angular.forEach(items, function (value, key) {
                     ValueDetailsService.Create(value).then(function (data) {
                         database.insertOrUpdate("ValueDetails", { Id: data.Id }, {
                             Id: value.Id,
-                            IsSent: "1"
+                            IsSent: true
                         });
                     });
                 });
 
-                items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == "0" && row.IsDeleted == "1") { return true; } else { return false; } }, limit: 100 });
+                items = database.queryAll("ValueDetails", { query: function (row) { if (row.IsSent == false && row.IsDeleted == true) { return true; } else { return false; } }, limit: 100 });
                 angular.forEach(items, function (value, key) {
                     ValueDetailsService.Delete(value.Id).then(function (data) {
                         database.deleteRows("ValueDetails", function (row) {

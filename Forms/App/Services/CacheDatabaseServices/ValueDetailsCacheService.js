@@ -4,6 +4,7 @@
     .service('ValueDetailsCacheService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
+            var database = new localStorageDB("FormsDatabase", localStorage);
             this.deferredRequest = null;
 
              this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
@@ -16,7 +17,6 @@
                 var deferred = $q.defer();
 
                 var items = database.queryAll("ValueDetails", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
-                debugger;
                 if (items != null) {
                     deferred.resolve(items);
                     _self.deferredRequest = null;
@@ -49,16 +49,10 @@
             this.Create = function (item) {
                 var deferred = $q.defer();
 
-                $http.post('/breeze/FormApi/Create', item)
-                .then(function (response) {
-                    deferred.resolve(response);
-                }, function (response) {
-                    if (response.statusText.length > 0) {
-                        deferred.reject(response.statusText);
-                    } else {
-                        deferred.reject("Failed to create the new requirement.");
-                    }
-                });
+                item.Id = guid();
+                database.insertOrUpdate("ValueDetails", { Id: item.Id }, item);
+                database.commit();
+                deferred.resolve(item);
 
                 return deferred.promise;
             };
@@ -95,6 +89,16 @@
                 });
 
                 return deferred.promise;
+            }
+
+             function guid() {
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                      .toString(16)
+                      .substring(1);
+                }
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                  s4() + '-' + s4() + s4() + s4();
             }
         }]);
 })();
