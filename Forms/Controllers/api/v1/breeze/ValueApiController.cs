@@ -45,7 +45,6 @@ namespace Forms.Controllers.api.v1.breeze
             item.UserId = User.Identity.GetUserId();
             var record = await repository.Create(item.ToEntity());
             var model = record.ToViewModel();
-            model.ReferenceId = item.ReferenceId;
             return model;
         }
 

@@ -4,7 +4,7 @@
     .service('ValueCacheService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
-            var database = new localStorageDB("FormsDatabase", localStorage);
+            //var database = new localStorageDB("FormsDatabase", localStorage);
             this.deferredRequest = null;
 
             this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
@@ -52,7 +52,7 @@
             };
 
             this.Create = function (item) {
-                var database = new localStorageDB("FormsDatabase", localStorage);
+                //var database = new localStorageDB("FormsDatabase", localStorage);
                 var deferred = $q.defer();
 
                 item.Id = guid();

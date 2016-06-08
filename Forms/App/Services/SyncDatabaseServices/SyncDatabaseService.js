@@ -1,4 +1,5 @@
-﻿(function (moment) {
+﻿var database = new localStorageDB("FormsDatabase", localStorage);
+(function (moment) {
     "use strict";
     angular.module('Services')
     .service('LocalDatabaseService', ['$http', '$q', 'breeze', 'breezeservice', 'FormService', 'FormDetailsService',
@@ -7,8 +8,8 @@
             var databaseVersion = "1.0";
             //TODO: Increase this number
             var lastSyncThresholdInSeconds = "10"; //Time in seconds before doing another sync (10 minutes)
-            var databaseName = "FormsDatabase";
-            var database = new localStorageDB(databaseName, localStorage);
+            //var databaseName = "FormsDatabase";
+            //var database = new localStorageDB(databaseName, localStorage);
             var pageSize = 100;
             //TODO: Remove later
             //database.drop(); database.commit();
@@ -199,24 +200,19 @@
 
             //TODO: Chain the header to the detail
             this.SynchronizeValue = function () {
-                var database = new localStorageDB(databaseName, localStorage);
                 var predicate = function (row) { if (row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
                 ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                    angular.forEach(items, function (oldValue, key) {
-                        ValueService.Create(oldValue).then(function (newValue) {
-                            database.insertOrUpdate("Value", { Id: newValue.data.ReferenceId }, {
-                                Id: newValue.data.Id,
+                    angular.forEach(items, function (value, key) {
+                        ValueService.Create(value).then(function (item) {
+                            database.insertOrUpdate("Value", { Id: item.data.Id }, {
                                 IsSent: true
                             });
                             //Set the detail rows ValueId FK to the PK that came back from the server.
-                            predicate = function (row) { if (row.ValueId === oldValue.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
+                            predicate = function (row) { if (row.ValueId === value.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
                             ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                                angular.forEach(items, function (oldValueDetail, key) {
-                                    oldValueDetail.ValueId = newValue.data.Id;
-                                    ValueDetailsService.Create(oldValueDetail).then(function (newValueDetail) {
-                                        database.insertOrUpdate("ValueDetails", { Id: newValueDetail.data.ReferenceId }, {
-                                            Id: newValueDetail.data.Id,
-                                            ValueId: newValue.data.Id,
+                                angular.forEach(items, function (value, key) {
+                                    ValueDetailsService.Create(value).then(function (data) {
+                                        database.insertOrUpdate("ValueDetails", { Id: data.data.Id }, {
                                             IsSent: true
                                         });
                                     });
@@ -224,8 +220,8 @@
                             });
                         });
                     });
-                    database.commit();
                 });
+                database.commit();
                 //Handle deletes
             }
         }]);

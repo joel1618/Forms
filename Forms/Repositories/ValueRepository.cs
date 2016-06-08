@@ -32,7 +32,14 @@ namespace Forms.Repositories
         {
             using (var context = new FormsEntities())
             {
-                item.Id = Guid.NewGuid();
+                if (item.Id == null || item.Id == Guid.Empty)
+                {
+                    item.Id = Guid.NewGuid();
+                }
+                else
+                {
+                    item.Id = new Guid(item.Id.ToString());
+                }
                 item.CreatedDateTime = DateTime.Now;
                 context.Values.Add(item);
                 context.SaveChanges();

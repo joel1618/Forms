@@ -4,7 +4,6 @@
     .service('FormDetailsCacheService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
-            var database = new localStorageDB("FormsDatabase", localStorage);
             this.deferredRequest = null;
 
             this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
