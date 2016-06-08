@@ -17,7 +17,7 @@
         $scope.Init = function () {
             $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
             $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
-            $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
+            $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, IsRequired: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
             $scope.tempValueDetails = [];
             FormCacheService.Get(id).then(function (data) {
                 $scope.Form = data;
@@ -27,6 +27,8 @@
                 angular.forEach(data, function (value, key) {
                     $scope.tempValueDetail.FormDetailsId = value.Id;
                     $scope.tempValueDetail.Name = value.Name;
+                    $scope.tempValueDetail.Description = value.Description;
+                    $scope.tempValueDetail.IsRequired = value.IsRequired;
                     $scope.tempValueDetails.push(angular.copy($scope.tempValueDetail));
                 });
                 if ($scope.tempValueDetails.length > 0) {
@@ -56,8 +58,11 @@
             if (index + 1 < $scope.tempValueDetails.length) {
                 $scope.SelectedTempValueDetail = $scope.tempValueDetails[index + 1];
             }
+            GetFormDetailType();
         };
 
+        //TODO: Add IsRequired Validation
+        //TODO: Make sure form is valid
         $scope.Save = function () {
             //Save tempValue to cache
             var promises = [];
