@@ -47,9 +47,11 @@
             };
 
             this.Create = function (item) {
+                var database = new localStorageDB("FormsDatabase", localStorage);
                 var deferred = $q.defer();
 
                 item.Id = guid();
+                item.ReferenceId = item.Id;
                 database.insertOrUpdate("ValueDetails", { Id: item.Id }, item);
                 database.commit();
                 deferred.resolve(item);

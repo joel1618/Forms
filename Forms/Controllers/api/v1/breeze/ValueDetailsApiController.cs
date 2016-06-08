@@ -1,5 +1,6 @@
 ﻿using Breeze.WebApi2;
 using Forms.Models;
+using Forms.Models.Extensions;
 using Forms.Repositories;
 using Microsoft.AspNet.Identity;
 using System;
@@ -21,9 +22,9 @@ namespace Forms.Controllers.api.v1.breeze
             this.repository = new ValueDetailsRepository();
         }
         [HttpGet]
-        public IQueryable<ValueDetailsViewModel> Search()
+        public IQueryable<ValueDetailViewModel> Search()
         {
-            return repository.Search().Select(x => new ValueDetailsViewModel()
+            return repository.Search().Select(x => new ValueDetailViewModel()
             {
                 Id = x.Id,
                 ValueId = x.ValueId,
@@ -39,10 +40,13 @@ namespace Forms.Controllers.api.v1.breeze
         }
 
         [HttpPost]
-        public async Task<ValueDetailEntity> Create(ValueDetailEntity item)
+        public async Task<ValueDetailViewModel> Create(ValueDetailViewModel item)
         {
             item.UserId = User.Identity.GetUserId();
-            return await repository.Create(item);
+            var record = await repository.Create(item.ToEntity());
+            var model = record.ToViewModel();
+            model.ReferenceId = item.ReferenceId;
+            return model;
         }
 
         [HttpPut]

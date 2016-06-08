@@ -15,15 +15,20 @@
                     this.deferredRequest = null;
                 }
                 var deferred = $q.defer();
-
-                var items = database.queryAll("Value", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
-                if (items != null) {
-                    deferred.resolve(items);
+                if (!database.tableExists("Value")) {
+                    deferred.resolve(null);
                     _self.deferredRequest = null;
                 }
                 else {
-                    deferred.resolve(null);
-                    _self.deferredRequest = null;
+                    var items = database.queryAll("Value", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
+                    if (items != null) {
+                        deferred.resolve(items);
+                        _self.deferredRequest = null;
+                    }
+                    else {
+                        deferred.resolve(null);
+                        _self.deferredRequest = null;
+                    }
                 }
 
                 this.deferredRequest = deferred;
@@ -47,9 +52,11 @@
             };
 
             this.Create = function (item) {
+                var database = new localStorageDB("FormsDatabase", localStorage);
                 var deferred = $q.defer();
 
                 item.Id = guid();
+                item.ReferenceId = item.Id;
                 database.insertOrUpdate("Value", { Id: item.Id }, item);
                 database.commit();
 

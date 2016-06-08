@@ -8,8 +8,8 @@
         var pageSize = 10;
         $scope.Init = function () {
             $scope.SelectedTempValueDetail = null;
-            $scope.tempValue = { Id: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
-            $scope.tempValueDetail = { Id: null, ValueId: null, FormDetailsId: null, Value: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
+            $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
+            $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
             $scope.tempValueDetails = [];
             FormCacheService.Get(id).then(function (data) {
                 $scope.Form = data;
@@ -54,10 +54,8 @@
                 });
             });
             $q.all(promises).then(function () {
-                debugger;
                 //Fire off sync routine
                 LocalDatabaseService.SynchronizeValue();
-                LocalDatabaseService.SynchronizeValueDetails();
                 //Save tempValueDetails to cache
                 $scope.Init();
             });            

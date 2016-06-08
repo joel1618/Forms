@@ -1,5 +1,6 @@
 ﻿using Breeze.WebApi2;
 using Forms.Models;
+using Forms.Models.Extensions;
 using Forms.Repositories;
 using Microsoft.AspNet.Identity;
 using System;
@@ -39,10 +40,13 @@ namespace Forms.Controllers.api.v1.breeze
         }
 
         [HttpPost]
-        public async Task<ValueEntity> Create(ValueEntity item)
+        public async Task<ValueViewModel> Create(ValueViewModel item)
         {
             item.UserId = User.Identity.GetUserId();
-            return await repository.Create(item);
+            var record = await repository.Create(item.ToEntity());
+            var model = record.ToViewModel();
+            model.ReferenceId = item.ReferenceId;
+            return model;
         }
 
         [HttpPut]

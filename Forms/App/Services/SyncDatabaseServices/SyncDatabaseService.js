@@ -16,7 +16,7 @@
             //
 
             this.CreateDatabase = function () {
-                if (database.isNew()) {
+                if (database.isNew() || !database.tableExists("SystemSettings")) {
                     this.SeedDatabase();
                     this.Synchronize();
                 }
@@ -43,8 +43,8 @@
                 database.createTable("FormDetails", ["Id", "FormId", "Name", "Description", "Title", "FormDetailsTypeId", "IsRequired", "UserId", "IsActive", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsOptions", ["Id", "Name", "FormDetailsId", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsType", ["Id", "Name", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
-                database.createTable("Value", ["Id", "FormId", "UserId", "Latitude", "Longitude", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
-                database.createTable("ValueDetails", ["Id", "ValueId", "FormDetailsId", "Value", "UserId", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("Value", ["Id", "ReferenceId", "FormId", "UserId", "Latitude", "Longitude", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("ValueDetails", ["Id", "ReferenceId", "ValueId", "FormDetailsId", "Value", "UserId", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.commit();
             }
 
@@ -77,7 +77,6 @@
                     this.SynchronizeFormDetailsOptions();
                     this.SynchronizeFormDetailsType();
                     this.SynchronizeValue();
-                    this.SynchronizeValueDetails();
                 }
                 database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: false });
             }
@@ -198,47 +197,34 @@
                 });
             }
 
+            //TODO: Chain the header to the detail
             this.SynchronizeValue = function () {
-                var predicate = function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } };
+                var database = new localStorageDB(databaseName, localStorage);
+                var predicate = function (row) { if (row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
                 ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                    angular.forEach(items, function (value, key) {
-                        ValueService.Create(value).then(function (data) {
-                            database.insertOrUpdate("Value", { Id: value.Id }, {
-                                Id: data.Id,
+                    angular.forEach(items, function (oldValue, key) {
+                        ValueService.Create(oldValue).then(function (newValue) {
+                            database.insertOrUpdate("Value", { Id: newValue.data.ReferenceId }, {
+                                Id: newValue.data.Id,
                                 IsSent: true
                             });
                             //Set the detail rows ValueId FK to the PK that came back from the server.
-                            var valueHeaderRow = data;
-                            debugger;
-                            predicate = function (row) { if (row.ValueId == valueHeaderRow.Id) { return true; } else { return false; } };
+                            predicate = function (row) { if (row.ValueId === oldValue.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
                             ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                                angular.forEach(items, function (value, key) {
-                                    database.insertOrUpdate("ValueDetails", { Id: value.Id }, {
-                                        Id: value.Id,
-                                        ValueId: valueHeaderRow.Id
+                                angular.forEach(items, function (oldValueDetail, key) {
+                                    oldValueDetail.ValueId = newValue.data.Id;
+                                    ValueDetailsService.Create(oldValueDetail).then(function (newValueDetail) {
+                                        database.insertOrUpdate("ValueDetails", { Id: newValueDetail.data.ReferenceId }, {
+                                            Id: newValueDetail.data.Id,
+                                            ValueId: newValue.data.Id,
+                                            IsSent: true
+                                        });
                                     });
                                 });
                             });
                         });
                     });
                     database.commit();
-                });
-                //Handle deletes
-            }
-
-            this.SynchronizeValueDetails = function () {
-                var predicate = function (row) { if (row.IsSent == false && row.IsDeleted == false) { return true; } else { return false; } };
-                ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                    angular.forEach(items, function (value, key) {
-                        ValueDetailsService.Create(value).then(function (data) {
-                            database.insertOrUpdate("ValueDetails", { Id: value.Id }, {
-                                Id: data.Id,
-                                IsSent: true
-                            });
-                        });
-                    });
-                    database.commit();
-                    debugger;
                 });
                 //Handle deletes
             }

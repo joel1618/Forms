@@ -5,16 +5,16 @@
             <div class="col-md-12">
                 <form>
                     <fieldset class="form-group">
-                        <label for=""></label>
+                        <!--<label for="Name"></label>-->
                         <h3>{{Form.Name}}</h3>
                     </fieldset>
                 </form>
             </div>
         </div>
         <div class="row">
-            <div class="    col-md-3">
+            <div class="col-md-3">
                 <fieldset>
-                    <label>Fields</label>
+                    <!--<label>Fields</label>-->
                     <div ng-repeat="Detail in tempValueDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.FormDetailsId === SelectedTempValueDetail.FormDetailsId ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
                         <div>{{Detail.Name}}</div><br />
                     </div>

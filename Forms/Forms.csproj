@@ -274,13 +274,15 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Extensions\ValueDetailViewModelExtension.cs" />
+    <Compile Include="Models\Extensions\ValueViewModelExtension.cs" />
     <Compile Include="Models\FormDetailViewModel.cs" />
     <Compile Include="Models\FormDetailOptionViewModel.cs" />
     <Compile Include="Models\FormDetailTypeViewModel.cs" />
     <Compile Include="Models\FormViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ValueDetailsViewModel.cs" />
+    <Compile Include="Models\ValueDetailViewModel.cs" />
     <Compile Include="Models\ValueViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AspNetUsersInfoRepository.cs" />
