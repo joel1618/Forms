@@ -20,7 +20,7 @@
                     <fieldset>
                         <!--<label>Fields</label>-->
                         <div ng-repeat="Detail in tempValueDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.FormDetailsId === SelectedTempValueDetail.FormDetailsId ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
-                            <h4><b>{{Detail.Name}}</b></h4><br />
+                            <h4>{{Detail.Name}}</h4><br />
                         </div>
                     </fieldset>
                 </div>
@@ -29,22 +29,29 @@
                         <fieldset class="form-group">
                             <label>{{SelectedTempValueDetail.Name}}</label><br />
                             <small>{{SelectedTempValueDetail.Description}}</small>
-                            <br/>
+                            <br />
                             <div class="input-group">
                                 <div ng-show="SelectedFormDetailsType.Name === 'Text'">
-                                    <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" autofocus="autofocus" />
+                                    <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" ng-click="Next()">Next</button>
                                         <button class="btn btn-primary" ng-click="Save()">Save</button>
                                     </div>
                                 </div>
-                                <div ng-show="SelectedFormDetailsType.Name === 'Date'">                              
+                                <div ng-show="SelectedFormDetailsType.Name === 'Date'">
                                     <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" ng-click="Next()" type="button">Next</button>
                                         <button class="btn btn-primary" ng-click="Save()">Save</button>
                                     </div>
-                                    <uib-datepicker ng-model="SelectedTempValueDetail.Value" class="well well-sm" ng-required="SelectedTempValueDetail.IsRequired"></uib-datepicker>                                    
+                                    <uib-datepicker ng-model="SelectedTempValueDetail.Value" class="well well-sm" ng-required="SelectedTempValueDetail.IsRequired"></uib-datepicker>
+                                </div>
+                                <div ng-show="SelectedFormDetailsType.Name === 'Checkbox'">
+                                    <input type="checkbox" ng-model="SelectedTempValueDetail.Value" style="width:30px;height:30px;" />
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="Next()" type="button">Next</button>
+                                        <button class="btn btn-primary" ng-click="Save()">Save</button>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
