@@ -8,7 +8,7 @@
             var databaseVersion = "1.0";
             var promises = [];
             //TODO: Increase this number
-            var lastSyncThresholdInSeconds = "10"; //Time in seconds before doing another sync (10 minutes)
+            var lastSyncThresholdInSeconds = "1"; //Time in seconds before doing another sync (10 minutes)
             var pageSize = 100;
             //TODO: Remove later
             //database.drop(); database.commit();
@@ -54,7 +54,7 @@
                 var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
                 var difference = duration.asSeconds();
 
-                if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds) {
+                if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds && !item.IsSyncing) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
                         Version: databaseVersion,

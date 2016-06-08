@@ -4,12 +4,15 @@
          'LocalDatabaseService','FormCacheService', 'FormDetailsCacheService', 'FormDetailsTypeCacheService', 'FormDetailsOptionsCacheService', 'ValueCacheService', 'ValueDetailsCacheService',
     function controller($scope, $rootScope, $routeParams, $http, $q, $location, $timeout, breezeservice, breeze,
         LocalDatabaseService, FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService) {
-        $scope.IsSyncing = false;
+        LocalDatabaseService.CreateDatabase();
+        $scope.IsSyncing = true;
         var id = $routeParams.id.toLowerCase();
         var pageSize = 10;
         $rootScope.$on('IsSyncing', function (event, args) {
             $scope.IsSyncing = args.IsSyncing;
-            $scope.Init();
+            if(!args.IsSyncing){
+                $scope.Init();
+            }
         });
         $scope.Init = function () {
             $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
@@ -32,7 +35,6 @@
                 GetFormDetailType();
             });
         }
-        $scope.Init();
 
         $scope.ClickFormDetailRow = function (tempValueDetail) {
             $scope.SelectedTempValueDetail = tempValueDetail;

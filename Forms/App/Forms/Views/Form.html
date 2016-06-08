@@ -30,7 +30,7 @@
                             <label>{{SelectedTempValueDetail.Name}}</label><br />
                             <div ng-show="SelectedFormDetailsType.Name === 'Text'">
                                 <span class="input-group">
-                                    <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
+                                    <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" autofocus="autofocus" />
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" ng-click="Next()">Next</button>
                                         <button class="btn btn-primary" ng-click="Save()">Save</button>
