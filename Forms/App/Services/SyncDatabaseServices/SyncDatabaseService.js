@@ -2,10 +2,11 @@
 (function (moment) {
     "use strict";
     angular.module('Services')
-    .service('LocalDatabaseService', ['$http', '$q', 'breeze', 'breezeservice', 'FormService', 'FormDetailsService',
+    .service('LocalDatabaseService', ['$rootScope', '$http', '$q', 'breeze', 'breezeservice', 'FormService', 'FormDetailsService',
         'FormDetailsOptionsService', 'FormDetailsTypeService', 'ValueService', 'ValueDetailsService', 'ValueCacheService', 'ValueDetailsCacheService',
-        function ($http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService, ValueService, ValueDetailsService, ValueCacheService, ValueDetailsCacheService) {
+        function ($rootScope, $http, $q, breeze, breezeservice, FormService, FormDetailsService, FormDetailsOptionsService, FormDetailsTypeService, ValueService, ValueDetailsService, ValueCacheService, ValueDetailsCacheService) {
             var databaseVersion = "1.0";
+            var promises = [];
             //TODO: Increase this number
             var lastSyncThresholdInSeconds = "10"; //Time in seconds before doing another sync (10 minutes)
             var pageSize = 100;
@@ -67,21 +68,24 @@
 
             this.Synchronize = function () {
                 //Run via $interval in background when app is open?
-                //TODO: Check if internet accessible
-                if (this.IsTimeForSync()) {
+                if (this.IsTimeForSync() && navigator.onLine) {
                     //TODO: Notify globalscope variable somehow?
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: true });
+                    $rootScope.$emit('IsSyncing', { IsSynching: true });
                     this.SynchronizeForm();
                     this.SynchronizeFormDetails();
                     this.SynchronizeFormDetailsOptions();
                     this.SynchronizeFormDetailsType();
                     this.SynchronizeValue();
                 }
-                database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: false });
+                $q.all(promises).then(function () {
+                    database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: false });
+                    $rootScope.$emit('IsSyncing', { IsSynching: false }); 
+                });
             }
 
             this.SynchronizeForm = function () {
-                FormService.Search(null, 0, pageSize, false).then(function (data) {
+                promises.push(FormService.Search(null, 0, pageSize, false).then(function (data) {
 
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
@@ -97,6 +101,7 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
+                        database.commit();
                     });
 
                     //Delete records not on the server from local database
@@ -108,11 +113,11 @@
                         }
                     });
                     database.commit();
-                });
+                }));
             }
 
             this.SynchronizeFormDetails = function () {
-                FormDetailsService.Search(null, 0, pageSize, false).then(function (data) {
+                promises.push(FormDetailsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
@@ -130,6 +135,7 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
+                        database.commit();
                     });
                     //Delete records not on the server from local database
                     database.deleteRows("FormDetails", function (row) {
@@ -140,11 +146,11 @@
                         }
                     });
                     database.commit();
-                });
+                }));
             }
 
             this.SynchronizeFormDetailsOptions = function () {
-                FormDetailsOptionsService.Search(null, 0, pageSize, false).then(function (data) {
+                promises.push(FormDetailsOptionsService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
@@ -157,6 +163,7 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
+                        database.commit();
                     });
                     //Delete records not on the server from local database
                     database.deleteRows("FormDetailsOptions", function (row) {
@@ -167,11 +174,11 @@
                         }
                     });
                     database.commit();
-                });
+                }));
             }
 
             this.SynchronizeFormDetailsType = function () {
-                FormDetailsTypeService.Search(null, 0, pageSize, false).then(function (data) {
+                promises.push(FormDetailsTypeService.Search(null, 0, pageSize, false).then(function (data) {
                     //Capture current time
                     var syncDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
                     //Update record in database
@@ -183,6 +190,7 @@
                             ModifiedDateTime: value.ModifiedDateTime,
                             SyncDateTime: syncDateTime
                         });
+                        database.commit();
                     });
                     //Delete records not on the server from local database
                     database.deleteRows("FormDetailsType", function (row) {
@@ -193,34 +201,34 @@
                         }
                     });
                     database.commit();
-                });
+                }));
             }
 
             //TODO: Chain the header to the detail
             this.SynchronizeValue = function () {
                 var predicate = function (row) { if (row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
-                ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                promises.push(ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
                     angular.forEach(items, function (value, key) {
-                        ValueService.Create(value).then(function (item) {
-                            debugger;
+                        promises.push(ValueService.Create(value).then(function (item) {
                             database.insertOrUpdate("Value", { Id: item.data.Id }, {
                                 IsSent: true
                             });
+                            database.commit();
                             //Set the detail rows ValueId FK to the PK that came back from the server.
                             predicate = function (row) { if (row.ValueId === value.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
-                            ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                            promises.push(ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
                                 angular.forEach(items, function (value, key) {
-                                    ValueDetailsService.Create(value).then(function (data) {
-                                        database.insertOrUpdate("ValueDetails", { Id: data.data.Id }, {
+                                    promises.push(ValueDetailsService.Create(value).then(function (item) {
+                                        database.insertOrUpdate("ValueDetails", { Id: item.data.Id }, {
                                             IsSent: true
                                         });
-                                    });
+                                        database.commit();
+                                    }));
                                 });
-                            });
-                        });
+                            }));
+                        }));
                     });
-                });
-                database.commit();
+                }));
                 //Handle deletes
             }
         }]);

@@ -1,40 +1,45 @@
 ﻿<div ng-controller="FormController">
-    <br />
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <form>
-                    <fieldset class="form-group">
-                        <!--<label for="Name"></label>-->
-                        <h3>{{Form.Name}}</h3>
-                    </fieldset>
-                </form>
+    <div ng-show="IsSyncing">
+        Syncing...
+    </div>
+    <div ng-show="!IsSyncing">
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form>
+                        <fieldset class="form-group">
+                            <!--<label for="Name"></label>-->
+                            <h3>{{Form.Name}}</h3>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <fieldset>
-                    <!--<label>Fields</label>-->
-                    <div ng-repeat="Detail in tempValueDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.FormDetailsId === SelectedTempValueDetail.FormDetailsId ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
-                        <div>{{Detail.Name}}</div><br />
-                    </div>
-                </fieldset>
-            </div>
-            <div class="col-md-9">
-                <form ng-show="SelectedTempValueDetail != null" class="form-inline">
-                    <fieldset class="form-group">
-                        <label>{{SelectedTempValueDetail.Name}}</label><br />
-                        <div ng-show="SelectedFormDetailsType.Name === 'Text'">
-                            <span class="input-group">
-                                <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" ng-click="Next()">Next</button>
-                                    <button class="btn btn-primary" ng-click="Save()">Save</button>
-                                </span>
-                            </span>
+            <div class="row">
+                <div class="col-md-3">
+                    <fieldset>
+                        <!--<label>Fields</label>-->
+                        <div ng-repeat="Detail in tempValueDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.FormDetailsId === SelectedTempValueDetail.FormDetailsId ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                            <div>{{Detail.Name}}</div><br />
                         </div>
                     </fieldset>
-                </form>
+                </div>
+                <div class="col-md-9">
+                    <form ng-show="SelectedTempValueDetail != null" class="form-inline">
+                        <fieldset class="form-group">
+                            <label>{{SelectedTempValueDetail.Name}}</label><br />
+                            <div ng-show="SelectedFormDetailsType.Name === 'Text'">
+                                <span class="input-group">
+                                    <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="Next()">Next</button>
+                                        <button class="btn btn-primary" ng-click="Save()">Save</button>
+                                    </span>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

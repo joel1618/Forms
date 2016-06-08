@@ -40,6 +40,10 @@ namespace Forms.Repositories
                 {
                     item.Id = new Guid(item.Id.ToString());
                 }
+                if(item.Value == null)
+                {
+                    item.Value = "";
+                }
                 item.CreatedDateTime = DateTime.Now;
                 context.ValueDetails.Add(item);
                 context.SaveChanges();

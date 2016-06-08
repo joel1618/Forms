@@ -14,19 +14,20 @@ app.run(['LocalDatabaseService', function(LocalDatabaseService){
 }]);
 
 //http://plnkr.co/edit/Q3LkiI7Cj4RWBNRLEJUA?p=preview
-app.run(function($window, $rootScope) {
-      $rootScope.online = navigator.onLine;
-      $window.addEventListener("offline", function () {
-        $rootScope.$apply(function() {
-          $rootScope.online = false;
-        });
-      }, false);
-      $window.addEventListener("online", function () {
-        $rootScope.$apply(function() {
-          $rootScope.online = true;
-        });
-      }, false);
-});
+//app.run(function($window, $rootScope) {
+//      $rootScope.online = navigator.onLine;
+//      $window.addEventListener("offline", function () {
+//        $rootScope.$apply(function() {
+//          $rootScope.online = false;
+//        });
+//      }, false);
+//      $window.addEventListener("online", function () {
+//        $rootScope.$apply(function() {
+//          $rootScope.online = true;
+//          //Try to sync?
+//        });
+//      }, false);
+//});
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider

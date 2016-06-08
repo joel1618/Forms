@@ -1,11 +1,16 @@
 ﻿(function (moment) {
     "use strict";
-    angular.module('Forms').controller('FormController', ['$scope', '$routeParams', '$http', '$q', '$location', '$timeout', 'breezeservice', 'breeze',
+    angular.module('Forms').controller('FormController', ['$scope', '$rootScope', '$routeParams', '$http', '$q', '$location', '$timeout', 'breezeservice', 'breeze',
          'LocalDatabaseService','FormCacheService', 'FormDetailsCacheService', 'FormDetailsTypeCacheService', 'FormDetailsOptionsCacheService', 'ValueCacheService', 'ValueDetailsCacheService',
-    function controller($scope, $routeParams, $http, $q, $location, $timeout, breezeservice, breeze,
+    function controller($scope, $rootScope, $routeParams, $http, $q, $location, $timeout, breezeservice, breeze,
         LocalDatabaseService, FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService) {
+        $scope.IsSyncing = false;
         var id = $routeParams.id.toLowerCase();
         var pageSize = 10;
+        $rootScope.$on('IsSyncing', function (event, args) {
+            $scope.IsSyncing = args.IsSyncing;
+            $scope.Init();
+        });
         $scope.Init = function () {
             $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
             $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
