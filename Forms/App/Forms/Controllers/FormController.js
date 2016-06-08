@@ -7,7 +7,7 @@
         var id = $routeParams.id.toLowerCase();
         var pageSize = 10;
         $scope.Init = function () {
-            $scope.SelectedTempValueDetail = null;
+            $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
             $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
             $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
             $scope.tempValueDetails = [];
@@ -24,17 +24,24 @@
                 if ($scope.tempValueDetails.length > 0) {
                     $scope.SelectedTempValueDetail = $scope.tempValueDetails[0];
                 }
+                GetFormDetailType();
             });
         }
         $scope.Init();
 
         $scope.ClickFormDetailRow = function (tempValueDetail) {
             $scope.SelectedTempValueDetail = tempValueDetail;
-            FormDetailsCacheService.Get(tempValueDetail.FormDetailsId).then(function (data) {
-                FormDetailsTypeCacheService.Get(data.FormDetailsTypeId).then(function (data) {
-                    $scope.SelectedFormDetailsType = data;
+            GetFormDetailType();
+        }
+
+        function GetFormDetailType() {
+            if($scope.SelectedTempValueDetail !== null){
+                FormDetailsCacheService.Get($scope.SelectedTempValueDetail.FormDetailsId).then(function (data) {
+                    FormDetailsTypeCacheService.Get(data.FormDetailsTypeId).then(function (data) {
+                        $scope.SelectedFormDetailsType = data;
+                    });
                 });
-            });
+            }
         }
 
         $scope.Next = function () {
@@ -60,5 +67,7 @@
                 $scope.Init();
             });            
         }
-    }]);
+    }
+
+]);
 })(moment);

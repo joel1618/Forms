@@ -24,13 +24,15 @@
                 <form ng-show="SelectedTempValueDetail != null" class="form-inline">
                     <fieldset class="form-group">
                         <label>{{SelectedTempValueDetail.Name}}</label><br />
-                        <span class="input-group">
-                            <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" ng-click="Next()">Next</button>
-                                <button class="btn btn-primary" ng-click="Save()">Save</button>
+                        <div ng-show="SelectedFormDetailsType.Name === 'Text'">
+                            <span class="input-group">
+                                <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" ng-click="Next()">Next</button>
+                                    <button class="btn btn-primary" ng-click="Save()">Save</button>
+                                </span>
                             </span>
-                        </span>
+                        </div>
                     </fieldset>
                 </form>
             </div>

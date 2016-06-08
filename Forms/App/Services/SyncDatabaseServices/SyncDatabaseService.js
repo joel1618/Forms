@@ -8,8 +8,6 @@
             var databaseVersion = "1.0";
             //TODO: Increase this number
             var lastSyncThresholdInSeconds = "10"; //Time in seconds before doing another sync (10 minutes)
-            //var databaseName = "FormsDatabase";
-            //var database = new localStorageDB(databaseName, localStorage);
             var pageSize = 100;
             //TODO: Remove later
             //database.drop(); database.commit();
@@ -204,6 +202,7 @@
                 ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
                     angular.forEach(items, function (value, key) {
                         ValueService.Create(value).then(function (item) {
+                            debugger;
                             database.insertOrUpdate("Value", { Id: item.data.Id }, {
                                 IsSent: true
                             });

@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -40,12 +41,21 @@ namespace Forms.Controllers.api.v1.breeze
         }
 
         [HttpPost]
-        public async Task<ValueDetailViewModel> Create(ValueDetailViewModel item)
+        public async Task<IHttpActionResult> Create(ValueDetailViewModel item)
         {
-            item.UserId = User.Identity.GetUserId();
-            var record = await repository.Create(item.ToEntity());
-            var model = record.ToViewModel();
-            return model;
+            ValueDetailViewModel model = null;
+            try
+            {
+                item.UserId = User.Identity.GetUserId();
+                var record = await repository.Create(item.ToEntity());
+                model = record.ToViewModel();
+                return Content(HttpStatusCode.OK, model);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return Content(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         [HttpPut]
