@@ -354,7 +354,6 @@
     <Content Include="Scripts\breeze.directives.js" />
     <Content Include="Scripts\breeze.min.js" />
     <Content Include="Scripts\Dependencies\angular-local-storage\angular-local-storage.js" />
-    <Content Include="Scripts\Dependencies\angular-toggle-switch\angular-toggle-switch.min.js" />
     <Content Include="Scripts\Dependencies\angular-ui-bootstrap\0.14.3\ui-bootstrap.js" />
     <Content Include="Scripts\Dependencies\angular-ui-grid\3.0.7\ui-grid.css" />
     <Content Include="Scripts\Dependencies\angular-ui-grid\3.0.7\ui-grid.js" />
