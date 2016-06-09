@@ -6,6 +6,7 @@
         LocalDatabaseService, FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService) {
         LocalDatabaseService.CreateDatabase();
         $scope.IsSyncing = true;
+        $scope.IsInit = false;
         var id = $routeParams.id.toLowerCase();
         var pageSize = 10;
         $rootScope.$on('IsSyncing', function (event, args) {
@@ -15,27 +16,31 @@
             }
         });
         $scope.Init = function () {
-            $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
-            $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
-            $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, IsRequired: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
-            $scope.tempValueDetails = [];
-            FormCacheService.Get(id).then(function (data) {
-                $scope.Form = data;
-            });
-            var predicate = function (row) { if (row.FormId == id) { return true; } else { return false; } }
-            FormDetailsCacheService.Search(predicate, 0, pageSize, false).then(function (data) {
-                angular.forEach(data, function (value, key) {
-                    $scope.tempValueDetail.FormDetailsId = value.Id;
-                    $scope.tempValueDetail.Name = value.Name;
-                    $scope.tempValueDetail.Description = value.Description;
-                    $scope.tempValueDetail.IsRequired = value.IsRequired;
-                    $scope.tempValueDetails.push(angular.copy($scope.tempValueDetail));
+            if (!$scope.IsInit) {
+                $scope.IsInit = true;
+                $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
+                $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
+                $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, DateValue: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, IsRequired: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
+                $scope.tempValueDetails = [];
+                FormCacheService.Get(id).then(function (data) {
+                    $scope.Form = data;
                 });
-                if ($scope.tempValueDetails.length > 0) {
-                    $scope.SelectedTempValueDetail = $scope.tempValueDetails[0];
-                }
-                GetFormDetailType();
-            });
+                var predicate = function (row) { if (row.FormId == id) { return true; } else { return false; } }
+                FormDetailsCacheService.Search(predicate, 0, pageSize, false).then(function (data) {
+                    angular.forEach(data, function (value, key) {
+                        $scope.tempValueDetail.FormDetailsId = value.Id;
+                        $scope.tempValueDetail.Name = value.Name;
+                        $scope.tempValueDetail.Description = value.Description;
+                        $scope.tempValueDetail.IsRequired = value.IsRequired;
+                        $scope.tempValueDetails.push(angular.copy($scope.tempValueDetail));
+                    });
+                    if ($scope.tempValueDetails.length > 0) {
+                        $scope.SelectedTempValueDetail = $scope.tempValueDetails[0];
+                    }
+                    GetFormDetailType();
+                });
+                $scope.IsInit = false;
+            }
         }
 
         $scope.ClickFormDetailRow = function (tempValueDetail) {
@@ -58,6 +63,7 @@
             if (index + 1 < $scope.tempValueDetails.length) {
                 $scope.SelectedTempValueDetail = $scope.tempValueDetails[index + 1];
             }
+
             GetFormDetailType();
         };
 

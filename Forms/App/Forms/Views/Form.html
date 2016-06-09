@@ -22,36 +22,27 @@
                         <div ng-repeat="Detail in tempValueDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.FormDetailsId === SelectedTempValueDetail.FormDetailsId ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
                             <h4>{{Detail.Name}}</h4><br />
                         </div>
+                        <button class="btn btn-primary pull-right" ng-click="Save()">Save</button>
                     </fieldset>
                 </div>
                 <div class="col-md-10">
                     <form ng-show="SelectedTempValueDetail != null" class="form-inline">
                         <fieldset class="form-group">
                             <label>{{SelectedTempValueDetail.Name}}</label><br />
+                            <button type="button" class="btn btn-default" ng-click="Next()">Next</button>
+                            <button class="btn btn-danger" ng-click="SelectedTempValueDetail.Value = null;">Clear</button>
                             <small>{{SelectedTempValueDetail.Description}}</small>
                             <br />
                             <div class="input-group">
                                 <div ng-show="SelectedFormDetailsType.Name === 'Text'">
                                     <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-default" ng-click="Next()">Next</button>
-                                        <button class="btn btn-primary" ng-click="Save()">Save</button>
-                                    </div>
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Date'">
-                                    <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-default" ng-click="Next()" type="button">Next</button>
-                                        <button class="btn btn-primary" ng-click="Save()">Save</button>
-                                    </div>
-                                    <uib-datepicker ng-model="SelectedTempValueDetail.Value" class="well well-sm" ng-required="SelectedTempValueDetail.IsRequired"></uib-datepicker>
+                                    Date: {{SelectedTempValueDetail.Value | date:'MM/dd/yyyy' }}
+                                    <input type="text" class="well well-sm" uib-datepicker="MM/dd/yyyy" ng-model="SelectedTempValueDetail.Value" ng-required="SelectedTempValueDetail.IsRequired" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Checkbox'">
-                                    <input type="checkbox" ng-model="SelectedTempValueDetail.Value" style="width:30px;height:30px;" />
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-default" ng-click="Next()" type="button">Next</button>
-                                        <button class="btn btn-primary" ng-click="Save()">Save</button>
-                                    </div>
+                                    <input bs-switch ng-model="SelectedTempValueDetail.Value" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
                                 </div>
                             </div>
                         </fieldset>

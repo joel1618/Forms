@@ -23,7 +23,6 @@
                 else {
                     var version = database.queryAll("SystemSettings");
                     if (version[0].DatabaseVersion !== databaseVersion) {
-                        debugger;
                         database.drop();
                         database.commit();
                         this.SeedDatabase();
@@ -48,13 +47,13 @@
                 database.commit();
             }
 
-            this.IsTimeForSync = function () {
+            this.CanSync = function () {
                 var items = database.queryAll("SystemSettings", { query: function (row) { if (row.Id == "0") { return true; } else { return false; } }, limit: 1 });
                 var item = items[0];
                 var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
                 var difference = duration.asSeconds();
 
-                if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds && !item.IsSyncing) {
+                if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds && !item.IsSyncing && navigator.onLine) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
                         Version: databaseVersion,
@@ -68,7 +67,7 @@
 
             this.Synchronize = function () {
                 //Run via $interval in background when app is open?
-                if (this.IsTimeForSync() && navigator.onLine) {
+                if (this.CanSync()) {
                     //TODO: Notify globalscope variable somehow?
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: true });
                     $rootScope.$emit('IsSyncing', { IsSynching: true });
