@@ -30,12 +30,17 @@
                         <fieldset class="form-group">
                             <label>{{SelectedTempValueDetail.Name}}</label><br />
                             <button type="button" class="btn btn-default" ng-click="Next()">Next</button>
-                            <button class="btn btn-danger" ng-click="SelectedTempValueDetail.Value = null; SelectedTempValueDetail.DateValue = null;">Clear</button>
+                            <button class="btn btn-danger" ng-click="SelectedTempValueDetail.Value = null; SelectedTempValueDetail.DateValue = null; SelectedTempValueDetail.PasswordValue = null;">Clear</button>
                             <small>{{SelectedTempValueDetail.Description}}</small>
                             <br />
                             <div class="input-group">
                                 <div ng-show="SelectedFormDetailsType.Name === 'Text'">
                                     <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
+                                </div>
+                                <div ng-show="SelectedFormDetailsType.Name === 'Password'">
+                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.Value" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" /><br/>
+                                    Verify:<br/>
+                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.PasswordValue" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }"  />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Date'">
                                     Date: {{SelectedTempValueDetail.DateValue | date:'MM/dd/yyyy' }}

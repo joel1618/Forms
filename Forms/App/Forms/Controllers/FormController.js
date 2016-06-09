@@ -20,7 +20,7 @@
                 $scope.IsInit = true;
                 $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
                 $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
-                $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, DateValue: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, IsRequired: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
+                $scope.tempValueDetail = { Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, DateValue: null, Passwordvalue: null, Name: null, UserId: null, IsSent: false, IsDeleted: false, IsRequired: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
                 $scope.tempValueDetails = [];
                 FormCacheService.Get(id).then(function (data) {
                     $scope.Form = data;
