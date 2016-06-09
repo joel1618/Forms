@@ -44,6 +44,9 @@
         }
 
         $scope.ClickFormDetailRow = function (tempValueDetail) {
+            if ($scope.SelectedFormDetailsType.Name === 'Date') {
+                tempValueDetail.Value = tempValueDetail.DateValue;
+            }
             $scope.SelectedTempValueDetail = tempValueDetail;
             GetFormDetailType();
         }
@@ -59,6 +62,9 @@
         }
 
         $scope.Next = function () {
+            if ($scope.SelectedFormDetailsType.Name === 'Date') {
+                $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
+            }
             var index = $scope.tempValueDetails.indexOf($scope.SelectedTempValueDetail);
             if (index + 1 < $scope.tempValueDetails.length) {
                 $scope.SelectedTempValueDetail = $scope.tempValueDetails[index + 1];
@@ -70,6 +76,9 @@
         //TODO: Add IsRequired Validation
         //TODO: Make sure form is valid
         $scope.Save = function () {
+        if ($scope.SelectedFormDetailsType.Name === 'Date') {
+                $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
+            }
             //Save tempValue to cache
             var promises = [];
             ValueCacheService.Create($scope.tempValue).then(function (data) {

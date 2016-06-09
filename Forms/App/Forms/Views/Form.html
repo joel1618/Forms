@@ -30,7 +30,7 @@
                         <fieldset class="form-group">
                             <label>{{SelectedTempValueDetail.Name}}</label><br />
                             <button type="button" class="btn btn-default" ng-click="Next()">Next</button>
-                            <button class="btn btn-danger" ng-click="SelectedTempValueDetail.Value = null;">Clear</button>
+                            <button class="btn btn-danger" ng-click="SelectedTempValueDetail.Value = null; SelectedTempValueDetail.DateValue = null;">Clear</button>
                             <small>{{SelectedTempValueDetail.Description}}</small>
                             <br />
                             <div class="input-group">
@@ -38,8 +38,8 @@
                                     <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Date'">
-                                    Date: {{SelectedTempValueDetail.Value | date:'MM/dd/yyyy' }}
-                                    <input type="text" class="well well-sm" uib-datepicker="MM/dd/yyyy" ng-model="SelectedTempValueDetail.Value" ng-required="SelectedTempValueDetail.IsRequired" />
+                                    Date: {{SelectedTempValueDetail.DateValue | date:'MM/dd/yyyy' }}
+                                    <input type="text" class="well well-sm" uib-datepicker="MM/dd/yyyy" ng-model="SelectedTempValueDetail.DateValue" ng-required="SelectedTempValueDetail.IsRequired" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Checkbox'">
                                     <input bs-switch ng-model="SelectedTempValueDetail.Value" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
