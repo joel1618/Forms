@@ -73,6 +73,46 @@
             GetFormDetailType();
         };
 
+        //VIDEO
+        var _video = null,
+        patData = null;
+        $scope.channel = {
+            video: {
+                width: 800,
+                height: 600
+            }};
+        $scope.onError = function (err) { alert('error') };
+        $scope.onStream = function (stream) {  };
+        $scope.onSuccess = function () {
+            // The video element contains the captured camera data
+            _video = $scope.channel.video;
+            $scope.$apply(function () {
+                $scope.patOpts.w = _video.width;
+                $scope.patOpts.h = _video.height;
+                $scope.showDemos = true;
+            });
+        };
+        $scope.patOpts = { x: 0, y: 0, w: 25, h: 25 };
+        $scope.TakePicture = function () {
+            var patCanvas = document.querySelector('#image');
+            if (!patCanvas) return;
+
+            patCanvas.width = _video.width;
+            patCanvas.height = _video.height;
+            var ctxPat = patCanvas.getContext('2d');
+
+            var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
+            ctxPat.putImageData(idata, 0, 0);
+        };
+        var getVideoData = function getVideoData(x, y, w, h) {
+            var hiddenCanvas = document.createElement('canvas');
+            hiddenCanvas.width = _video.width;
+            hiddenCanvas.height = _video.height;
+            var ctx = hiddenCanvas.getContext('2d');
+            ctx.drawImage(_video, 0, 0, _video.width, _video.height);
+            return ctx.getImageData(x, y, w, h);
+        };
+
         //TODO: Add IsRequired Validation
         //TODO: Make sure form is valid
         $scope.Save = function () {

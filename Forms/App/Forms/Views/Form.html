@@ -49,6 +49,14 @@
                                 <div ng-show="SelectedFormDetailsType.Name === 'Checkbox'">
                                     <input bs-switch ng-model="SelectedTempValueDetail.Value" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
                                 </div>
+                                <div ng-show="SelectedFormDetailsType.Name === 'Picture'">
+                                    <webcam on-stream="onStream(stream)"
+                                            on-streaming="onSuccess()"
+                                            on-error="onError(err)" channel="myChannel">
+                                    </webcam>
+                                    <canvas id="image" class="well pull-right" width="320" height="240"></canvas>
+                                    <button class="btn btn-default" ng-click="TakePicture()">Take Picture</button>
+                                </div>
                             </div>
                         </fieldset>
                     </form>
