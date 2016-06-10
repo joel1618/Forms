@@ -38,9 +38,9 @@
                                     <input type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Password'">
-                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.Value" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" /><br/>
-                                    Verify:<br/>
-                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.PasswordValue" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }"  />
+                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.Value" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" /><br />
+                                    Verify:<br />
+                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.PasswordValue" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Date'">
                                     Date: {{SelectedTempValueDetail.DateValue | date:'MM/dd/yyyy' }}
@@ -50,12 +50,15 @@
                                     <input bs-switch ng-model="SelectedTempValueDetail.Value" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Picture'">
-                                    <webcam on-stream="onStream(stream)"
+                                    <div class="alert alert-error ng-scope" ng-show="webcamError" style="">
+                                        <span>Webcam could not be started. Did you give access to it?</span>
+                                    </div>
+                                    <webcam channel="channel"
                                             on-streaming="onSuccess()"
-                                            on-error="onError(err)" channel="myChannel">
-                                    </webcam>
-                                    <canvas id="image" class="well pull-right" width="320" height="240"></canvas>
-                                    <button class="btn btn-default" ng-click="TakePicture()">Take Picture</button>
+                                            on-error="onError(err)"
+                                            on-stream="onStream(stream)"></webcam>
+                                    <canvas id="snapshot" width="300" height="300"></canvas>
+                                    <button class="btn btn-primary" ng-click="makeSnapshot()">take picture</button>
                                 </div>
                             </div>
                         </fieldset>
