@@ -290,6 +290,7 @@
     <Compile Include="Repositories\FormDetailsRepository.cs" />
     <Compile Include="Repositories\FormDetailsTypeRepository.cs" />
     <Compile Include="Repositories\FormRepository.cs" />
+    <Compile Include="Repositories\ValueReadRepository.cs" />
     <Compile Include="Repositories\ValueDetailsRepository.cs" />
     <Compile Include="Repositories\ValueRepository.cs" />
     <Compile Include="Startup.cs" />
@@ -303,8 +304,11 @@
   <ItemGroup>
     <Content Include="App\Forms\App.js" />
     <Content Include="App\Forms\Controllers\FormController.js" />
+    <Content Include="App\Forms\Controllers\FormDataController.js" />
+    <Content Include="App\Forms\Controllers\Form\FormCamera.js" />
     <Content Include="App\Forms\Controllers\ManageController.js" />
     <Content Include="App\Forms\Views\Form.html" />
+    <Content Include="App\Forms\Views\FormData.html" />
     <Content Include="App\Forms\Views\Manage.html" />
     <Content Include="App\Services\Breeze\breezeservice.js" />
     <Content Include="App\Services\CacheDatabaseServices\FormDetailsOptionsCacheService.js" />

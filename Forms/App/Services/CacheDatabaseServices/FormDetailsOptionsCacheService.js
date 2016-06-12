@@ -14,19 +14,17 @@
                     this.deferredRequest = null;
                 }
                 var deferred = $q.defer();
-                var query = breeze.EntityQuery.from('FormDetailsOptionsApi/Search');
-                if (predicate != null) {
-                    query = query.where(predicate);
-                }
-                query = query.orderByDesc('Name').skip(page * pageSize).take(pageSize);
 
-                breezeservice.executeQuery(query).then(function (data) {
-                    deferred.resolve(data.httpResponse.data);
+                var items = database.queryAll("FormDetailsOptions", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
+
+                if (items != null) {
+                    deferred.resolve(items);
                     _self.deferredRequest = null;
-                }, function (msg, code) {
-                    deferred.reject(msg);
+                }
+                else {
+                    deferred.resolve(null);
                     _self.deferredRequest = null;
-                });
+                }
 
                 this.deferredRequest = deferred;
 

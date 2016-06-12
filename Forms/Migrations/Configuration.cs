@@ -85,6 +85,12 @@ namespace Forms.Migrations
                 Name = "File",
                 CreatedDateTime = DateTime.Now
             });
+            context.FormDetailsTypes.Add(new FormDetailsType()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Text Area",
+                CreatedDateTime = DateTime.Now
+            });
         }
     }
 }

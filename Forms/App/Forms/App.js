@@ -37,6 +37,9 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when('/:id', {
             templateUrl: '../App/Forms/Views/Form.html'
         })
+        .when('/form/:id', {
+            templateUrl: '../App/Forms/Views/FormData.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
