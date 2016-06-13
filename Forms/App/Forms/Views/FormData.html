@@ -1,3 +1,16 @@
 ﻿<div ng-controller="FormDataController">
-
+    <table class="table">
+        <thead ng-repeat="Item in Items">
+            <tr>
+                <th></th>
+                <th>{{Item.$header}}</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="Item in Items" ng-click="RowClick(Item)" ng-style="Item.Id === SelectedItem.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+            <tr>
+                <td><button class="btn btn-sm btn-danger" ng-click="DeleteItem(Item)">Delete</button></td>
+                <td>{{Item.$detail}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
