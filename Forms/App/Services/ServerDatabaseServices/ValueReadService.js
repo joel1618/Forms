@@ -6,7 +6,7 @@
             var _self = this;
             this.deferredRequest = null;
 
-            this.Search = function (predicate, page, pageSize, cancelExistingSearch) {
+            this.Search = function (predicate, formId, page, pageSize, cancelExistingSearch) {
                 cancelExistingSearch = cancelExistingSearch || false;
 
                 if (this.deferredRequest !== null && cancelExistingSearch) {
@@ -16,8 +16,9 @@
                 var deferred = $q.defer();
                 $http({
                     method: 'Get',
-                    url: 'api/v1/ValueReadApi/Search/page=' + page + '/pageSize=' + pageSize,
+                    url: 'api/v1/ValueReadApi/Search/formid=' + formId + '/page=' + page + '/pageSize=' + pageSize,
                 }).success(function (data, status, headers, config) {
+                    debugger;
                      deferred.resolve(data);
                     _self.deferredRequest = null;
                 }).error(function (msg, code) {

@@ -292,8 +292,9 @@
     <Compile Include="Repositories\FormDetailsRepository.cs" />
     <Compile Include="Repositories\FormDetailsTypeRepository.cs" />
     <Compile Include="Repositories\FormRepository.cs" />
-    <Compile Include="Repositories\ValueReadRepository.cs" />
+    <Compile Include="Repositories\ValueReadPivotRepository.cs" />
     <Compile Include="Repositories\ValueDetailsRepository.cs" />
+    <Compile Include="Repositories\ValueReadRepository.cs" />
     <Compile Include="Repositories\ValueRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Value.cs">

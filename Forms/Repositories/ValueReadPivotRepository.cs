@@ -5,13 +5,14 @@ using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
 using System.Web;
+using ValueDetailEntity = Forms.ValueDetail;
 
 namespace Forms.Repositories
 {
-    public class ValueReadRepository
+    public class ValueReadPivotRepository
     {
         FormsEntities context;
-        public ValueReadRepository()
+        public ValueReadPivotRepository()
         {
             this.context = new FormsEntities();
         }
