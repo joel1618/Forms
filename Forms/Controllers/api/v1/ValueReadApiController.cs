@@ -1,7 +1,10 @@
-﻿using Forms.Repositories;
+﻿using Forms.Models;
+using Forms.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
@@ -18,21 +21,23 @@ namespace Forms.Controllers.api.v1
         }
         [Route("Search/page={page}/pagesize={pagesize}")]
         [HttpGet]
-        public List<KeyValuePair<string, string>> Search(int page, int pageSize)
+        public List<List<string>> Search(int page, int pageSize)
         {
             var response = repository.Search(page, pageSize);
-            var items = new List<KeyValuePair<string, string>>();
+            List<List<string>> items = new List<List<string>>();
             foreach (var item in response)
             {
-                foreach (CustomAttributeData attribute in item.GetType().CustomAttributes)
+                Dictionary<string, string> model = new Dictionary<string, string>();
+                var properties = item.GetType().GetProperties(BindingFlags.Public);
+                foreach (var property in properties)
                 {
-                    var name = attribute.GetType().Name;
-                    var value = "";// attribute.
-                    var pair = new KeyValuePair<string, string>(name, value);
-                    items.Add(pair);
+                    var PropertyName = property.Name;
+                    var PropertyValue = item.GetType().GetProperty(property.Name).GetValue(item, null);
+                    model.Add(PropertyName, PropertyValue);
                 }
+                //items.Add(model);
             }
             return items;
-        }
+        }        
     }
 }

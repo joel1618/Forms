@@ -13,7 +13,7 @@ namespace Forms.Repositories
         {
             this.context = new FormsEntities();
         }
-        public IEnumerable<object> Search(int page, int pageSize)
+        public IEnumerable<dynamic> Search(int page, int pageSize)
         {
             var items = context.Database.SqlQuery<dynamic>(
                        "DECLARE @cols NVARCHAR(MAX), @sql NVARCHAR(MAX)" +
@@ -67,10 +67,10 @@ namespace Forms.Repositories
 								FOR XML PATH(''), TYPE
 								).value('.', 'NVARCHAR(MAX)'),1,1,'')
 
-					SET @sql = 'SELECT Id, CreatedDateTime, ' + @cols + '
+					SET @sql = 'SELECT Id, ForId, CreatedDateTime, ' + @cols + '
 								  FROM
 								(
-								  select Value.Id, FormDetails.Name, ValueDetails.Value, Value.CreatedDateTime
+								  select Value.Id, Value.FormId, FormDetails.Name, ValueDetails.Value, Value.CreatedDateTime
 									from Value
 									left join ValueDetails
 									on Value.Id = ValueDetails.ValueId
