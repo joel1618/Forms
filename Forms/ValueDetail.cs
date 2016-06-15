@@ -18,13 +18,15 @@ namespace Forms
         public System.Guid ValueId { get; set; }
         public System.Guid FormDetailsId { get; set; }
         public string Value { get; set; }
+        public byte[] ValuePicture { get; set; }
         public string UserId { get; set; }
+        public bool IsSent { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
-        public bool IsSent { get; set; }
         public Nullable<System.DateTime> SyncDateTime { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual FormDetail FormDetail { get; set; }
+        public virtual Value Value1 { get; set; }
     }
 }

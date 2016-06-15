@@ -30,7 +30,28 @@ namespace Forms.Controllers.api.v1.breeze
                 Id = x.Id,
                 FormId = x.FormId,
                 CreatedDateTime = x.CreatedDateTime,
-                ModifiedDateTime = x.ModifiedDateTime
+                ModifiedDateTime = x.ModifiedDateTime,
+                Form = new FormViewModel()
+                {
+                    Id = x.Form.Id,
+                    Name = x.Form.Name
+                },
+                ValueDetails = x.ValueDetails.Select(y => new ValueDetailViewModel()
+                {
+                    Id = y.Id,
+                    Value = y.Value,                    
+                    CreatedDateTime = y.CreatedDateTime,
+                    FormDetail = new FormDetailViewModel()
+                    {
+                        Id = y.FormDetail.Id,
+                        Name = y.FormDetail.Name,
+                        FormDetailsType = new FormDetailTypeViewModel()
+                        {
+                            Id = y.FormDetail.FormDetailsType.Id,
+                            Name = y.FormDetail.FormDetailsType.Name
+                        }
+                    }
+                })
             });
         }
 

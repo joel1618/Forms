@@ -26,10 +26,10 @@ namespace Forms
         public string Description { get; set; }
         public string PublishUrl { get; set; }
         public string UserId { get; set; }
+        public bool IsActive { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public Nullable<System.DateTime> SyncDateTime { get; set; }
-        public bool IsActive { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

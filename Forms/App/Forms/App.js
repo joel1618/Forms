@@ -1,4 +1,4 @@
-﻿var app = angular.module('Forms', ['ngRoute', 'ui.grid', 'ui.bootstrap', 'ngAnimate', 'breeze.angular', 'webcam', 'frapontillo.bootstrap-switch', 'Services']);
+﻿var app = angular.module('Forms', ['ngRoute', 'ui.grid', 'ui.bootstrap', 'ngAnimate', 'breeze.angular', 'webcam', 'frapontillo.bootstrap-switch', 'focus-if', 'Services']);
 
 ////https://github.com/grevory/angular-local-storage
 //app.config(function (localStorageServiceProvider) {

@@ -16,5 +16,7 @@ namespace Forms.Models
         public Nullable<decimal> Longitude { get; set; }
         public bool IsSent { get; set; }
         public Nullable<System.DateTime> SyncDateTime { get; set; }
+        public IEnumerable<ValueDetailViewModel> ValueDetails { get; set; }
+        public FormViewModel Form { get; set; }
     }
 }

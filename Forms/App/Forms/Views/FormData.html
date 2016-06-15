@@ -1,16 +1,30 @@
-﻿<div ng-controller="FormDataController">
-    <table class="table">
-        <thead ng-repeat="Item in Items">
-            <tr>
-                <th></th>
-                <th>{{Item.$header}}</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="Item in Items" ng-click="RowClick(Item)" ng-style="Item.Id === SelectedItem.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
-            <tr>
-                <td><button class="btn btn-sm btn-danger" ng-click="DeleteItem(Item)">Delete</button></td>
-                <td>{{Item.$detail}}</td>
-            </tr>
-        </tbody>
-    </table>
+﻿<div ng-controller="FormDataController" class="container">
+    <h3>Form {{Values[0].Form.Name}}</h3>
+    <div ng-show="Values.length === 0">
+        There is no data found.
+    </div>
+    <div ng-show="Values.length > 0">
+        <div id="data">
+            <table class="table">
+                <thead ng-repeat="Value in Values | limitTo:1">
+                    <tr>
+                        <th></th>
+                        <th ng-repeat="ValueDetail in Value.ValueDetails">{{ValueDetail.FormDetail.Name}}</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="Value in Values" ng-click="RowClick(Item)" ng-style="Value.Id === SelectedValue.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                    <tr>
+                        <td><button class="btn btn-sm btn-danger" ng-click="DeleteValue(Value)">Delete</button></td>
+                        <td ng-repeat="ValueDetail in Value.ValueDetails">
+                            <span ng-if="ValueDetail.FormDetail.FormDetailsType.Name === 'Date'">{{ValueDetail.Value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
+                            <span ng-if="ValueDetail.FormDetail.FormDetailsType.Name !== 'Date'">{{ValueDetail.Value}}</span>
+                        </td>
+                        <td>{{Value.CreatedDateTime | date: 'MM/dd/yyyy hh:mm:ss a'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button ng-click="ExportExcel()" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></button>
+    </div>
 </div>

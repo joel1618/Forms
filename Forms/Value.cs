@@ -14,17 +14,25 @@ namespace Forms
     
     public partial class Value
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Value()
+        {
+            this.ValueDetails = new HashSet<ValueDetail>();
+        }
+    
         public System.Guid Id { get; set; }
         public System.Guid FormId { get; set; }
         public string UserId { get; set; }
-        public System.DateTime CreatedDateTime { get; set; }
-        public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public Nullable<decimal> Latitude { get; set; }
         public Nullable<decimal> Longitude { get; set; }
         public bool IsSent { get; set; }
+        public System.DateTime CreatedDateTime { get; set; }
+        public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public Nullable<System.DateTime> SyncDateTime { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Form Form { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ValueDetail> ValueDetails { get; set; }
     }
 }

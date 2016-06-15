@@ -16,5 +16,6 @@ namespace Forms.Models
         public bool IsSent { get; set; }
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public Nullable<System.DateTime> SyncDateTime { get; set; }
+        public FormDetailViewModel FormDetail { get; set; }
     }
 }

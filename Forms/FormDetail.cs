@@ -27,12 +27,12 @@ namespace Forms
         public string Description { get; set; }
         public string Title { get; set; }
         public System.Guid FormDetailsTypeId { get; set; }
-        public bool IsRequired { get; set; }
         public string UserId { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsActive { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public Nullable<System.DateTime> SyncDateTime { get; set; }
-        public bool IsActive { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Form Form { get; set; }

@@ -375,6 +375,7 @@
     <Content Include="Scripts\Dependencies\bootstrap\3.3.6\bootstrap.min.css" />
     <Content Include="Scripts\Dependencies\breezejs\1.5.5\breeze.debug.js" />
     <Content Include="Scripts\Dependencies\breezejs\adapters\breeze.bridge.angular.js" />
+    <Content Include="Scripts\Dependencies\filesaver\filesaver.js" />
     <Content Include="Scripts\Dependencies\jquery\2.2.1\jquery.js" />
     <Content Include="Scripts\Dependencies\local-storage-database\2.3.1\localstoragedb.js" />
     <Content Include="Scripts\Dependencies\momentjs\2.10.6\moment.js" />
