@@ -4,9 +4,10 @@
          'LocalDatabaseService', 'FormCacheService', 'FormDetailsCacheService', 'FormDetailsTypeCacheService', 'FormDetailsOptionsCacheService', 'ValueCacheService', 'ValueDetailsCacheService',
     function controller($scope, $rootScope, $routeParams, $http, $q, $location, $timeout, breezeservice, breeze,
         LocalDatabaseService, FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService) {
-        LocalDatabaseService.CreateDatabase();
+        LocalDatabaseService.Synchronize();
         $scope.IsSyncing = true;
         $scope.IsInit = false;
+        $scope.IsSaveDisabled = false;
         var id = $routeParams.id.toLowerCase();
         var pageSize = 10;
         $rootScope.$on('IsSyncing', function (event, args) {
@@ -21,7 +22,7 @@
                 $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
                 $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
                 $scope.tempValueDetail = {
-                    Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, DateValue: null, Passwordvalue: null, PictureValue: null,
+                    Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, ValueDate: null, ValuePassword: null, ValuePicture: null,
                     Name: null, UserId: null, IsSent: false, IsDeleted: false, IsRequired: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null
                 };
                 $scope.tempValueDetails = [];
@@ -35,6 +36,7 @@
                         $scope.tempValueDetail.Name = value.Name;
                         $scope.tempValueDetail.Description = value.Description;
                         $scope.tempValueDetail.IsRequired = value.IsRequired;
+                        $scope.tempValueDetail.Value = '';
                         $scope.tempValueDetails.push(angular.copy($scope.tempValueDetail));
                     });
                     if ($scope.tempValueDetails.length > 0) {
@@ -110,23 +112,39 @@
         //TODO: Add IsRequired Validation
         //TODO: Make sure form is valid
         $scope.Save = function () {
-            if ($scope.SelectedFormDetailsType.Name === 'Date') {
-                $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
-            }
-            //Save tempValue to cache
-            var promises = [];
-            ValueCacheService.Create($scope.tempValue).then(function (data) {
-                angular.forEach($scope.tempValueDetails, function (value, key) {
-                    value.ValueId = data.Id;
-                    promises.push(ValueDetailsCacheService.Create(value));
+            $scope.IsSaveDisabled = true;
+            if ($scope.Validate()) {
+                if ($scope.SelectedFormDetailsType.Name === 'Date') {
+                    $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
+                }
+                //Save tempValue to cache
+                var promises = [];
+                $scope.tempValue.Latitude = '';
+                $scope.tempValue.Longitude = '';
+                ValueCacheService.Create($scope.tempValue).then(function (data) {
+                    angular.forEach($scope.tempValueDetails, function (value, key) {
+                        value.ValueId = data.Id;
+                        promises.push(ValueDetailsCacheService.Create(value));
+                    });
                 });
+                $q.all(promises).then(function () {
+                    //Fire off sync routine
+                    LocalDatabaseService.SynchronizeValue();
+                    //Save tempValueDetails to cache
+                    $scope.Init();
+                });
+            }
+            $scope.IsSaveDisabled = false;
+        }
+
+        $scope.Validate = function () {
+            angular.forEach($scope.tempValueDetails, function (value, key) {
+                if ((value.Value === null || value.Value === '') && value.ValuePicture === null && value.IsRequired === true) {
+                    alert('A required field is missing a value.');
+                    return false;
+                }
             });
-            $q.all(promises).then(function () {
-                //Fire off sync routine
-                LocalDatabaseService.SynchronizeValue();
-                //Save tempValueDetails to cache
-                $scope.Init();
-            });
+            return true;
         }
     }
 

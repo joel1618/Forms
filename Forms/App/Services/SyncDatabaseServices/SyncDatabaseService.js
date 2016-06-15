@@ -43,7 +43,7 @@
                 database.createTable("FormDetailsOptions", ["Id", "Name", "FormDetailsId", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsType", ["Id", "Name", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("Value", ["Id", "ReferenceId", "FormId", "UserId", "Latitude", "Longitude", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
-                database.createTable("ValueDetails", ["Id", "ReferenceId", "ValueId", "FormDetailsId", "Value", "UserId", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("ValueDetails", ["Id", "ReferenceId", "ValueId", "FormDetailsId", "Value", "ValuePicture", "UserId", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.commit();
             }
 
@@ -53,7 +53,7 @@
                 var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
                 var difference = duration.asSeconds();
 
-                if (item.LastSyncDateTime === null || difference >= lastSyncThresholdInSeconds && !item.IsSyncing && navigator.onLine) {
+                if ((item.LastSyncDateTime === null && navigator.onLine) || (difference >= lastSyncThresholdInSeconds && !item.IsSyncing && navigator.onLine)) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
                         Version: databaseVersion,

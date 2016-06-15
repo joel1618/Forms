@@ -18,10 +18,11 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -376,6 +377,7 @@
     <Content Include="Scripts\Dependencies\breezejs\1.5.5\breeze.debug.js" />
     <Content Include="Scripts\Dependencies\breezejs\adapters\breeze.bridge.angular.js" />
     <Content Include="Scripts\Dependencies\filesaver\filesaver.js" />
+    <Content Include="Scripts\Dependencies\input-focus\focusIf.min.js" />
     <Content Include="Scripts\Dependencies\jquery\2.2.1\jquery.js" />
     <Content Include="Scripts\Dependencies\local-storage-database\2.3.1\localstoragedb.js" />
     <Content Include="Scripts\Dependencies\momentjs\2.10.6\moment.js" />
@@ -463,7 +465,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60654</DevelopmentServerPort>
+          <DevelopmentServerPort>60655</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:60654/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -17,6 +17,7 @@ namespace Forms.Models
         public string UserId { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public System.DateTime? ModifiedDateTime { get; set; }
+        public bool IsRequired { get; set; }
 
         public FormDetailTypeViewModel FormDetailsType { get; set; }
     }

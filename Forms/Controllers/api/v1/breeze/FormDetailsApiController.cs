@@ -31,6 +31,7 @@ namespace Forms.Controllers.api.v1.breeze
                 Name = x.Name,
                 Title = x.Title,
                 UserId = x.UserId,
+                IsRequired = x.IsRequired,
                 FormDetailsType = new FormDetailTypeViewModel()
                 {
                     Id = x.FormDetailsType.Id,

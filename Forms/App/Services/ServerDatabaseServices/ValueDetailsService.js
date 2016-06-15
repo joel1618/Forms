@@ -50,7 +50,7 @@
 
             this.Create = function (item) {
                 var deferred = $q.defer();
-
+                debugger;
                 $http.post('/breeze/ValueDetailsApi/Create', item)
                 .then(function (response) {
                     deferred.resolve(response);

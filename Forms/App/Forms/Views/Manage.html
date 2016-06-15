@@ -35,7 +35,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" ng-show="SelectedForm !== null">
                 <h2>Form Details</h2>
                 <div ng-form="formDetails">
                     <fieldset class="form-group">
@@ -59,7 +59,7 @@
                         <label for="">Is Required</label>
                         <input type="checkbox" ng-model="TempFormItem.IsRequired"/>
                     </fieldset>
-                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetail()" ng-disabled="SelectedForm == null || !formDetails.$valid">Create</button>
+                    <button type="submit" class="btn btn-sm btn-primary" ng-click="CreateFormDetail()" ng-disabled="SelectedForm === null || !formDetails.$valid">Create</button>
                 </div>
                 <table class="table">
                     <thead>

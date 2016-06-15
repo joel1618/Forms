@@ -58,8 +58,17 @@ namespace Forms.Controllers.api.v1.breeze
         public async Task<FormEntity> Create(FormEntity item)
         {
             FormRepository formRepository = new FormRepository();
-            item.UserId = User.Identity.GetUserId();
-            return await formRepository.Create(item);
+            FormEntity response = null;
+            try
+            {
+                item.UserId = User.Identity.GetUserId();
+                response = await formRepository.Create(item);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return response;
         }
 
         [HttpPut]

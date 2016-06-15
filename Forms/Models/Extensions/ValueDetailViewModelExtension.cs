@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using ValueDetailEntity = Forms.ValueDetail;
@@ -18,10 +20,10 @@ namespace Forms.Models.Extensions
             model.SyncDateTime = item.SyncDateTime.HasValue ? item.SyncDateTime.Value : new Nullable<DateTime>();
             model.ValueId = item.ValueId;
             model.Value = item.Value;
+            model.ValuePicture = item.ValuePicture;
             model.CreatedDateTime = item.CreatedDateTime;
             model.ModifiedDateTime = item.ModifiedDateTime.HasValue ? item.ModifiedDateTime.Value : new Nullable<DateTime>();
             model.UserId = item.UserId;
-
             return model;
         }
 
@@ -34,11 +36,30 @@ namespace Forms.Models.Extensions
             model.SyncDateTime = item.SyncDateTime.HasValue ? item.SyncDateTime.Value : new Nullable<DateTime>();
             model.ValueId = item.ValueId;
             model.Value = item.Value;
+            model.ValuePicture = item.ValuePicture;
             model.CreatedDateTime = item.CreatedDateTime;
             model.ModifiedDateTime = item.ModifiedDateTime.HasValue ? item.ModifiedDateTime.Value : new Nullable<DateTime>();
             model.UserId = item.UserId;
 
             return model;
+        }
+
+        public static byte[] ToByteArray(this System.Drawing.Image item)
+        {
+            if (item == null)
+                return null;
+            MemoryStream ms = new MemoryStream();
+            item.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            return ms.ToArray();
+        }
+
+        public static Image ToImage(this byte[] item)
+        {
+            if (item == null)
+                return null;
+            MemoryStream ms = new MemoryStream(item);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
         }
     }
 }

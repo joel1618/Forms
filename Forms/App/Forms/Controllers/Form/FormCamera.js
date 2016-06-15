@@ -56,7 +56,7 @@ FormCamera.prototype.SetupCamera = function ($scope) {
                 var ctxPat = patCanvas.getContext('2d');
 
                 var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
-                $scope.SelectedTempValueDetail.Value = idata;
+                $scope.SelectedTempValueDetail.ValuePicture = idata;
                 ctxPat.putImageData(idata, 0, 0);
 
                 patData = idata;

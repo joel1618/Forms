@@ -20,9 +20,11 @@
                     <fieldset>
                         <!--<label>Fields</label>-->
                         <div ng-repeat="Detail in tempValueDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.FormDetailsId === SelectedTempValueDetail.FormDetailsId ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
-                            <h4>{{Detail.Name}}</h4><br />
+                            <h4>{{Detail.Name}}
+                                <small><span class="pull-right glyphicon glyphicon-exclamation-sign text-danger" ng-show="Detail.IsRequired === true && Detail.Value === ''" data-toggle="tooltip" data-placement="left" title="This is a required field."></span></small>
+                            </h4><br />
                         </div>
-                        <button class="btn btn-primary pull-right" ng-click="Save()">Save</button>
+                        <button class="btn btn-primary pull-right" ng-click="Save()" ng-disabled="IsSaveDisabled">Save</button>
                     </fieldset>
                 </div>
                 <div class="col-md-10">
@@ -31,7 +33,7 @@
                             <label>{{SelectedTempValueDetail.Name}}</label><br />
                             <button type="button" class="btn btn-default" ng-click="Back()">Back</button>
                             <button type="button" class="btn btn-default" ng-click="Next()">Next</button>
-                            <button class="btn btn-danger" ng-click="SelectedTempValueDetail.Value = null; SelectedTempValueDetail.DateValue = null; SelectedTempValueDetail.PasswordValue = null;">Clear</button>
+                            <button class="btn btn-danger" ng-click="SelectedTempValueDetail.Value = null; SelectedTempValueDetail.ValueDate = null; SelectedTempValueDetail.ValuePassword = null;">Clear</button>
                             <br />
                             <small>{{SelectedTempValueDetail.Description}}</small>
                             <br />
@@ -44,13 +46,13 @@
                                     <textarea type="text" class="form-control" ng-model="SelectedTempValueDetail.Value" focus-if="SelectedFormDetailsType.Name === 'Text Area'" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Password'">
-                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.Value" focus-if="SelectedFormDetailsType.Name === 'Password'" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" /><br />
+                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.Value" focus-if="SelectedFormDetailsType.Name === 'Password'" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.ValuePassword ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" /><br />
                                     Verify:<br />
-                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.PasswordValue" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.PasswordValue ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" />
+                                    <input type="password" class="form-control" ng-model="SelectedTempValueDetail.ValuePassword" ng-style="SelectedTempValueDetail.Value !== SelectedTempValueDetail.ValuePassword ? { 'border' : '1px solid #ff0000' } : { 'border':'1px solid #000000;' }" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Date'">
-                                    Date: {{SelectedTempValueDetail.DateValue | date:'MM/dd/yyyy' }}
-                                    <input type="text" class="well well-sm" uib-datepicker="MM/dd/yyyy" ng-model="SelectedTempValueDetail.DateValue" ng-required="SelectedTempValueDetail.IsRequired" />
+                                    Date: {{SelectedTempValueDetail.ValueDate | date:'MM/dd/yyyy' }}
+                                    <input type="text" class="well well-sm" uib-datepicker="MM/dd/yyyy" ng-model="SelectedTempValueDetail.ValueDate" ng-required="SelectedTempValueDetail.IsRequired" />
                                 </div>
                                 <div ng-show="SelectedFormDetailsType.Name === 'Checkbox'">
                                     <input bs-switch ng-model="SelectedTempValueDetail.Value" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">

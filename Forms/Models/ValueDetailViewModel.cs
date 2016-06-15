@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -11,6 +12,7 @@ namespace Forms.Models
         public System.Guid ValueId { get; set; }
         public System.Guid FormDetailsId { get; set; }
         public string Value { get; set; }
+        public byte[] ValuePicture { get; set; }
         public string UserId { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public bool IsSent { get; set; }
