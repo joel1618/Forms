@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using ValueEntity = Forms.Value;
+using ValueDetailsBlobEntity = Forms.ValueDetailsBlob;
 
 namespace Forms.Repositories
 {
-    public class ValueRepository
+    public class ValueDetailsBlobRepository
     {
         FormsEntities context;
-        public ValueRepository()
+        public ValueDetailsBlobRepository()
         {
             this.context = new FormsEntities();
         }
-        public IQueryable<ValueEntity> Search()
+        public IQueryable<ValueDetailsBlobEntity> Search()
         {
-            return context.Values;
+            return context.ValueDetailsBlobs;
         }
 
-        public async Task<ValueEntity> Get(Guid id)
+        public async Task<ValueDetailsBlobEntity> Get(Guid id)
         {
             using (var context = new FormsEntities())
             {
-                var entity = context.Values.Find(id);
+                var entity = context.ValueDetailsBlobs.Find(id);
                 return entity;
             }
         }
 
-        public async Task<ValueEntity> Create(ValueEntity item)
+        public async Task<ValueDetailsBlobEntity> Create(ValueDetailsBlobEntity item)
         {
             using (var context = new FormsEntities())
             {
@@ -41,18 +41,19 @@ namespace Forms.Repositories
                     item.Id = new Guid(item.Id.ToString());
                 }
                 item.CreatedDateTime = DateTime.Now;
-                context.Values.Add(item);
+                context.ValueDetailsBlobs.Add(item);
                 context.SaveChanges();
                 return item;
             }
         }
 
-        public async Task<ValueEntity> Update(Guid id, ValueEntity item)
+        public async Task<ValueDetailsBlobEntity> Update(Guid id, ValueDetailsBlobEntity item)
         {
             using (var context = new FormsEntities())
             {
-                var entity = context.Values.Find(id);
+                var entity = context.ValueDetailsBlobs.Find(id);
                 entity.ModifiedDateTime = DateTime.Now;
+                entity.Blob = item.Blob;
                 context.SaveChanges();
                 return entity;
             }
@@ -62,12 +63,9 @@ namespace Forms.Repositories
         {
             using (var context = new FormsEntities())
             {
-                var entity = context.Values.Find(id);
-                if (entity != null)
-                {
-                    context.Values.Remove(entity);
-                    context.SaveChanges();
-                }
+                var entity = context.ValueDetailsBlobs.Find(id);
+                context.ValueDetailsBlobs.Remove(entity);
+                context.SaveChanges();
             }
         }
     }

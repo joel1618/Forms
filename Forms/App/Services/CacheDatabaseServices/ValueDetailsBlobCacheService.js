@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
     angular.module('Services')
-    .service('ValueDetailsCacheService', ['$http', '$q', 'breeze', 'breezeservice',
+    .service('ValueDetailsBlobCacheService', ['$http', '$q', 'breeze', 'breezeservice',
         function ($http, $q, breeze, breezeservice) {
             var _self = this;
             //var database = new localStorageDB("FormsDatabase", localStorage);
@@ -16,7 +16,7 @@
                 }
                 var deferred = $q.defer();
 
-                var items = database.queryAll("ValueDetails", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
+                var items = database.queryAll("ValueDetailsBlob", { query: predicate, start: page * pageSize, limit: pageSize, sort: [["CreatedDateTime", "DESC"]] });
                 if (items != null) {
                     deferred.resolve(items);
                     _self.deferredRequest = null;
@@ -51,7 +51,7 @@
                 var deferred = $q.defer();
 
                 item.Id = guid();
-                database.insertOrUpdate("ValueDetails", { Id: item.Id }, item);
+                database.insertOrUpdate("ValueDetailsBlob", { Id: item.Id }, item);
                 database.commit();
                 deferred.resolve(item);
 

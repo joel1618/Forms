@@ -4,7 +4,7 @@
         'FormService', 'FormDetailsService', 'FormDetailsTypeService','FormDetailsOptionsService','ValueService','ValueDetailsService',
     function controller($scope, $routeParams, $http, $location, $timeout, breezeservice, breeze,
         FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailService) {
-        var pageSize = 10;
+        var pageSize = 100;
         $scope.SelectedForm = null; $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null; $scope.SelectedFormDetailType = null;
         $scope.ClearTemp = function () {
             $scope.TempForm = { Id: '', Name: '', Description: '', PublishUrl: '' };

@@ -41,6 +41,7 @@ namespace Forms.Controllers.api.v1.breeze
                     Id = y.Id,
                     Value = y.Value,                    
                     CreatedDateTime = y.CreatedDateTime,
+                    FormDetailsId = y.FormDetailsId,
                     FormDetail = new FormDetailViewModel()
                     {
                         Id = y.FormDetail.Id,

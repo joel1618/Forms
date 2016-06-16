@@ -68,8 +68,11 @@ namespace Forms.Repositories
             using (var context = new FormsEntities())
             {
                 var entity = context.ValueDetails.Find(id);
-                context.ValueDetails.Remove(entity);
-                context.SaveChanges();
+                if (entity != null)
+                {
+                    context.ValueDetails.Remove(entity);
+                    context.SaveChanges();
+                }
             }
         }
     }

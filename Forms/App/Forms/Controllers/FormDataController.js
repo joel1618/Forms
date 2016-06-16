@@ -11,6 +11,7 @@
 
             $scope.Search = function () {
                 ValueService.Search(predicate, page, pageSize).then(function (data) {
+                    debugger;
                     $scope.Values = data;
                 });
             }

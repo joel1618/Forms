@@ -42,8 +42,8 @@
                 database.createTable("FormDetails", ["Id", "FormId", "Name", "Description", "Title", "FormDetailsTypeId", "IsRequired", "UserId", "IsActive", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsOptions", ["Id", "Name", "FormDetailsId", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.createTable("FormDetailsType", ["Id", "Name", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
-                database.createTable("Value", ["Id", "ReferenceId", "FormId", "UserId", "Latitude", "Longitude", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
-                database.createTable("ValueDetails", ["Id", "ReferenceId", "ValueId", "FormDetailsId", "Value", "ValuePicture", "UserId", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("Value", ["Id", "FormId", "UserId", "Latitude", "Longitude", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
+                database.createTable("ValueDetails", ["Id", "ValueId", "FormDetailsId", "Value", "ValuePicture", "UserId", "IsSent", "IsDeleted", "CreatedDateTime", "ModifiedDateTime", "SyncDateTime"]);
                 database.commit();
             }
 

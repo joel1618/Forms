@@ -56,7 +56,6 @@
                 var deferred = $q.defer();
 
                 item.Id = guid();
-                item.ReferenceId = item.Id;
                 database.insertOrUpdate("Value", { Id: item.Id }, item);
                 database.commit();
 

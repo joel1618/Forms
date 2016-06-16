@@ -20,9 +20,9 @@
             if (!$scope.IsInit) {
                 $scope.IsInit = true;
                 $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
-                $scope.tempValue = { Id: null, ReferenceId: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
+                $scope.tempValue = { Id: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
                 $scope.tempValueDetail = {
-                    Id: null, ReferenceId: null, ValueId: null, FormDetailsId: null, Value: null, ValueDate: null, ValuePassword: null, ValuePicture: null,
+                    Id: null, ValueId: null, FormDetailsId: null, Value: null, ValueDate: null, ValuePassword: null, ValuePicture: null,
                     Name: null, UserId: null, IsSent: false, IsDeleted: false, IsRequired: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null
                 };
                 $scope.tempValueDetails = [];
@@ -114,6 +114,7 @@
         $scope.Save = function () {
             $scope.IsSaveDisabled = true;
             if ($scope.Validate()) {
+                debugger;
                 if ($scope.SelectedFormDetailsType.Name === 'Date') {
                     $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
                 }
@@ -138,13 +139,14 @@
         }
 
         $scope.Validate = function () {
+            var IsValid = true;
             angular.forEach($scope.tempValueDetails, function (value, key) {
                 if ((value.Value === null || value.Value === '') && value.ValuePicture === null && value.IsRequired === true) {
                     alert('A required field is missing a value.');
-                    return false;
+                    IsValid = false;
                 }
             });
-            return true;
+            return IsValid;
         }
     }
 
