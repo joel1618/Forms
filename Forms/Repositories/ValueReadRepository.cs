@@ -15,7 +15,7 @@ namespace Forms.Repositories
         {
             this.context = new FormsEntities();
         }
-        public List<Dictionary<string, object>> Search(Guid formId, int page, int pageSize)
+        public List<Dictionary<string, object>> Search(string formId, int page, int pageSize)
         {
             using (var cmd = context.Database.Connection.CreateCommand())
             {

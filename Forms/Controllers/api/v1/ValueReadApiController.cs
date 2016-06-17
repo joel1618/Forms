@@ -27,7 +27,7 @@ namespace Forms.Controllers.api.v1
         }
         [Route("Search/formId={formid}/page={page}/pagesize={pagesize}")]
         [HttpGet]
-        public async Task<IHttpActionResult> Search(Guid formId, int page, int pageSize)
+        public async Task<IHttpActionResult> Search(string formId, int page, int pageSize)
         {
             try
             {

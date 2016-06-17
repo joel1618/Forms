@@ -71,7 +71,7 @@ FormCamera.prototype.SetupCamera = function ($scope) {
                 patCanvas.width = _video.width;
                 patCanvas.height = _video.height;
                 var ctxPat = patCanvas.getContext('2d');
-                ctxPat.clearRect(0, 0, canvas.width, canvas.height);
+                ctxPat.clearRect(0, 0, _video.width, _video.height);
                 $scope.SelectedTempValueDetail.ValuePicture = null;
             }
         }
