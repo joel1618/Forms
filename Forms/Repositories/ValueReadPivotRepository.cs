@@ -42,7 +42,7 @@ namespace Forms.Repositories
                     " select Value.Id, Value.FormId, ''Value '' =" +
                         "  case when ValueDetails.ValuePicture is not null then ValueDetails.ValuePicture" +
                         "  else ValueDetails.Value" +
-                            "end," +
+                            " end," +
                             "FormDetails.Name, Value.CreatedDateTime" +
                     "      from Value" +
                     "      left join ValueDetails" +
@@ -51,7 +51,7 @@ namespace Forms.Repositories
                     "      join FormDetails" +
 
                     "  on ValueDetails.FormDetailsId = FormDetails.Id" +
-                    "  where Value.FormId =     '" + formId + "' " +
+                    "  where Value.FormId =     ''" + formId + "'' " +
                     "  ) s" +
                     "   PIVOT" +
                     "(" +

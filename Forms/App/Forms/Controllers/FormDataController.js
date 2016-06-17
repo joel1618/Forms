@@ -11,8 +11,7 @@
             $scope.Search = function () {
                 var predicate = new breeze.Predicate('FormId', '==', id);
                 ValueReadService.Search(predicate, id, page, pageSize, false).then(function (data) {
-                    debugger;
-                    $scope.Values = data;
+                    $scope.Items = data;
                 });
             }
             $scope.Search();
@@ -21,6 +20,10 @@
                 ValueService.Delete(Value.Id).then(function (data) {
                     $scope.Search();
                 });
+            }
+
+            $scope.RowClick = function (item) {
+                $scope.SelectedItem = item;
             }
 
             $scope.ExportExcel = function () {

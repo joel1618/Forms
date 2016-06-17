@@ -1,27 +1,28 @@
 ﻿<div ng-controller="FormDataController" class="container">
-    <h3>{{Values[0].Form.Name}}</h3>
-    <div ng-show="Values.length === 0">
+    <h3>{{Items[0]}}</h3>
+    <div ng-show="Items.length === 0">
         There is no data found.
     </div>
-    <div ng-show="Values.length > 0">
+    <div ng-show="Items.length > 0">
         <div id="data">
             <table class="table">
-                <thead ng-repeat="Value in Values | limitTo:1">
+                <thead ng-repeat="Item in Items | limitTo:1">
                     <tr>
                         <th></th>
-                        <th ng-repeat="ValueDetail in Value.ValueDetails">{{ValueDetail.FormDetail.Name}}</th>
-                        <th>Created Date</th>
+                        <th ng-repeat="(key, value) in Item">{{key}}</th>
                     </tr>
                 </thead>
-                <tbody ng-repeat="Value in Values" ng-click="RowClick(Item)" ng-style="Value.Id === SelectedValue.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                <tbody ng-repeat="Item in Items" ng-click="RowClick(Item)" ng-style="Item.Id === SelectedItem.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
                     <tr>
-                        <td><button class="btn btn-sm btn-danger" ng-click="DeleteValue(Value)">Delete</button></td>
-                        <td ng-repeat="ValueDetail in Value.ValueDetails">
-                            {{ValueDetail.Value}}
+                        <td>
+                            <button class="btn btn-sm btn-primary" ng-click="EditValue(Item)">Edit</button>
+                            <button class="btn btn-sm btn-danger" ng-click="DeleteValue(Item)">Delete</button>
+                        </td>
+                        <td ng-repeat="(key, value) in Item">
+                            {{value}}
                             <!--<span ng-if="ValueDetail.FormDetail.FormDetailsType.Name === 'Date'">{{ValueDetail.Value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
                             <span ng-if="ValueDetail.FormDetail.FormDetailsType.Name !== 'Date'">{{ValueDetail.Value}}</span>-->
                         </td>
-                        <td>{{Value.CreatedDateTime | date: 'MM/dd/yyyy hh:mm:ss a'}}</td>
                     </tr>
                 </tbody>
             </table>
