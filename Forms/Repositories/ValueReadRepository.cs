@@ -27,35 +27,36 @@ namespace Forms.Repositories
                    " left join ValueDetails" +
                    " on Value.Id = ValueDetails.ValueId" +
                    " left" +
-                             "   join FormDetails" +
+                    "   join FormDetails" +
 
 
-                             "  on ValueDetails.FormDetailsId = FormDetails.Id" +
-                             " where Value.FormId = '" + formId + "' " +
-                             "         ORDER BY 1" +
-                             "  FOR XML PATH(''), TYPE" +
-                             "   ).value('.', 'NVARCHAR(MAX)'), 1, 1, '')" +
+                    "  on ValueDetails.FormDetailsId = FormDetails.Id" +
+                    " where Value.FormId = '" + formId + "' " +
+                    "         ORDER BY 1" +
+                    "  FOR XML PATH(''), TYPE" +
+                    "   ).value('.', 'NVARCHAR(MAX)'), 1, 1, '')" +
 
-                             " SET @sql = 'SELECT Id, FormId, CreatedDateTime, ' + @cols + '" +
-                             "     FROM" +
-                             "   (" +
-                              "    select Value.Id, Value.FormId, FormDetails.Name, ValueDetails.Value, Value.CreatedDateTime" +
+                    " SET @sql = 'SELECT Id, FormId, CreatedDateTime, ' + @cols + '" +
+                    "     FROM" +
+                    "   (" +
+                    " select Value.Id, Value.FormId, ''Value '' =" +
+                        "  case when ValueDetails.ValuePicture is not null then ValueDetails.ValuePicture" +
+                        "  else ValueDetails.Value" +
+                            "end," +
+                            "FormDetails.Name, Value.CreatedDateTime" +
+                    "      from Value" +
+                    "      left join ValueDetails" +
+                    "     on Value.Id = ValueDetails.ValueId" +
+                    "    left" +
+                    "      join FormDetails" +
 
-                              "      from Value" +
-                              "      left join ValueDetails" +
-
-                               "     on Value.Id = ValueDetails.ValueId" +
-
-                                "    left" +
-                              "      join FormDetails" +
-
-                             "  on ValueDetails.FormDetailsId = FormDetails.Id" +
-                             "  where Value.Id = '" + formId + "' " +
-                              "  ) s" +
-                             "   PIVOT" +
-                                "(" +
-                                  "MAX(Value) FOR Name IN(' + @cols + ')" +
-                                ") p order by CreatedDateTime desc OFFSET " + page * pageSize + " ROWS FETCH NEXT " + pageSize + " ROWS ONLY;'" +
+                    "  on ValueDetails.FormDetailsId = FormDetails.Id" +
+                    "  where Value.FormId = '" + formId + "' " +
+                    "  ) s" +
+                    "   PIVOT" +
+                    "(" +
+                        "MAX(Value) FOR Name IN(' + @cols + ')" +
+                    ") p order by CreatedDateTime desc OFFSET " + page * pageSize + " ROWS FETCH NEXT " + pageSize + " ROWS ONLY;'" +
 
                    " EXECUTE(@sql)";
                 using (var reader = cmd.ExecuteReader())
@@ -81,7 +82,11 @@ namespace Forms.Repositories
 					    SET @sql = 'SELECT Id, FormId, CreatedDateTime, ' + @cols + '
 								      FROM
 								    (
-								      select Value.Id, Value.FormId, FormDetails.Name, ValueDetails.Value, Value.CreatedDateTime
+								      select Value.Id, Value.FormId, ''Value '' =
+									  case when ValueDetails.ValuePicture is not null then ValueDetails.ValuePicture 
+									  else ValueDetails.Value 
+									  end,									  
+									  FormDetails.Name, Value.CreatedDateTime
 									    from Value
 									    left join ValueDetails
 									    on Value.Id = ValueDetails.ValueId

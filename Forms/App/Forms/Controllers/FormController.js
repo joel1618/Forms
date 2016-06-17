@@ -19,6 +19,7 @@
         $scope.Init = function () {
             if (!$scope.IsInit) {
                 $scope.IsInit = true;
+                $scope.clearImage();
                 $scope.SelectedTempValueDetail = null; $scope.SelectedFormDetailsType = null;
                 $scope.tempValue = { Id: null, FormId: id, UserId: null, Latitude: null, Longitude: null, IsSent: false, IsDeleted: false, CreatedDateTime: null, ModifiedDateTime: null, SyncDateTime: null };
                 $scope.tempValueDetail = {
@@ -113,7 +114,6 @@
         //TODO: Make sure form is valid
         $scope.Save = function () {
             $scope.IsSaveDisabled = true;
-            debugger;
             if ($scope.Validate()) {
                 if ($scope.SelectedFormDetailsType.Name === 'Date') {
                     $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.ValueDate;
@@ -135,7 +135,6 @@
                     $scope.Init();
                 });
             }
-            debugger;
             $scope.IsSaveDisabled = false;
         }
 
