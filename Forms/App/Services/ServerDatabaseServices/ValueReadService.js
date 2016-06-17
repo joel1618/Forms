@@ -18,7 +18,6 @@
                     method: 'Get',
                     url: 'api/v1/ValueReadApi/Search/formid=' + formId + '/page=' + page + '/pageSize=' + pageSize,
                 }).success(function (data, status, headers, config) {
-                    debugger;
                      deferred.resolve(data);
                     _self.deferredRequest = null;
                 }).error(function (msg, code) {

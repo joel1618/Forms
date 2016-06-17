@@ -7,10 +7,10 @@
             var id = $routeParams.id.toLowerCase();
             var pageSize = 100;
             var page = 0;
-            var predicate = new breeze.Predicate('FormId', '==', id);
 
             $scope.Search = function () {
-                ValueService.Search(predicate, page, pageSize).then(function (data) {
+                var predicate = new breeze.Predicate('FormId', '==', id);
+                ValueReadService.Search(predicate, id, page, pageSize, false).then(function (data) {
                     debugger;
                     $scope.Values = data;
                 });

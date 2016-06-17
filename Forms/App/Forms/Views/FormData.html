@@ -17,8 +17,9 @@
                     <tr>
                         <td><button class="btn btn-sm btn-danger" ng-click="DeleteValue(Value)">Delete</button></td>
                         <td ng-repeat="ValueDetail in Value.ValueDetails">
-                            <span ng-if="ValueDetail.FormDetail.FormDetailsType.Name === 'Date'">{{ValueDetail.Value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
-                            <span ng-if="ValueDetail.FormDetail.FormDetailsType.Name !== 'Date'">{{ValueDetail.Value}}</span>
+                            {{ValueDetail.Value}}
+                            <!--<span ng-if="ValueDetail.FormDetail.FormDetailsType.Name === 'Date'">{{ValueDetail.Value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
+                            <span ng-if="ValueDetail.FormDetail.FormDetailsType.Name !== 'Date'">{{ValueDetail.Value}}</span>-->
                         </td>
                         <td>{{Value.CreatedDateTime | date: 'MM/dd/yyyy hh:mm:ss a'}}</td>
                     </tr>
