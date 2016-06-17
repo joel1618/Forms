@@ -50,11 +50,11 @@
 
             this.Create = function (item) {
                 var deferred = $q.defer();
-                debugger;
                 $http.post('/breeze/ValueDetailsApi/Create', item)
                 .then(function (response) {
                     deferred.resolve(response);
                 }, function (response) {
+                debugger;
                     if (response.statusText.length > 0) {
                         deferred.reject(response.statusText);
                     } else {

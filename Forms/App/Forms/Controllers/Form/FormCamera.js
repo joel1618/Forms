@@ -56,12 +56,25 @@ FormCamera.prototype.SetupCamera = function ($scope) {
                 var ctxPat = patCanvas.getContext('2d');
 
                 var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
-                $scope.SelectedTempValueDetail.ValuePicture = idata;
                 ctxPat.putImageData(idata, 0, 0);
+                sendSnapshotToServer(patCanvas.toDataURL());
 
                 patData = idata;
             }
         };
+
+        $scope.clearImage = function(){
+            if (_video) {
+                var patCanvas = document.querySelector('#snapshot');
+                if (!patCanvas) return;
+
+                patCanvas.width = _video.width;
+                patCanvas.height = _video.height;
+                var ctxPat = patCanvas.getContext('2d');
+                ctxPat.clearRect(0, 0, canvas.width, canvas.height);
+                $scope.SelectedTempValueDetail.ValuePicture = null;
+            }
+        }
 
         /**
          * Redirect the browser to the URL given.
@@ -79,4 +92,11 @@ FormCamera.prototype.SetupCamera = function ($scope) {
             ctx.drawImage(_video, 0, 0, _video.width, _video.height);
             return ctx.getImageData(x, y, w, h);
         };
+
+        var sendSnapshotToServer = function sendSnapshotToServer(imgBase64) {
+            $scope.SelectedTempValueDetail.ValuePicture = imgBase64;
+            $scope.snapshotData = imgBase64;
+        };
+
+
 }

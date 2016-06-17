@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using ValueDetailEntity = Forms.ValueDetail;
 using ValueDetailViewModel = Forms.Models.ValueDetailViewModel;
@@ -20,7 +21,7 @@ namespace Forms.Models.Extensions
             model.SyncDateTime = item.SyncDateTime.HasValue ? item.SyncDateTime.Value : new Nullable<DateTime>();
             model.ValueId = item.ValueId;
             model.Value = item.Value;
-            model.ValuePicture = item.ValuePicture;
+            model.ValuePicture = item.ValuePicture != null ? Encoding.ASCII.GetBytes(item.ValuePicture) : null;
             model.CreatedDateTime = item.CreatedDateTime;
             model.ModifiedDateTime = item.ModifiedDateTime.HasValue ? item.ModifiedDateTime.Value : new Nullable<DateTime>();
             model.UserId = item.UserId;
@@ -36,7 +37,7 @@ namespace Forms.Models.Extensions
             model.SyncDateTime = item.SyncDateTime.HasValue ? item.SyncDateTime.Value : new Nullable<DateTime>();
             model.ValueId = item.ValueId;
             model.Value = item.Value;
-            model.ValuePicture = item.ValuePicture;
+            model.ValuePicture = item.ValuePicture != null && item.ValuePicture.Length > 0 ? ASCIIEncoding.ASCII.GetString(item.ValuePicture) : "";
             model.CreatedDateTime = item.CreatedDateTime;
             model.ModifiedDateTime = item.ModifiedDateTime.HasValue ? item.ModifiedDateTime.Value : new Nullable<DateTime>();
             model.UserId = item.UserId;

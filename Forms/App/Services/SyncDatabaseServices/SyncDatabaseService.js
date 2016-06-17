@@ -27,9 +27,9 @@
                         database.commit();
                         this.SeedDatabase();
                     }
-                    else {
-                        this.Synchronize();
-                    }
+                    //else {
+                    //    this.Synchronize();
+                    //}
                 }
             }
 
@@ -79,7 +79,7 @@
                 }
                 $q.all(promises).then(function () {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: false });
-                    $rootScope.$emit('IsSyncing', { IsSynching: false }); 
+                    $rootScope.$emit('IsSyncing', { IsSynching: false });
                 });
             }
 
@@ -205,30 +205,32 @@
 
             //TODO: Chain the header to the detail
             this.SynchronizeValue = function () {
-                var predicate = function (row) { if (row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
-                promises.push(ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                    angular.forEach(items, function (value, key) {
-                        promises.push(ValueService.Create(value).then(function (item) {
-                            database.insertOrUpdate("Value", { Id: item.data.Id }, {
-                                IsSent: true
-                            });
-                            database.commit();
-                            //Set the detail rows ValueId FK to the PK that came back from the server.
-                            predicate = function (row) { if (row.ValueId === value.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
-                            promises.push(ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                                angular.forEach(items, function (value, key) {
-                                    promises.push(ValueDetailsService.Create(value).then(function (item) {
-                                        database.insertOrUpdate("ValueDetails", { Id: item.data.Id }, {
-                                            IsSent: true
-                                        });
-                                        database.commit();
-                                    }));
+                if (navigator.onLine) {
+                    var predicate = function (row) { if (row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
+                    promises.push(ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                        angular.forEach(items, function (value, key) {
+                            promises.push(ValueService.Create(value).then(function (item) {
+                                database.insertOrUpdate("Value", { Id: item.data.Id }, {
+                                    IsSent: true
                                 });
+                                database.commit();
+                                //Set the detail rows ValueId FK to the PK that came back from the server.
+                                predicate = function (row) { if (row.ValueId === value.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
+                                promises.push(ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                                    angular.forEach(items, function (value, key) {
+                                        promises.push(ValueDetailsService.Create(value).then(function (item) {
+                                            database.insertOrUpdate("ValueDetails", { Id: item.data.Id }, {
+                                                IsSent: true
+                                            });
+                                            database.commit();
+                                        }));
+                                    });
+                                }));
                             }));
-                        }));
-                    });
-                }));
-                //Handle deletes
+                        });
+                    }));
+                    //Handle deletes
+                }
             }
         }]);
 })(moment);

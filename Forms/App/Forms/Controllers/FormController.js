@@ -4,8 +4,8 @@
          'LocalDatabaseService', 'FormCacheService', 'FormDetailsCacheService', 'FormDetailsTypeCacheService', 'FormDetailsOptionsCacheService', 'ValueCacheService', 'ValueDetailsCacheService',
     function controller($scope, $rootScope, $routeParams, $http, $q, $location, $timeout, breezeservice, breeze,
         LocalDatabaseService, FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService) {
-        LocalDatabaseService.Synchronize();
         $scope.IsSyncing = true;
+        LocalDatabaseService.Synchronize();
         $scope.IsInit = false;
         $scope.IsSaveDisabled = false;
         var id = $routeParams.id.toLowerCase();
@@ -50,7 +50,7 @@
 
         $scope.ClickFormDetailRow = function (tempValueDetail) {
             if ($scope.SelectedFormDetailsType.Name === 'Date') {
-                tempValueDetail.Value = tempValueDetail.DateValue;
+                tempValueDetail.Value = tempValueDetail.ValueDate;
             }
             $scope.SelectedTempValueDetail = tempValueDetail;
             GetFormDetailType();
@@ -81,7 +81,7 @@
 
         $scope.Next = function () {
             if ($scope.SelectedFormDetailsType.Name === 'Date') {
-                $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
+                $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.ValueDate;
             }
             var index = $scope.tempValueDetails.indexOf($scope.SelectedTempValueDetail);
             if (index + 1 < $scope.tempValueDetails.length) {
@@ -93,7 +93,7 @@
 
         $scope.Back = function () {
             if ($scope.SelectedFormDetailsType.Name === 'Date') {
-                $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
+                $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.ValueDate;
             }
             var index = $scope.tempValueDetails.indexOf($scope.SelectedTempValueDetail);
             if (index !== 0) {
@@ -113,10 +113,10 @@
         //TODO: Make sure form is valid
         $scope.Save = function () {
             $scope.IsSaveDisabled = true;
+            debugger;
             if ($scope.Validate()) {
-                debugger;
                 if ($scope.SelectedFormDetailsType.Name === 'Date') {
-                    $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.DateValue;
+                    $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.ValueDate;
                 }
                 //Save tempValue to cache
                 var promises = [];
@@ -135,7 +135,13 @@
                     $scope.Init();
                 });
             }
+            debugger;
             $scope.IsSaveDisabled = false;
+        }
+
+        $scope.Clear = function () {
+            $scope.SelectedTempValueDetail.Value = null; $scope.SelectedTempValueDetail.ValueDate = null; $scope.SelectedTempValueDetail.ValuePassword = null; $scope.SelectedTempValueDetail.ValuePicture = null;
+            $scope.clearImage();
         }
 
         $scope.Validate = function () {
