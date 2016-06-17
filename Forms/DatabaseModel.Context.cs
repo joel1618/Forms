@@ -35,6 +35,7 @@ namespace Forms
         public virtual DbSet<FormDetail> FormDetails { get; set; }
         public virtual DbSet<FormDetailsOption> FormDetailsOptions { get; set; }
         public virtual DbSet<FormDetailsType> FormDetailsTypes { get; set; }
+        public virtual DbSet<FormUserAuthorization> FormUserAuthorizations { get; set; }
         public virtual DbSet<Value> Values { get; set; }
         public virtual DbSet<ValueDetail> ValueDetails { get; set; }
     }

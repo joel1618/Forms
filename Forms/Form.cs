@@ -18,6 +18,7 @@ namespace Forms
         public Form()
         {
             this.FormDetails = new HashSet<FormDetail>();
+            this.FormUserAuthorizations = new HashSet<FormUserAuthorization>();
             this.Values = new HashSet<Value>();
         }
     
@@ -34,6 +35,8 @@ namespace Forms
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDetail> FormDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormUserAuthorization> FormUserAuthorizations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Value> Values { get; set; }
     }

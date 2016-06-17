@@ -6,25 +6,28 @@
     <edmx:Diagrams>
       <Diagram DiagramId="c068db5c8c1d4ccaa43d74507cbbbc94" Name="Diagram1" ZoomLevel="55" >
         <EntityTypeShape EntityType="FormsModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="FormsModel.AspNetRole" Width="1.5" PointX="0.75" PointY="10.375" />
-        <EntityTypeShape EntityType="FormsModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="8" />
-        <EntityTypeShape EntityType="FormsModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="5.5" />
-        <EntityTypeShape EntityType="FormsModel.AspNetUser" Width="1.5" PointX="3" PointY="8.625" />
-        <EntityTypeShape EntityType="FormsModel.AspNetUsersInfo" Width="1.5" PointX="5.25" PointY="14.75" />
-        <EntityTypeShape EntityType="FormsModel.Form" Width="1.5" PointX="5.25" PointY="10.75" />
-        <EntityTypeShape EntityType="FormsModel.FormDetail" Width="1.5" PointX="7.5" PointY="9.25" />
+        <EntityTypeShape EntityType="FormsModel.AspNetRole" Width="1.5" PointX="0.75" PointY="12.5" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="14.5" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="17.25" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUser" Width="1.5" PointX="3" PointY="10.75" />
+        <EntityTypeShape EntityType="FormsModel.AspNetUsersInfo" Width="1.5" PointX="5.25" PointY="11.75" />
+        <EntityTypeShape EntityType="FormsModel.Form" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="FormsModel.FormDetail" Width="1.5" PointX="7.5" PointY="9.5" />
         <EntityTypeShape EntityType="FormsModel.FormDetailsOption" Width="1.5" PointX="9.75" PointY="14.5" />
-        <EntityTypeShape EntityType="FormsModel.FormDetailsType" Width="1.5" PointX="5.25" PointY="2.25" />
-        <EntityTypeShape EntityType="FormsModel.Value" Width="1.5" PointX="10.5" PointY="9.75" />
-        <EntityTypeShape EntityType="FormsModel.ValueDetail" Width="1.5" PointX="12.75" PointY="9.375" />
+        <EntityTypeShape EntityType="FormsModel.FormDetailsType" Width="1.5" PointX="5.25" PointY="4.5" />
+        <EntityTypeShape EntityType="FormsModel.FormUserAuthorization" Width="1.5" PointX="10.5" PointY="6.125" />
+        <EntityTypeShape EntityType="FormsModel.Value" Width="1.5" PointX="10.5" PointY="10" />
+        <EntityTypeShape EntityType="FormsModel.ValueDetail" Width="1.5" PointX="12.75" PointY="10.875" />
         <AssociationConnector Association="FormsModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="FormsModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="FormsModel.FK_AspNetUsersInfo_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_Form_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_FormDetails_AspNetUsers" />
+        <AssociationConnector Association="FormsModel.FK_FormUserAuthorization_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_Value_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_ValueDetails_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_FormDetails_Form1" />
+        <AssociationConnector Association="FormsModel.FK_FormUserAuthorization_Form" />
         <AssociationConnector Association="FormsModel.FK_Value_Form" />
         <AssociationConnector Association="FormsModel.FK_FormDetails_Form" />
         <AssociationConnector Association="FormsModel.FK_FormDetailsOptions_FormDetails" />
