@@ -40,7 +40,7 @@ namespace Forms.Repositories
                     "     FROM" +
                     "   (" +
                     " select Value.Id, Form.Name as ''FormName'', Value.FormId, ''Value '' =" +
-                        "  case when ValueDetails.ValuePicture is not null then ValueDetails.ValuePicture" +
+                        "  case when ValueDetails.ValuePicture is not null then convert(nvarchar(128), ValueDetails.Id) " +
                         "  else ValueDetails.Value" +
                             " end," +
                             "FormDetails.Name, Value.CreatedDateTime" +
@@ -84,7 +84,7 @@ namespace Forms.Repositories
                                      FROM
 								     (
 								      select Value.Id, Value.FormId, ''Value '' =
-									  case when ValueDetails.ValuePicture is not null then ValueDetails.ValuePicture 
+									  case when ValueDetails.ValuePicture is not null then convert(nvarchar(128), ValueDetails.Id) 
 									  else ValueDetails.Value 
 									  end,									  
 									  FormDetails.Name, Value.CreatedDateTime

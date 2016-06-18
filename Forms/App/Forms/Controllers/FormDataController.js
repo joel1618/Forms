@@ -26,6 +26,13 @@
                 $scope.SelectedItem = item;
             }
 
+            $scope.IsGuid = function (value) {
+                var regex = /[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}/i;
+                var match = regex.exec(value);
+                debugger;
+                return match != null;
+            }
+
             $scope.ExportExcel = function () {
                 var blob = new Blob([document.getElementById('data').innerHTML], {
                     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
