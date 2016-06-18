@@ -52,7 +52,7 @@
                 var item = items[0];
                 var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
                 var difference = duration.asSeconds();
-
+                debugger;
                 if ((item.LastSyncDateTime === null && navigator.onLine) || (difference >= lastSyncThresholdInSeconds && !item.IsSyncing && navigator.onLine)) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
@@ -70,6 +70,7 @@
                 if (this.CanSync()) {
                     //TODO: Notify globalscope variable somehow?
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: true });
+                    database.commit();
                     $rootScope.$emit('IsSyncing', { IsSynching: true });
                     this.SynchronizeForm();
                     this.SynchronizeFormDetails();
@@ -78,7 +79,9 @@
                     this.SynchronizeValue();
                 }
                 $q.all(promises).then(function () {
+                    debugger;
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: false });
+                    database.commit();
                     $rootScope.$emit('IsSyncing', { IsSynching: false });
                 });
             }
