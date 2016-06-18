@@ -1,5 +1,5 @@
 ﻿<div ng-controller="FormDataController" class="container">
-    <h3>{{Items[0]}}</h3>
+    <h3>{{Items[0].FormName}}</h3>
     <div ng-show="Items.length === 0">
         There is no data found.
     </div>
@@ -9,7 +9,7 @@
                 <thead ng-repeat="Item in Items | limitTo:1">
                     <tr>
                         <th></th>
-                        <th ng-repeat="(key, value) in Item">{{key}}</th>
+                        <th ng-repeat="(key, value) in Item" ng-if="$index > 2">{{key}}</th>
                     </tr>
                 </thead>
                 <tbody ng-repeat="Item in Items" ng-click="RowClick(Item)" ng-style="Item.Id === SelectedItem.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
@@ -18,10 +18,9 @@
                             <button class="btn btn-sm btn-primary" ng-click="EditValue(Item)">Edit</button>
                             <button class="btn btn-sm btn-danger" ng-click="DeleteValue(Item)">Delete</button>
                         </td>
-                        <td ng-repeat="(key, value) in Item">
-                            {{value}}
-                            <!--<span ng-if="ValueDetail.FormDetail.FormDetailsType.Name === 'Date'">{{ValueDetail.Value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
-                            <span ng-if="ValueDetail.FormDetail.FormDetailsType.Name !== 'Date'">{{ValueDetail.Value}}</span>-->
+                        <td ng-repeat="(key, value) in Item" ng-if="$index > 2">
+                            <span ng-if="!$last">{{value}}</span>
+                            <span ng-if="$last">{{value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
                         </td>
                     </tr>
                 </tbody>
