@@ -5,7 +5,7 @@
     function controller($scope, $routeParams, $http, $location, $timeout, breezeservice, breeze,
         FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailService, ValueReadService) {
             var id = $routeParams.id.toLowerCase();
-            var pageSize = 100;
+            var pageSize = 1000;
             var page = 0;
 
             $scope.Search = function () {
