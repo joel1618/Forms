@@ -20,7 +20,7 @@
                         </td>
                         <td ng-repeat="(key, value) in Item" ng-if="$index > 2">
                             <span ng-if="!$last && !IsGuid(value)">{{value}}</span>
-                            <span ng-if="!$last && IsGuid(value)"><a href="/ValueDetailsApi/Get/{{value}}">Picture</a></span>
+                            <span ng-if="!$last && IsGuid(value)"><a href="/ValueDetailsApi/Get/{{value}}" ng-mouseover="MouseOverPicture(value)">Link</a></span>
                             <span ng-if="$last">{{value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
                         </td>
                     </tr>

@@ -310,12 +310,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Forms\App.js" />
-    <Content Include="App\Forms\Controllers\FormController.js" />
-    <Content Include="App\Forms\Controllers\FormDataController.js" />
+    <Content Include="App\Forms\Controllers\FormData\ValuePopupController.js" />
+    <Content Include="App\Forms\Controllers\Form\FormController.js" />
+    <Content Include="App\Forms\Controllers\FormData\FormDataController.js" />
     <Content Include="App\Forms\Controllers\Form\FormCamera.js" />
     <Content Include="App\Forms\Controllers\ManageController.js" />
-    <Content Include="App\Forms\Views\Form.html" />
-    <Content Include="App\Forms\Views\FormData.html" />
+    <Content Include="App\Forms\Views\FormData\ValuePopup.html" />
+    <Content Include="App\Forms\Views\Form\Form.html" />
+    <Content Include="App\Forms\Views\FormData\FormData.html" />
     <Content Include="App\Forms\Views\Manage.html" />
     <Content Include="App\Services\Breeze\breezeservice.js" />
     <Content Include="App\Services\CacheDatabaseServices\FormDetailsOptionsCacheService.js" />

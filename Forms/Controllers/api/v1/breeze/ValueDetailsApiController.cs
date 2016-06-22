@@ -35,9 +35,19 @@ namespace Forms.Controllers.api.v1.breeze
         }
 
         [HttpGet]
-        public async Task<ValueDetailEntity> Get(Guid id)
+        public async Task<IHttpActionResult> Get(Guid id)
         {
-            return await repository.Get(id);
+            ValueDetailEntity model = null;
+            try
+            {
+                model = await repository.Get(id);
+                return Content(HttpStatusCode.OK, model);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return Content(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         [HttpPost]

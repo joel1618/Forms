@@ -14,7 +14,7 @@ namespace Forms.App_Start {
   public static class BreezeWebApiConfig {
 
     public static void RegisterBreezePreStart() {
-            //MetadataScriptWriter.Write();
+            MetadataScriptWriter.Write();
 
             //GlobalConfiguration.Configuration.Routes.MapHttpRoute(
             //    name: "BreezeApi",
