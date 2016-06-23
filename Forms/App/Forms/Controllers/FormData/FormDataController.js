@@ -34,8 +34,8 @@
                 ValueDetailsService.Get(Id).then(function (data) {
                     //popup with data.ValuePicture as the image or file
                     var modalInstance = $uibModal.open({
-                        templateUrl: '/App/Forms/Views/FormData/ValuePopup.html',
-                        controller: '/App/Forms/Controllers/FormData/ValuePopupController.js',
+                        templateUrl: 'App/Forms/Views/FormData/ValuePopup.html',
+                        controller: 'ValuePopupController',
                         resolve: {
                             ValueDetail: function () {
                                 return data;

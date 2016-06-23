@@ -37,10 +37,11 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            ValueDetailEntity model = null;
+            ValueDetailViewModel model = null;
             try
             {
-                model = await repository.Get(id);
+                var record = await repository.Get(id);
+                model = record.ToViewModel();
                 return Content(HttpStatusCode.OK, model);
             }
             catch (Exception ex)

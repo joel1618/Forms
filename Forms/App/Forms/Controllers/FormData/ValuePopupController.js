@@ -1,26 +1,27 @@
 ﻿(function (moment) {
     "use strict";
-    angular.module('Forms').controller('ValuePopupController', ['$scope', '$uibModalInstance', 'ValueDetail',
-    function controller($scope, $uibModalInstance, ValueDetail) {
-            debugger;
-            var patCanvas = document.querySelector('#snapshot');
+    angular.module('Forms').controller('ValuePopupController', ['$scope', '$timeout','$uibModalInstance', 'ValueDetail',
+    function controller($scope, $timeout, $uibModalInstance, ValueDetail) {
 
-            patCanvas.width = 800;
-            patCanvas.height = 600;
-            var ctxPat = patCanvas.getContext('2d');
+        $scope.$watch('$viewContentLoaded', function () {
+            $timeout(function () {
+                var canvas = document.getElementById("snapshot");
+                var ctx = canvas.getContext("2d");
 
-            var idata = getVideoData($scope.patOpts.x, $scope.patOpts.y, $scope.patOpts.w, $scope.patOpts.h);
-            ctxPat.putImageData(idata, 0, 0);
-            sendSnapshotToServer(patCanvas.toDataURL());
+                var image = new Image();
+                image.onload = function() {
+                    ctx.drawImage(image, 0, 0);
+                };
+                image.src = ValueDetail.ValuePicture;
+            }, 0);
+        });
 
-            patData = idata;
+        //$scope.ok = function () {
+        //    $uibModalInstance.close($scope.selected.item);
+        //};
 
-            //$scope.ok = function () {
-            //    $uibModalInstance.close($scope.selected.item);
-            //};
-
-            $scope.Close = function(){
-                $uibModalInstance.dismiss('cancel');
-            }
+        $scope.Close = function () {
+            $uibModalInstance.dismiss('cancel');
+        }
     }]);
 })(moment);
