@@ -16,6 +16,14 @@
                         <label for="">Publish Url</label>
                         <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
                     </fieldset>
+                    <fieldset class="form-group">
+                        <label for="">Publish Url</label>
+                        <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="">Is Required</label>
+                        <input type="checkbox" ng-model="TempForm.IsPublic" />
+                    </fieldset>
                     <button type="submit" class="btn btn-sm btn-primary" ng-disabled="!formForm.$valid" ng-click="CreateForm()">Create</button>
                 </div>
                 <table class="table">
@@ -28,9 +36,10 @@
                     <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" >
                         <tr>
                             <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} "><button class="btn btn-sm btn-danger" ng-click="DeleteForm(Form)">Delete</button></td>
-                            <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">{{Form.Name}}</td>
-                            <td><a href='/Form#/{{Form.Id}}'><span class='fa fa-eye fa-2x'></span></a></td>
-                            <td><a href='/Form#/form/{{Form.Id}}'><span class='fa fa-table fa-2x'></span></a></td>
+                            <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} " title="{{Form.Name}}">{{Form.Name | limitTo:20}}</td>
+                            <td><a href='/Form#/{{Form.Id}}'><span class='fa fa-eye fa-2x' title="Go to the workflow page"></span></a></td>
+                            <td><a href='/Form#/form/{{Form.Id}}'><span class='fa fa-table fa-2x' title="Go to the data page"></span></a></td>
+                            <td><a href="/Form#/form/authorization/{{Form.Id}}"><span class="fa fa-cog fa-2x" title="Go to the authorization page"></span></a></td>
                         </tr>
                     </tbody>
                 </table>

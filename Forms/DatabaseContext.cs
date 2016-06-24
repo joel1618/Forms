@@ -29,6 +29,7 @@ namespace Forms
         //public DbSet<FormDetail> FormDetails { get; set; }
         public DbSet<FormViewModel> FormViewModel { get; set; }
         public DbSet<FormDetailViewModel> FormDetailsViewModel { get; set; }
-        public DbSet<FormDetailOptionViewModel> FOrmDetailsOptionViewModel { get; set; }
+        public DbSet<FormDetailOptionViewModel> FormDetailsOptionViewModel { get; set; }
+        public DbSet<FormUserAuthorization> FormUserAuthorization { get; set; }
     }
 }

@@ -233,6 +233,7 @@
     <Compile Include="Controllers\api\v1\breeze\FormApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\FormDetailsOptionsApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\FormDetailsTypeApiController.cs" />
+    <Compile Include="Controllers\api\v1\breeze\FormUserAuthorizationApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\ValueApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\ValueDetailsApiController.cs" />
     <Compile Include="Controllers\api\v1\ValueReadApiController.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="Models\FormDetailViewModel.cs" />
     <Compile Include="Models\FormDetailOptionViewModel.cs" />
     <Compile Include="Models\FormDetailTypeViewModel.cs" />
+    <Compile Include="Models\FormUserAuthorizationViewModel.cs" />
     <Compile Include="Models\FormViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -296,6 +298,7 @@
     <Compile Include="Repositories\FormDetailsRepository.cs" />
     <Compile Include="Repositories\FormDetailsTypeRepository.cs" />
     <Compile Include="Repositories\FormRepository.cs" />
+    <Compile Include="Repositories\FormUserAuthorizationRepository.cs" />
     <Compile Include="Repositories\ValueReadPivotRepository.cs" />
     <Compile Include="Repositories\ValueDetailsRepository.cs" />
     <Compile Include="Repositories\ValueReadRepository.cs" />
@@ -310,11 +313,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Forms\App.js" />
+    <Content Include="App\Forms\Controllers\FormAuthorization\FormAuthorizationController.js" />
     <Content Include="App\Forms\Controllers\FormData\ValuePopupController.js" />
     <Content Include="App\Forms\Controllers\Form\FormController.js" />
     <Content Include="App\Forms\Controllers\FormData\FormDataController.js" />
     <Content Include="App\Forms\Controllers\Form\FormCamera.js" />
     <Content Include="App\Forms\Controllers\ManageController.js" />
+    <Content Include="App\Forms\Views\FormAuthorization\FormAuthorization.html" />
     <Content Include="App\Forms\Views\FormData\ValuePopup.html" />
     <Content Include="App\Forms\Views\Form\Form.html" />
     <Content Include="App\Forms\Views\FormData\FormData.html" />
@@ -331,6 +336,7 @@
     <Content Include="App\Services\Breeze\metadata.js" />
     <Content Include="App\Services\ServerDatabaseServices\FormDetailsService.js" />
     <Content Include="App\Services\ServerDatabaseServices\FormService.js" />
+    <Content Include="App\Services\ServerDatabaseServices\FormUserAuthorizationService.js" />
     <Content Include="App\Services\ServerDatabaseServices\ValueReadService.js" />
     <Content Include="App\Services\SyncDatabaseServices\SyncDatabaseService.js" />
     <Content Include="App\Services\Services.js" />

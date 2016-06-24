@@ -7,7 +7,7 @@
         var pageSize = 100;
         $scope.SelectedForm = null; $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null; $scope.SelectedFormDetailType = null;
         $scope.ClearTemp = function () {
-            $scope.TempForm = { Id: '', Name: '', Description: '', PublishUrl: '' };
+            $scope.TempForm = { Id: '', IsPublic: false, Name: '', Description: '', PublishUrl: '' };
             $scope.TempFormItem = { Id: '', FormId: '', Name: '', Description: '', Title: '', FormDetailsTypeId: '', IsRequired: '' };
             $scope.TempFormDetailOption = { Id: '', FormDetailsId: '', Name: '' };
         }
