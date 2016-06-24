@@ -135,10 +135,14 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FormId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="IsCreate" Type="bit" Nullable="false" />
-          <Property Name="IsRead" Type="bit" Nullable="false" />
-          <Property Name="IsUpdate" Type="bit" Nullable="false" />
-          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="IsCreateData" Type="bit" Nullable="false" />
+          <Property Name="IsReadData" Type="bit" Nullable="false" />
+          <Property Name="IsUpdateData" Type="bit" Nullable="false" />
+          <Property Name="IsDeleteData" Type="bit" Nullable="false" />
+          <Property Name="IsCreateForm" Type="bit" Nullable="false" />
+          <Property Name="IsReadForm" Type="bit" Nullable="false" />
+          <Property Name="IsUpdateForm" Type="bit" Nullable="false" />
+          <Property Name="IsDeleteForm" Type="bit" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
         </EntityType>
@@ -494,7 +498,6 @@
           <EntitySet Name="FormDetails" EntityType="FormsModel.FormDetail" />
           <EntitySet Name="FormDetailsOptions" EntityType="FormsModel.FormDetailsOption" />
           <EntitySet Name="FormDetailsTypes" EntityType="FormsModel.FormDetailsType" />
-          <EntitySet Name="FormUserAuthorizations" EntityType="FormsModel.FormUserAuthorization" />
           <EntitySet Name="Values" EntityType="FormsModel.Value" />
           <EntitySet Name="ValueDetails" EntityType="FormsModel.ValueDetail" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="FormsModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -517,10 +520,6 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="FormDetail" EntitySet="FormDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_FormUserAuthorization_AspNetUsers" Association="FormsModel.FK_FormUserAuthorization_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="FormUserAuthorization" EntitySet="FormUserAuthorizations" />
-          </AssociationSet>
           <AssociationSet Name="FK_Value_AspNetUsers" Association="FormsModel.FK_Value_AspNetUsers">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Value" EntitySet="Values" />
@@ -532,10 +531,6 @@
           <AssociationSet Name="FK_FormDetails_Form1" Association="FormsModel.FK_FormDetails_Form1">
             <End Role="Form" EntitySet="Forms" />
             <End Role="FormDetail" EntitySet="FormDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormUserAuthorization_Form" Association="FormsModel.FK_FormUserAuthorization_Form">
-            <End Role="Form" EntitySet="Forms" />
-            <End Role="FormUserAuthorization" EntitySet="FormUserAuthorizations" />
           </AssociationSet>
           <AssociationSet Name="FK_Value_Form" Association="FormsModel.FK_Value_Form">
             <End Role="Form" EntitySet="Forms" />
@@ -560,6 +555,15 @@
           <AssociationSet Name="AspNetUserRoles" Association="FormsModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="FormUserAuthorizations" EntityType="FormsModel.FormUserAuthorization" />
+          <AssociationSet Name="FK_FormUserAuthorization_AspNetUsers" Association="FormsModel.FK_FormUserAuthorization_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="FormUserAuthorization" EntitySet="FormUserAuthorizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FormUserAuthorization_Form" Association="FormsModel.FK_FormUserAuthorization_Form">
+            <End Role="Form" EntitySet="Forms" />
+            <End Role="FormUserAuthorization" EntitySet="FormUserAuthorizations" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -622,10 +626,10 @@
           <NavigationProperty Name="AspNetUsersInfoes" Relationship="FormsModel.FK_AspNetUsersInfo_AspNetUsers" FromRole="AspNetUser" ToRole="AspNetUsersInfo" />
           <NavigationProperty Name="Forms" Relationship="FormsModel.FK_Form_AspNetUsers" FromRole="AspNetUser" ToRole="Form" />
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_AspNetUsers" FromRole="AspNetUser" ToRole="FormDetail" />
-          <NavigationProperty Name="FormUserAuthorizations" Relationship="FormsModel.FK_FormUserAuthorization_AspNetUsers" FromRole="AspNetUser" ToRole="FormUserAuthorization" />
           <NavigationProperty Name="Values" Relationship="FormsModel.FK_Value_AspNetUsers" FromRole="AspNetUser" ToRole="Value" />
           <NavigationProperty Name="ValueDetails" Relationship="FormsModel.FK_ValueDetails_AspNetUsers" FromRole="AspNetUser" ToRole="ValueDetail" />
           <NavigationProperty Name="AspNetRoles" Relationship="FormsModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <NavigationProperty Name="FormUserAuthorizations" Relationship="FormsModel.FK_FormUserAuthorization_AspNetUsers" FromRole="AspNetUser" ToRole="FormUserAuthorization" />
         </EntityType>
         <EntityType Name="AspNetUsersInfo">
           <Key>
@@ -652,9 +656,9 @@
           <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_Form_AspNetUsers" FromRole="Form" ToRole="AspNetUser" />
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_Form1" FromRole="Form" ToRole="FormDetail" />
-          <NavigationProperty Name="FormUserAuthorizations" Relationship="FormsModel.FK_FormUserAuthorization_Form" FromRole="Form" ToRole="FormUserAuthorization" />
           <NavigationProperty Name="Values" Relationship="FormsModel.FK_Value_Form" FromRole="Form" ToRole="Value" />
           <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FormUserAuthorizations" Relationship="FormsModel.FK_FormUserAuthorization_Form" FromRole="Form" ToRole="FormUserAuthorization" />
         </EntityType>
         <EntityType Name="FormDetail">
           <Key>
@@ -700,22 +704,6 @@
           <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
           <Property Name="SyncDateTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_Form" FromRole="FormDetailsType" ToRole="FormDetail" />
-        </EntityType>
-        <EntityType Name="FormUserAuthorization">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="FormId" Type="Guid" Nullable="false" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="IsCreate" Type="Boolean" Nullable="false" />
-          <Property Name="IsRead" Type="Boolean" Nullable="false" />
-          <Property Name="IsUpdate" Type="Boolean" Nullable="false" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
-          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_FormUserAuthorization_AspNetUsers" FromRole="FormUserAuthorization" ToRole="AspNetUser" />
-          <NavigationProperty Name="Form" Relationship="FormsModel.FK_FormUserAuthorization_Form" FromRole="FormUserAuthorization" ToRole="Form" />
         </EntityType>
         <EntityType Name="Value">
           <Key>
@@ -816,20 +804,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_FormUserAuthorization_AspNetUsers">
-          <End Type="FormsModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="FormsModel.FormUserAuthorization" Role="FormUserAuthorization" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FormUserAuthorization">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Value_AspNetUsers">
           <End Type="FormsModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
           <End Type="FormsModel.Value" Role="Value" Multiplicity="*" />
@@ -864,20 +838,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="FormDetail">
-              <PropertyRef Name="FormId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FormUserAuthorization_Form">
-          <End Type="FormsModel.Form" Role="Form" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="FormsModel.FormUserAuthorization" Role="FormUserAuthorization" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Form">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="FormUserAuthorization">
               <PropertyRef Name="FormId" />
             </Dependent>
           </ReferentialConstraint>
@@ -951,6 +911,54 @@
         <Association Name="AspNetUserRoles">
           <End Type="FormsModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="FormsModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="FormUserAuthorization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FormId" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsCreateData" Type="Boolean" Nullable="false" />
+          <Property Name="IsReadData" Type="Boolean" Nullable="false" />
+          <Property Name="IsUpdateData" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleteData" Type="Boolean" Nullable="false" />
+          <Property Name="IsCreateForm" Type="Boolean" Nullable="false" />
+          <Property Name="IsReadForm" Type="Boolean" Nullable="false" />
+          <Property Name="IsUpdateForm" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleteForm" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CreatedDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AspNetUser" Relationship="FormsModel.FK_FormUserAuthorization_AspNetUsers" FromRole="FormUserAuthorization" ToRole="AspNetUser" />
+          <NavigationProperty Name="Form" Relationship="FormsModel.FK_FormUserAuthorization_Form" FromRole="FormUserAuthorization" ToRole="Form" />
+        </EntityType>
+        <Association Name="FK_FormUserAuthorization_AspNetUsers">
+          <End Type="FormsModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FormsModel.FormUserAuthorization" Role="FormUserAuthorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FormUserAuthorization">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FormUserAuthorization_Form">
+          <End Type="FormsModel.Form" Role="Form" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FormsModel.FormUserAuthorization" Role="FormUserAuthorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FormUserAuthorization">
+              <PropertyRef Name="FormId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1080,21 +1088,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FormUserAuthorizations">
-            <EntityTypeMapping TypeName="FormsModel.FormUserAuthorization">
-              <MappingFragment StoreEntitySet="FormUserAuthorization">
-                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
-                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="IsUpdate" ColumnName="IsUpdate" />
-                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
-                <ScalarProperty Name="IsCreate" ColumnName="IsCreate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="FormId" ColumnName="FormId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Values">
             <EntityTypeMapping TypeName="FormsModel.Value">
               <MappingFragment StoreEntitySet="Value">
@@ -1134,6 +1127,25 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="FormUserAuthorizations">
+            <EntityTypeMapping TypeName="FormsModel.FormUserAuthorization">
+              <MappingFragment StoreEntitySet="FormUserAuthorization">
+                <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />
+                <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
+                <ScalarProperty Name="IsDeleteForm" ColumnName="IsDeleteForm" />
+                <ScalarProperty Name="IsUpdateForm" ColumnName="IsUpdateForm" />
+                <ScalarProperty Name="IsReadForm" ColumnName="IsReadForm" />
+                <ScalarProperty Name="IsCreateForm" ColumnName="IsCreateForm" />
+                <ScalarProperty Name="IsDeleteData" ColumnName="IsDeleteData" />
+                <ScalarProperty Name="IsUpdateData" ColumnName="IsUpdateData" />
+                <ScalarProperty Name="IsReadData" ColumnName="IsReadData" />
+                <ScalarProperty Name="IsCreateData" ColumnName="IsCreateData" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

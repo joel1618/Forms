@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="FormsModel.FormDetail" Width="1.5" PointX="7.5" PointY="10.75" />
         <EntityTypeShape EntityType="FormsModel.FormDetailsOption" Width="1.5" PointX="9.75" PointY="15.75" />
         <EntityTypeShape EntityType="FormsModel.FormDetailsType" Width="1.5" PointX="5.25" PointY="3.875" />
-        <EntityTypeShape EntityType="FormsModel.FormUserAuthorization" Width="1.5" PointX="10.5" PointY="7.375" />
         <EntityTypeShape EntityType="FormsModel.Value" Width="1.5" PointX="10.5" PointY="11.25" />
         <EntityTypeShape EntityType="FormsModel.ValueDetail" Width="1.5" PointX="12.75" PointY="11.5" />
         <AssociationConnector Association="FormsModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
@@ -23,17 +22,18 @@
         <AssociationConnector Association="FormsModel.FK_AspNetUsersInfo_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_Form_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_FormDetails_AspNetUsers" />
-        <AssociationConnector Association="FormsModel.FK_FormUserAuthorization_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_Value_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_ValueDetails_AspNetUsers" />
         <AssociationConnector Association="FormsModel.FK_FormDetails_Form1" />
-        <AssociationConnector Association="FormsModel.FK_FormUserAuthorization_Form" />
         <AssociationConnector Association="FormsModel.FK_Value_Form" />
         <AssociationConnector Association="FormsModel.FK_FormDetails_Form" />
         <AssociationConnector Association="FormsModel.FK_FormDetailsOptions_FormDetails" />
         <AssociationConnector Association="FormsModel.FK_ValueDetails_FormDetails" />
         <AssociationConnector Association="FormsModel.FK_ValueDetails_Value" />
         <AssociationConnector Association="FormsModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="FormsModel.FormUserAuthorization" Width="1.5" PointX="7.5" PointY="6" />
+        <AssociationConnector Association="FormsModel.FK_FormUserAuthorization_AspNetUsers" />
+        <AssociationConnector Association="FormsModel.FK_FormUserAuthorization_Form" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -24,14 +24,16 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpGet]
         public IQueryable<FormUserAuthorizationEntity> Search()
         {
-            var userId = User.Identity.GetUserId();
-            return repository.Search().Where(e => e.UserId == userId).Select(x => new FormUserAuthorizationEntity()
+            IQueryable<FormUserAuthorizationEntity> response = null;
+            try {
+                var userId = User.Identity.GetUserId();
+                response = repository.Search();
+            }
+            catch(Exception ex)
             {
-                Id = x.Id,
-                CreatedDateTime = x.CreatedDateTime,
-                ModifiedDateTime = x.ModifiedDateTime,
-                UserId = x.UserId,
-            });
+                Console.WriteLine(ex);
+            }
+            return response;
         }
 
         [HttpGet]
