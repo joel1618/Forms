@@ -1,6 +1,6 @@
 ﻿(function (moment) {
     "use strict";
-    angular.module('Forms').controller('FormDataController', ['$scope', '$uibModal', '$routeParams', '$http', '$location', '$timeout', 'breezeservice', 'breeze',
+    angular.module('Forms').controller('FormAuthorizationController', ['$scope', '$uibModal', '$routeParams', '$http', '$location', '$timeout', 'breezeservice', 'breeze',
         'FormService', 'FormDetailsService', 'FormDetailsTypeService','FormDetailsOptionsService','ValueService','ValueDetailsService', 'ValueReadService', 'FormUserAuthorizationService',
     function controller($scope, $uibModal, $routeParams, $http, $location, $timeout, breezeservice, breeze,
         FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailsService, ValueReadService, FormUserAuthorizationService) {

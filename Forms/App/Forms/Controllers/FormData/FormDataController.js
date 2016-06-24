@@ -7,7 +7,6 @@
             var id = $routeParams.id.toLowerCase();
             var pageSize = 1000;
             var page = 0;
-
             $scope.Search = function () {
                 var predicate = new breeze.Predicate('FormId', '==', id);
                 ValueReadService.Search(predicate, id, page, pageSize, false).then(function (data) {
