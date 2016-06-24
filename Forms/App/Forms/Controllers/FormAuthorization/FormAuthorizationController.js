@@ -22,14 +22,14 @@
                     $scope.Search();
                 });
             }
-
+            
             $scope.Update = function (item) {
                 FormUserAuthorizationService.Update(item.Id, item).then(function (data) {
                     $scope.Search();
                 });
             }
 
-            $scope.Create = function () {
+            $scope.Create = function () {                
                 var predicate = new breeze.Predicate('Email', '==', $scope.email);
                 AspNetUsersService.Search(predicate, 0, 1, false).then(function(data){ 
                     if(data.length > 0){

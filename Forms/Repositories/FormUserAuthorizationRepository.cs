@@ -43,6 +43,16 @@ namespace Forms.Repositories
             {
                 var entity = context.FormUserAuthorizations.Find(id);
 
+                entity.IsCreateData = item.IsCreateData;
+                entity.IsUpdateData = item.IsUpdateData;
+                entity.IsReadData = item.IsReadData;
+                entity.IsDeleteData = item.IsDeleteData;
+
+                entity.IsCreateForm = item.IsCreateForm;
+                entity.IsUpdateForm = item.IsUpdateForm;
+                entity.IsReadForm = item.IsReadForm;
+                entity.IsDeleteForm = item.IsDeleteForm;
+
                 entity.ModifiedDateTime = DateTime.Now;
                 context.SaveChanges();
                 return entity;
