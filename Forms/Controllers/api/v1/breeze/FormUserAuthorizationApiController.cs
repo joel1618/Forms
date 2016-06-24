@@ -24,9 +24,8 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpGet]
         public IQueryable<FormUserAuthorizationEntity> Search()
         {
-            FormRepository formRepository = new FormRepository();
             var userId = User.Identity.GetUserId();
-            return formRepository.Search().Where(e => e.UserId == userId).Select(x => new FormUserAuthorizationEntity()
+            return repository.Search().Where(e => e.UserId == userId).Select(x => new FormUserAuthorizationEntity()
             {
                 Id = x.Id,
                 CreatedDateTime = x.CreatedDateTime,
