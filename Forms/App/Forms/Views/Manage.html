@@ -37,9 +37,21 @@
                         <tr>
                             <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} "><button class="btn btn-sm btn-danger" ng-click="DeleteForm(Form)">Delete</button></td>
                             <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} " title="{{Form.Name}}">{{Form.Name | limitTo:20}}</td>
-                            <td><a href='/Form#/{{Form.Id}}'><span class='fa fa-eye fa-2x' title="Go to the workflow page"></span></a></td>
+                            <!--<td><a href='/Form#/{{Form.Id}}'><span class='fa fa-eye fa-2x' title="Go to the workflow page"></span></a></td>
                             <td><a href='/Form#/form/{{Form.Id}}'><span class='fa fa-table fa-2x' title="Go to the data page"></span></a></td>
-                            <td><a href="/Form#/form/authorization/{{Form.Id}}"><span class="fa fa-cog fa-2x" title="Go to the authorization page"></span></a></td>
+                            <td><a href="/Form#/form/authorization/{{Form.Id}}"><span class="fa fa-cog fa-2x" title="Go to the authorization page"></span></a></td>-->
+                            <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                                <div class="btn-group" uib-dropdown is-open="status.isopen">
+                                    <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                                        Menu <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                        <li role="menuitem"><a href='/Form#/{{Form.Id}}'><span class='fa fa-eye fa-2x' title="Go to the workflow page"></span> Workflow</a></li>
+                                        <li role="menuitem"><a href='/Form#/form/{{Form.Id}}'><span class='fa fa-table fa-2x' title="Go to the data page"></span> Data</a></li>
+                                        <li role="menuitem"><a href='/Form#/form/authorization/{{Form.Id}}'><span class='fa fa-cog fa-2x' title="Go to the authorization page"></span> Authorization</a></li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
