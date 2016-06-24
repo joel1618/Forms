@@ -24,16 +24,7 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpGet]
         public IQueryable<FormUserAuthorizationEntity> Search()
         {
-            IQueryable<FormUserAuthorizationEntity> response = null;
-            try {
-                var userId = User.Identity.GetUserId();
-                response = repository.Search();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-            return response;
+            return repository.Search();
         }
 
         [HttpGet]
