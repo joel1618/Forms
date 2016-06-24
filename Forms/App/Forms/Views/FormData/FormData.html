@@ -19,8 +19,8 @@
                             <button class="btn btn-sm btn-danger" ng-click="DeleteValue(Item)">Delete</button>
                         </td>
                         <td ng-repeat="(key, value) in Item" ng-if="$index > 2">
-                            <span ng-if="!$last && !IsGuid(value)">{{value}}</span>
-                            <span ng-if="!$last && IsGuid(value)"><a href="/ValueDetailsApi/Get/{{value}}" ng-mouseover="MouseOverPicture(value)">Link</a></span>
+                            <span ng-if="!$last && !IsGuid(value)" title="{{value}}">{{value  | limitTo: 10}}</span>
+                            <span ng-if="!$last && IsGuid(value)"><i class="fa fa-picture-o fa-2x" ng-click="MouseOverPicture(value)"></i></span>
                             <span ng-if="$last">{{value | date: 'MM/dd/yyyy hh:mm:ss a'}}</span>
                         </td>
                     </tr>

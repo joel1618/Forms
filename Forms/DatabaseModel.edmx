@@ -84,6 +84,7 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="PublishUrl" Type="nvarchar" MaxLength="1000" />
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsPublic" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedDateTime" Type="datetime" Nullable="false" />
           <Property Name="ModifiedDateTime" Type="datetime" />
@@ -653,6 +654,7 @@
           <NavigationProperty Name="FormDetails" Relationship="FormsModel.FK_FormDetails_Form1" FromRole="Form" ToRole="FormDetail" />
           <NavigationProperty Name="FormUserAuthorizations" Relationship="FormsModel.FK_FormUserAuthorization_Form" FromRole="Form" ToRole="FormUserAuthorization" />
           <NavigationProperty Name="Values" Relationship="FormsModel.FK_Value_Form" FromRole="Form" ToRole="Value" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="FormDetail">
           <Key>
@@ -1024,6 +1026,7 @@
           <EntitySetMapping Name="Forms">
             <EntityTypeMapping TypeName="FormsModel.Form">
               <MappingFragment StoreEntitySet="Form">
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
                 <ScalarProperty Name="SyncDateTime" ColumnName="SyncDateTime" />
                 <ScalarProperty Name="ModifiedDateTime" ColumnName="ModifiedDateTime" />
                 <ScalarProperty Name="CreatedDateTime" ColumnName="CreatedDateTime" />

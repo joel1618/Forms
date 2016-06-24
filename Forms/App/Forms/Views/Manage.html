@@ -25,12 +25,12 @@
                             <th>Form Name</th>
                         </tr>
                     </thead>
-                    <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
+                    <tbody ng-repeat="Form in Forms" ng-click="FormRowClick(Form)" >
                         <tr>
-                            <td><button class="btn btn-sm btn-danger" ng-click="DeleteForm(Form)">Delete</button></td>
-                            <td>{{Form.Name}}</td>
-                            <td><a href='/Form#/{{Form.Id}}'><span class='glyphicon glyphicon-play'></span></a></td>
-                            <td><a href='/Form#/form/{{Form.Id}}'><span class='glyphicon glyphicon-th'></span></a></td>
+                            <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} "><button class="btn btn-sm btn-danger" ng-click="DeleteForm(Form)">Delete</button></td>
+                            <td ng-style="Form.Id === SelectedForm.Id ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">{{Form.Name}}</td>
+                            <td><a href='/Form#/{{Form.Id}}'><span class='fa fa-eye fa-2x'></span></a></td>
+                            <td><a href='/Form#/form/{{Form.Id}}'><span class='fa fa-table fa-2x'></span></a></td>
                         </tr>
                     </tbody>
                 </table>
