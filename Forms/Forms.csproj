@@ -234,6 +234,7 @@
     <Compile Include="Controllers\api\v1\breeze\FormDetailsOptionsApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\FormDetailsTypeApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\FormUserAuthorizationApiController.cs" />
+    <Compile Include="Controllers\api\v1\breeze\AspNetUsersApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\ValueApiController.cs" />
     <Compile Include="Controllers\api\v1\breeze\ValueDetailsApiController.cs" />
     <Compile Include="Controllers\api\v1\ValueReadApiController.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="Repositories\FormDetailsTypeRepository.cs" />
     <Compile Include="Repositories\FormRepository.cs" />
     <Compile Include="Repositories\FormUserAuthorizationRepository.cs" />
+    <Compile Include="Repositories\AspNetUsersRepository.cs" />
     <Compile Include="Repositories\ValueReadPivotRepository.cs" />
     <Compile Include="Repositories\ValueDetailsRepository.cs" />
     <Compile Include="Repositories\ValueReadRepository.cs" />
@@ -337,6 +339,7 @@
     <Content Include="App\Services\ServerDatabaseServices\FormDetailsService.js" />
     <Content Include="App\Services\ServerDatabaseServices\FormService.js" />
     <Content Include="App\Services\ServerDatabaseServices\FormUserAuthorizationService.js" />
+    <Content Include="App\Services\ServerDatabaseServices\AspNetUsersService.js" />
     <Content Include="App\Services\ServerDatabaseServices\ValueReadService.js" />
     <Content Include="App\Services\SyncDatabaseServices\SyncDatabaseService.js" />
     <Content Include="App\Services\Services.js" />

@@ -1,9 +1,9 @@
 ﻿(function (moment) {
     "use strict";
     angular.module('Forms').controller('FormAuthorizationController', ['$scope', '$uibModal', '$routeParams', '$http', '$location', '$timeout', 'breezeservice', 'breeze',
-        'FormService', 'FormDetailsService', 'FormDetailsTypeService','FormDetailsOptionsService','ValueService','ValueDetailsService', 'ValueReadService', 'FormUserAuthorizationService',
+        'FormService', 'FormDetailsService', 'FormDetailsTypeService','FormDetailsOptionsService','ValueService','ValueDetailsService', 'ValueReadService', 'FormUserAuthorizationService', 'AspNetUsersService',
     function controller($scope, $uibModal, $routeParams, $http, $location, $timeout, breezeservice, breeze,
-        FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailsService, ValueReadService, FormUserAuthorizationService) {
+        FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailsService, ValueReadService, FormUserAuthorizationService, AspNetUsersService) {
             var id = $routeParams.id.toLowerCase();
             var pageSize = 1000;
             var page = 0;
@@ -30,12 +30,17 @@
             }
 
             $scope.Create = function () {
-                //TODO: Make sure user doesn't already exist.  unique key constraint
-                //TODO: Get UserId to pass down to server.
-
-                var item = { 'FormId': id };
-                FormUserAuthorizationService.Create(item).then(function (data) {
-                    $scope.Search();
+                var predicate = new breeze.Predicate('Email', '==', $scope.email);
+                AspNetUsersService.Search(predicate, 0, 1, false).then(function(data){ 
+                    if(data.length > 0){
+                        var item = { 'FormId': id, 'UserId' :  data.Id };
+                        FormUserAuthorizationService.Create(item).then(function (data) {
+                            $scope.Search();
+                        });
+                    }
+                    else {
+                        alert("No user was found.");
+                    };
                 });
             }
 

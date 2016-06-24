@@ -1,34 +1,37 @@
 ﻿<div ng-controller="FormAuthorizationController">
     <div class="row">
         <div class="col-md-12">
-            <form>
-                <fieldset class="form-group">
-                    <label>Email</label>
-                    <input ng-model="email" />
-                </fieldset>
-                <button class="btn btn-primary btn-sm" ng-click="Create()">Add</button>
-            </form>
+            <div class="col-md-12">
+                <h3>Form Authorization</h3>
+                <form>
+                    <fieldset class="form-group">
+                        <label>Email</label>
+                        <input ng-model="email" class="form-control" />
+                    </fieldset>
+                    <button class="btn btn-primary btn-sm" ng-click="Create()">Add User</button>
+                </form>
+                <div ng-repeat="item in items">
+                    <button class="btn btn-warning btn-sm" ng-click="Delete(item)">Delete</button>
+
+                    <label title="{{item.User.Email}}">{{item.User.Email | limitTo:20}}</label>
+
+                    <input bs-switch ng-model="item.IsCreateForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+
+                    <input bs-switch ng-model="item.IsReadForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+
+                    <input bs-switch ng-model="item.IsUpdateForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+
+                    <input bs-switch ng-model="item.IsDeleteForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+
+                    <input bs-switch ng-model="item.IsCreateData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+
+                    <input bs-switch ng-model="item.IsReadData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+
+                    <input bs-switch ng-model="item.IsUpdateData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+
+                    <input bs-switch ng-model="item.IsDeleteData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
+                </div>
+            </div>
         </div>
     </div>
-    <div ng-repeat="item in items">
-        <button class="btn btn-warning btn-sm" ng-click="Delete(item)">Delete</button>
-
-        <label title="{{item.User.Email}}">{{item.User.Email | limitTo:20}}</label>
-
-        <input bs-switch ng-model="item.IsCreateForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-
-        <input bs-switch ng-model="item.IsReadForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-
-        <input bs-switch ng-model="item.IsUpdateForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-
-        <input bs-switch ng-model="item.IsDeleteForm" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-
-        <input bs-switch ng-model="item.IsCreateData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-
-        <input bs-switch ng-model="item.IsReadData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-
-        <input bs-switch ng-model="item.IsUpdateData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-
-        <input bs-switch ng-model="item.IsDeleteData" ng-change="Update(item)" type="checkbox" switch-on-text="True" switch-off-text="False" ng-true-value="'true'" ng-false-value="'false'">
-    </div>
-</div>
+</div> 
