@@ -9,8 +9,9 @@
                 var ctx = canvas.getContext("2d");
 
                 var image = new Image();
-                image.onload = function() {
-                    ctx.drawImage(image, 0, 0);
+                image.onload = function () {
+                    debugger;
+                    ctx.drawImage(image, 0, 0, image.width, image.height);
                 };
                 image.src = ValueDetail.ValuePicture;
             }, 0);

@@ -12,6 +12,7 @@
             $scope.Search = function () {
                 var predicate = new breeze.Predicate('FormId', '==', id);
                 FormUserAuthorizationService.Search(predicate, id, page, pageSize, false).then(function (data) {
+                debugger;
                     $scope.Items = data;
                 });
             }

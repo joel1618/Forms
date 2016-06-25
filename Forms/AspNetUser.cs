@@ -22,10 +22,10 @@ namespace Forms
             this.AspNetUsersInfoes = new HashSet<AspNetUsersInfo>();
             this.Forms = new HashSet<Form>();
             this.FormDetails = new HashSet<FormDetail>();
+            this.FormUserAuthorizations = new HashSet<FormUserAuthorization>();
             this.Values = new HashSet<Value>();
             this.ValueDetails = new HashSet<ValueDetail>();
             this.AspNetRoles = new HashSet<AspNetRole>();
-            this.FormUserAuthorizations = new HashSet<FormUserAuthorization>();
         }
     
         public string Id { get; set; }
@@ -52,12 +52,12 @@ namespace Forms
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDetail> FormDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FormUserAuthorization> FormUserAuthorizations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Value> Values { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ValueDetail> ValueDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FormUserAuthorization> FormUserAuthorizations { get; set; }
     }
 }

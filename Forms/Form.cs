@@ -18,8 +18,8 @@ namespace Forms
         public Form()
         {
             this.FormDetails = new HashSet<FormDetail>();
-            this.Values = new HashSet<Value>();
             this.FormUserAuthorizations = new HashSet<FormUserAuthorization>();
+            this.Values = new HashSet<Value>();
         }
     
         public System.Guid Id { get; set; }
@@ -27,18 +27,18 @@ namespace Forms
         public string Description { get; set; }
         public string PublishUrl { get; set; }
         public string UserId { get; set; }
+        public bool IsPublic { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public Nullable<System.DateTime> SyncDateTime { get; set; }
-        public bool IsPublic { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormDetail> FormDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Value> Values { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormUserAuthorization> FormUserAuthorizations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Value> Values { get; set; }
     }
 }
