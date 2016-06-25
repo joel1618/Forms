@@ -54,7 +54,6 @@
                 .then(function (response) {
                     deferred.resolve(response);
                 }, function (response) {
-                debugger;
                     if (response.statusText.length > 0) {
                         deferred.reject(response.statusText);
                     } else {

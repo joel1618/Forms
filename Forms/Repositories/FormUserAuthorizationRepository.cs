@@ -39,33 +39,33 @@ namespace Forms.Repositories
 
         public async Task<FormUserAuthorizationEntity> Update(Guid id, FormUserAuthorizationEntity item)
         {
-            using (var context = new FormsEntities())
-            {
-                var entity = context.FormUserAuthorizations.Find(id);
+            var entity = context.FormUserAuthorizations.Find(id);
 
-                entity.IsCreateData = item.IsCreateData;
-                entity.IsUpdateData = item.IsUpdateData;
-                entity.IsReadData = item.IsReadData;
-                entity.IsDeleteData = item.IsDeleteData;
+            entity.IsCreateData = item.IsCreateData;
+            entity.IsUpdateData = item.IsUpdateData;
+            entity.IsReadData = item.IsReadData;
+            entity.IsDeleteData = item.IsDeleteData;
 
-                entity.IsCreateForm = item.IsCreateForm;
-                entity.IsUpdateForm = item.IsUpdateForm;
-                entity.IsReadForm = item.IsReadForm;
-                entity.IsDeleteForm = item.IsDeleteForm;
+            entity.IsCreateForm = item.IsCreateForm;
+            entity.IsUpdateForm = item.IsUpdateForm;
+            entity.IsReadForm = item.IsReadForm;
+            entity.IsDeleteForm = item.IsDeleteForm;
 
-                entity.ModifiedDateTime = DateTime.Now;
-                context.SaveChanges();
-                return entity;
-            }
+            entity.ModifiedDateTime = DateTime.Now;
+            context.SaveChanges();
+            return entity;
         }
 
         public async void Delete(Guid id)
         {
             using (var context = new FormsEntities())
             {
-                var entity = context.Forms.Find(id);
-                context.Forms.Remove(entity);
-                context.SaveChanges();
+                var entity = context.FormUserAuthorizations.Find(id);
+                if (entity != null)
+                {
+                    context.FormUserAuthorizations.Remove(entity);
+                    context.SaveChanges();
+                }
             }
         }
     }

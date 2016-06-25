@@ -24,9 +24,8 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpGet]
         public IQueryable<FormViewModel> Search()
         {
-            FormRepository formRepository = new FormRepository();
             var userId = User.Identity.GetUserId();
-            return formRepository.Search().Where(e => e.UserId == userId).Select(x => new FormViewModel()
+            return repository.Search().Where(e => e.UserId == userId).Select(x => new FormViewModel()
             {
                 Description = x.Description,
                 Id = x.Id,
@@ -57,12 +56,11 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpPost]
         public async Task<FormEntity> Create(FormEntity item)
         {
-            FormRepository formRepository = new FormRepository();
             FormEntity response = null;
             try
             {
                 item.UserId = User.Identity.GetUserId();
-                response = await formRepository.Create(item);
+                response = await repository.Create(item);
             }
             catch(Exception ex)
             {
@@ -74,15 +72,13 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpPut]
         public async Task<FormEntity> Update(Guid id, FormEntity item)
         {
-            FormRepository formRepository = new FormRepository();
-            return await formRepository.Update(id, item);
+            return await repository.Update(id, item);
         }
 
         [HttpDelete]
         public async void Delete(Guid id)
         {
-            FormRepository formRepository = new FormRepository();
-            formRepository.Delete(id);
+            repository.Delete(id);
         }
     }
 }

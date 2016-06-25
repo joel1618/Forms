@@ -17,10 +17,41 @@ namespace Forms.Migrations
                     context.Database.Create();
                     LoadFormDetailsTypes(context);
                     context.Database.Connection.Open();
+                    AddUniqueKeyFormDetails(context);
+                    AddUniqueKeyFormUserAuthorization(context);
                     context.SaveChanges();
                     context.Database.Connection.Close();
                 }
             }
+        }
+
+        public void AddUniqueKeyFormUserAuthorization(FormsEntities context)
+        {
+            string query = @"
+
+            /****** Object:  Index [IX_FormUserAuthorization]    Script Date: 6/25/2016 3:32:40 PM ******/
+            ALTER TABLE [dbo].[FormUserAuthorization] ADD  CONSTRAINT [IX_FormUserAuthorization] UNIQUE NONCLUSTERED 
+            (
+	            [UserId] ASC,
+	            [FormId] ASC
+            )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+            
+            ";
+            context.Database.ExecuteSqlCommand(query);
+        }
+
+        public void AddUniqueKeyFormDetails(FormsEntities context)
+        {
+            string query = @"
+
+            /****** Object:  Index [IX_FormDetails]    Script Date: 6/25/2016 3:33:29 PM ******/
+            ALTER TABLE [dbo].[FormDetails] ADD  CONSTRAINT [IX_FormDetails] UNIQUE NONCLUSTERED 
+            (
+	            [FormId] ASC,
+	            [Name] ASC
+            )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+            ";
+            context.Database.ExecuteSqlCommand(query);
         }
 
         public void LoadFormDetailsTypes(FormsEntities context)

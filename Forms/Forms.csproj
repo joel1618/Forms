@@ -281,6 +281,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Extensions\FormUserAuthorizationViewModelExtension.cs" />
+    <Compile Include="Models\Extensions\FormViewModelExtension.cs" />
     <Compile Include="Models\Extensions\ValueDetailViewModelExtension.cs" />
     <Compile Include="Models\Extensions\ValueViewModelExtension.cs" />
     <Compile Include="Models\FormDetailViewModel.cs" />

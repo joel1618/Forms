@@ -67,7 +67,6 @@
 
         this.Update = function (id, item) {
             var deferred = $q.defer();
-
             $http.put('/breeze/FormUserAuthorizationApi/Update/' + id, item)
             .then(function (response) {
                 deferred.resolve(response);

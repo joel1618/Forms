@@ -4,16 +4,16 @@
         'FormService', 'FormDetailsService', 'FormDetailsTypeService','FormDetailsOptionsService','ValueService','ValueDetailsService', 'ValueReadService', 'FormUserAuthorizationService', 'AspNetUsersService',
     function controller($scope, $uibModal, $routeParams, $http, $location, $timeout, breezeservice, breeze,
         FormService, FormDetailsService, FormDetailsTypeService, FormDetailsOptionsService, ValueService, ValueDetailsService, ValueReadService, FormUserAuthorizationService, AspNetUsersService) {
-            var id = $routeParams.id.toLowerCase();
-            var pageSize = 1000;
+            var id = $routeParams.id;
+            var pageSize = 100;
             var page = 0;
             $scope.email = null;
 
             $scope.Search = function () {
                 var predicate = new breeze.Predicate('FormId', '==', id);
-                FormUserAuthorizationService.Search(predicate, id, page, pageSize, false).then(function (data) {
-                debugger;
-                    $scope.Items = data;
+                FormUserAuthorizationService.Search(predicate, page, pageSize, false).then(function (data) {
+
+                $scope.Items = data;
                 });
             }
             $scope.Search();
@@ -43,10 +43,6 @@
                         alert("No user was found.");
                     };
                 });
-            }
-
-            $scope.Select = function (item) {
-
             }
     }]);
 })(moment);
