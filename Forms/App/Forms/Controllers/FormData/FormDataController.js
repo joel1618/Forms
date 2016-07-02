@@ -18,6 +18,8 @@
             $scope.DeleteValue = function (item) {
                 ValueService.Delete(item.Id).then(function (data) {
                     $scope.Search();
+                }, function (error) {
+                    alert(error.data);
                 });
             }
 
