@@ -9,9 +9,13 @@ namespace Forms.Services
     public class AuthorizationService
     {
         FormUserAuthorizationRepository formUserAuthorizationRepository;
+        FormRepository formRepository;
+        AspNetUsersRepository userRepository;
         public AuthorizationService()
         {
             this.formUserAuthorizationRepository = new FormUserAuthorizationRepository();
+            this.formRepository = new FormRepository();
+            this.userRepository = new AspNetUsersRepository();
         }
 
         public enum AuthorizationType
@@ -26,6 +30,14 @@ namespace Forms.Services
 
         public bool IsAuthorized(Guid formId, string email, AuthorizationType authorizationType, EndpointType endpointType)
         {
+            //Check the base case.  The creator of the form can do everything.
+            var form = formRepository.Get(formId).Result;
+            var user = userRepository.Search().Where(e => e.Email == email).ToList();
+            if(form.UserId == user[0].Id)
+            {
+                return true;
+            }
+            //Otherwise check the who is authorized to do what on this form.
             var credentials = formUserAuthorizationRepository.Search().Where(e => e.FormId == formId && e.AspNetUser.Email == email).ToList();
             if(credentials.Count() > 0)
             {

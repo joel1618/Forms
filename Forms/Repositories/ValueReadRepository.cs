@@ -36,22 +36,24 @@ namespace Forms.Repositories
                     "  FOR XML PATH(''), TYPE" +
                     "   ).value('.', 'NVARCHAR(MAX)'), 1, 1, '')" +
 
-                    " SET @sql = 'SELECT Id, FormId, CreatedDateTime, ' + @cols + '" +
+                    " SET @sql = 'SELECT Id, FormName, FormId, ' + @cols + ', CreatedDateTime as ''Created Date''" +
                     "     FROM" +
                     "   (" +
-                    " select Value.Id, Value.FormId, ''Value '' =" +
-                        "  case when ValueDetails.ValuePicture is not null then ValueDetails.ValuePicture" +
+                    " select Value.Id, Form.Name as ''FormName'', Value.FormId, ''Value '' =" +
+                        "  case when ValueDetails.ValuePicture is not null then convert(nvarchar(128), ValueDetails.Id) " +
                         "  else ValueDetails.Value" +
-                            "end," +
+                            " end," +
                             "FormDetails.Name, Value.CreatedDateTime" +
                     "      from Value" +
+                    " left join Form" +
+                    " on Form.Id = Value.FormId" +
                     "      left join ValueDetails" +
                     "     on Value.Id = ValueDetails.ValueId" +
                     "    left" +
                     "      join FormDetails" +
 
                     "  on ValueDetails.FormDetailsId = FormDetails.Id" +
-                    "  where Value.FormId = '" + formId + "' " +
+                    "  where Value.FormId =     ''" + formId + "'' " +
                     "  ) s" +
                     "   PIVOT" +
                     "(" +
@@ -78,12 +80,11 @@ namespace Forms.Repositories
 								    ORDER BY 1
 								    FOR XML PATH(''), TYPE
 								    ).value('.', 'NVARCHAR(MAX)'),1,1,'')
-
-					    SET @sql = 'SELECT Id, FormId, CreatedDateTime, ' + @cols + '
-								      FROM
-								    (
+					    SET @sql = 'SELECT Id, FormId, ' + @cols + ', CreatedDateTime as ''Created Date'' 
+                                     FROM
+								     (
 								      select Value.Id, Value.FormId, ''Value '' =
-									  case when ValueDetails.ValuePicture is not null then ValueDetails.ValuePicture 
+									  case when ValueDetails.ValuePicture is not null then convert(nvarchar(128), ValueDetails.Id) 
 									  else ValueDetails.Value 
 									  end,									  
 									  FormDetails.Name, Value.CreatedDateTime

@@ -2,6 +2,7 @@
 using Forms.Models;
 using Forms.Models.Extensions;
 using Forms.Repositories;
+using Forms.Services;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,24 @@ namespace Forms.Controllers.api.v1.breeze
     public class FormUserAuthorizationApiController : ApiController
     {
         FormUserAuthorizationRepository repository;
+        AspNetUsersRepository userRepository;
+        AuthorizationService authorizationService;
+        FormUserAuthorizationRepository formUserAuthorizationRepository;
+        private AspNetUser user;
         public FormUserAuthorizationApiController()
         {
             this.repository = new FormUserAuthorizationRepository();
+            this.userRepository = new AspNetUsersRepository();
+            this.authorizationService = new AuthorizationService();
+            this.formUserAuthorizationRepository = new FormUserAuthorizationRepository();
+            var currentUserId = User.Identity.GetUserId();
+            user = userRepository.Search().Where(e => e.Id == currentUserId).FirstOrDefault();
         }
         [HttpGet]
         public IQueryable<FormUserAuthorizationViewModel> Search()
         {
-            var response = repository.Search();
-            return response.Select(item => new FormUserAuthorizationViewModel()
+            var formIds = formUserAuthorizationRepository.Search().Where(e => e.UserId == user.Id && e.IsReadForm == true).Select(x => x.FormId).ToList();
+            return repository.Search().Where(e => e.UserId == user.Id || formIds.Contains(e.Id)).Select(item => new FormUserAuthorizationViewModel()
             {
                 Id = item.Id,
                 FormId = item.FormId,
@@ -63,40 +73,71 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            var response = await repository.Get(id);
-            return Content(HttpStatusCode.OK, response.ToViewModel());
+            FormUserAuthorizationViewModel model = null;
+            try
+            {
+                var record = await repository.Get(id);
+                if (!authorizationService.IsAuthorized(record.Id, user.Email, AuthorizationService.AuthorizationType.IsRead, AuthorizationService.EndpointType.Form))
+                {
+                    return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                }
+                model = record.ToViewModel();
+                return Content(HttpStatusCode.OK, model);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return Content(HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Create(FormUserAuthorizationViewModel item)
         {
-            FormUserAuthorizationEntity entity = null;
-            FormUserAuthorizationViewModel response = null;
+            FormUserAuthorizationViewModel model = null;
             try
             {
-                //item.UserId = User.Identity.GetUserId();
-                entity = await repository.Create(item.ToEntity());
-                response = entity.ToViewModel();
+                if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsCreate, AuthorizationService.EndpointType.Form))
+                {
+                    return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                }
+                item.UserId = User.Identity.GetUserId();
+                var record = await repository.Create(item.ToEntity());
+                model = record.ToViewModel();
+                return Content(HttpStatusCode.OK, model);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                return Content(HttpStatusCode.InternalServerError, ex);
             }
-            return Content(HttpStatusCode.OK, response);
         }
 
         [HttpPut]
-        public async Task<FormUserAuthorizationViewModel> Update(Guid id, FormUserAuthorizationViewModel item)
+        public async Task<IHttpActionResult> Update(Guid id, FormUserAuthorizationViewModel item)
         {
-            var entity = item.ToEntity();
-            var response = await repository.Update(id, entity);
-            return response.ToViewModel();
+            if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsUpdate, AuthorizationService.EndpointType.Form))
+            {
+                return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+            }
+            var record = await repository.Update(id, item.ToEntity());
+            var model = record.ToViewModel();
+            return Content(HttpStatusCode.OK, model);
         }
 
         [HttpDelete]
-        public async void Delete(Guid id)
+        public async Task<IHttpActionResult> Delete(Guid id)
         {
-            repository.Delete(id);
+            var item = await repository.Get(id);
+            if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsDelete, AuthorizationService.EndpointType.Form))
+            {
+                return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+            }
+            else
+            {
+                repository.Delete(id);
+                return Content(HttpStatusCode.OK, "");
+            }
         }
     }
 }

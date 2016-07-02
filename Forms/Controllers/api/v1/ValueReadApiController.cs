@@ -18,11 +18,11 @@ namespace Forms.Controllers.api.v1
     [RoutePrefix("api/v1/ValueReadApi")]
     public class ValueReadApiController : ApiController
     {
-        ValueReadPivotRepository repository;
+        ValueReadRepository repository;
         FormDetailsRepository formDetailsRepository;
         public ValueReadApiController()
         {
-            this.repository = new ValueReadPivotRepository();
+            this.repository = new ValueReadRepository();
             this.formDetailsRepository = new FormDetailsRepository();
         }
         [Route("Search/formId={formid}/page={page}/pagesize={pagesize}")]

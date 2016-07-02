@@ -283,6 +283,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetUserViewModel.cs" />
     <Compile Include="Models\Extensions\AspNetUserViewModelExtension.cs" />
+    <Compile Include="Models\Extensions\FormDetailOptionViewModelExtension.cs" />
+    <Compile Include="Models\Extensions\FormDetailViewModelExtension.cs" />
     <Compile Include="Models\Extensions\FormUserAuthorizationViewModelExtension.cs" />
     <Compile Include="Models\Extensions\FormViewModelExtension.cs" />
     <Compile Include="Models\Extensions\ValueDetailViewModelExtension.cs" />
@@ -305,7 +307,6 @@
     <Compile Include="Repositories\FormRepository.cs" />
     <Compile Include="Repositories\FormUserAuthorizationRepository.cs" />
     <Compile Include="Repositories\AspNetUsersRepository.cs" />
-    <Compile Include="Repositories\ValueReadPivotRepository.cs" />
     <Compile Include="Repositories\ValueDetailsRepository.cs" />
     <Compile Include="Repositories\ValueReadRepository.cs" />
     <Compile Include="Repositories\ValueRepository.cs" />
