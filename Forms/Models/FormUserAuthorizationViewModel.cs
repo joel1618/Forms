@@ -21,7 +21,7 @@ namespace Forms.Models
         public Nullable<System.DateTime> ModifiedDateTime { get; set; }
         public System.DateTime CreatedDateTime { get; set; }
 
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual AspNetUserViewModel AspNetUser { get; set; }
         public virtual FormViewModel Form { get; set; }
     }
 }

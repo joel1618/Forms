@@ -5,7 +5,7 @@ using System.Web;
 using FormEntity = Forms.Form;
 using FormViewModel = Forms.Models.FormViewModel;
 
-namespace Forms.Models.Eitemtensions
+namespace Forms.Models.Extensions
 {
     public static class FormViewModelExtemtension
     {

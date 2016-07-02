@@ -1,6 +1,6 @@
 ﻿using Breeze.WebApi2;
 using Forms.Models;
-using Forms.Models.Eitemtensions;
+using Forms.Models.Extensions;
 using Forms.Repositories;
 using Microsoft.AspNet.Identity;
 using System;
@@ -42,7 +42,11 @@ namespace Forms.Controllers.api.v1.breeze
                 UserId = item.UserId,
                 CreatedDateTime = item.CreatedDateTime,
                 ModifiedDateTime = item.ModifiedDateTime,
-                AspNetUser = item.AspNetUser,
+                AspNetUser = new AspNetUserViewModel()
+                {
+                    Id = item.AspNetUser.Id,
+                    Email = item.AspNetUser.Email
+                },
                 Form = new FormViewModel()
                 {
                     Description = item.Form.Description,
@@ -66,17 +70,19 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpPost]
         public async Task<IHttpActionResult> Create(FormUserAuthorizationViewModel item)
         {
-            FormUserAuthorizationEntity response = null;
+            FormUserAuthorizationEntity entity = null;
+            FormUserAuthorizationViewModel response = null;
             try
             {
-                item.UserId = User.Identity.GetUserId();
-                response = await repository.Create(item.ToEntity());
+                //item.UserId = User.Identity.GetUserId();
+                entity = await repository.Create(item.ToEntity());
+                response = entity.ToViewModel();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
-            return Content(HttpStatusCode.OK, response.ToViewModel());
+            return Content(HttpStatusCode.OK, response);
         }
 
         [HttpPut]

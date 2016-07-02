@@ -12,7 +12,7 @@
             $scope.Search = function () {
                 var predicate = new breeze.Predicate('FormId', '==', id);
                 FormUserAuthorizationService.Search(predicate, page, pageSize, false).then(function (data) {
-
+                    debugger;
                 $scope.Items = data;
                 });
             }
@@ -33,8 +33,8 @@
             $scope.Create = function () {                
                 var predicate = new breeze.Predicate('Email', '==', $scope.email);
                 AspNetUsersService.Search(predicate, 0, 1, false).then(function(data){ 
-                    if(data.length > 0){
-                        var item = { 'FormId': id, 'UserId' :  data.Id };
+                    if (data.length > 0) {
+                        var item = { 'FormId': id, 'UserId' :  data[0].Id };
                         FormUserAuthorizationService.Create(item).then(function (data) {
                             $scope.Search();
                         });

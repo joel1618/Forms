@@ -5,7 +5,7 @@ using System.Web;
 using FormUserAuthorizationViewModel = Forms.Models.FormUserAuthorizationViewModel;
 using FormUserAUthorizationEntity = Forms.FormUserAuthorization;
 
-namespace Forms.Models.Eitemtensions
+namespace Forms.Models.Extensions
 {
     public static class FormUserAuthorizationViewModelEitemtension
     {
@@ -49,8 +49,8 @@ namespace Forms.Models.Eitemtensions
                 UserId = item.UserId,
                 CreatedDateTime = item.CreatedDateTime,
                 ModifiedDateTime = item.ModifiedDateTime,
-                AspNetUser = item.AspNetUser,
-                Form = item.Form.ToViewModel()
+                AspNetUser = item.AspNetUser != null ? item.AspNetUser.ToViewModel() : null,
+                Form = item.Form != null ? item.Form.ToViewModel() : null
             };
 
             return model;

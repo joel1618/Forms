@@ -2,6 +2,7 @@
 using Forms.Models;
 using Forms.Models.Extensions;
 using Forms.Repositories;
+using Forms.Services;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,13 @@ namespace Forms.Controllers.api.v1.breeze
     public class ValueDetailsApiController : ApiController
     {
         ValueDetailsRepository repository;
+        AspNetUsersRepository userRepository;
+        AuthorizationService authorizationService;
         public ValueDetailsApiController()
         {
             this.repository = new ValueDetailsRepository();
+            this.userRepository = new AspNetUsersRepository();
+            this.authorizationService = new AuthorizationService();
         }
         [HttpGet]
         public IQueryable<ValueDetailViewModel> Search()
@@ -41,6 +46,11 @@ namespace Forms.Controllers.api.v1.breeze
             try
             {
                 var record = await repository.Get(id);
+                var user = userRepository.Search().Where(e => e.Id == User.Identity.GetUserId()).FirstOrDefault();
+                if (!authorizationService.IsAuthorized(record.FormDetail.FormId, user.Email, AuthorizationService.AuthorizationType.IsRead, AuthorizationService.EndpointType.Data))
+                {
+                    return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                }
                 model = record.ToViewModel();
                 return Content(HttpStatusCode.OK, model);
             }
@@ -57,6 +67,11 @@ namespace Forms.Controllers.api.v1.breeze
             ValueDetailViewModel model = null;
             try
             {
+                var user = userRepository.Search().Where(e => e.Id == User.Identity.GetUserId()).FirstOrDefault();
+                if (!authorizationService.IsAuthorized(item.FormDetail.FormId, user.Email, AuthorizationService.AuthorizationType.IsCreate, AuthorizationService.EndpointType.Data))
+                {
+                    return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                }
                 item.UserId = User.Identity.GetUserId();
                 var record = await repository.Create(item.ToEntity());
                 model = record.ToViewModel();
@@ -70,15 +85,32 @@ namespace Forms.Controllers.api.v1.breeze
         }
 
         [HttpPut]
-        public async Task<ValueDetailEntity> Update(Guid id, ValueDetailEntity item)
+        public async Task<IHttpActionResult> Update(Guid id, ValueDetailViewModel item)
         {
-            return await repository.Update(id, item);
+            var user = userRepository.Search().Where(e => e.Id == User.Identity.GetUserId()).FirstOrDefault();
+            if (!authorizationService.IsAuthorized(item.FormDetail.FormId, user.Email, AuthorizationService.AuthorizationType.IsUpdate, AuthorizationService.EndpointType.Data))
+            {
+                return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+            }
+            var record = await repository.Update(id, item.ToEntity());
+            var model = record.ToViewModel();
+            return Content(HttpStatusCode.OK, model);
         }
 
         [HttpDelete]
-        public async void Delete(Guid id)
+        public async Task<IHttpActionResult> Delete(Guid id)
         {
-            repository.Delete(id);
+            var item = await repository.Get(id);
+            var user = userRepository.Search().Where(e => e.Id == User.Identity.GetUserId()).FirstOrDefault();
+            if (!authorizationService.IsAuthorized(item.FormDetail.FormId, user.Email, AuthorizationService.AuthorizationType.IsUpdate, AuthorizationService.EndpointType.Data))
+            {
+                return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+            }
+            else
+            {
+                repository.Delete(id);
+                return Content(HttpStatusCode.OK, "");
+            }
         }
     }
 }

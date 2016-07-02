@@ -17,11 +17,7 @@
                         <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
                     </fieldset>
                     <fieldset class="form-group">
-                        <label for="">Publish Url</label>
-                        <input type="text" class="form-control input-sm" ng-model="TempForm.PublishUrl" placeholder="http://url.com/api/resource" />
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="">Is Required</label>
+                        <label for="">Is Public</label>
                         <input type="checkbox" ng-model="TempForm.IsPublic" />
                     </fieldset>
                     <button type="submit" class="btn btn-sm btn-primary" ng-disabled="!formForm.$valid" ng-click="CreateForm()">Create</button>
