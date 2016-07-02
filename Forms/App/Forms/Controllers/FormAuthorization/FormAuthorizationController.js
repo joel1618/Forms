@@ -21,12 +21,16 @@
             $scope.Delete = function (item) {
                 FormUserAuthorizationService.Delete(item.Id).then(function (data) {
                     $scope.Search();
-                });
+                }, function (error) {
+                        alert(error.data);
+                    });
             }
             
             $scope.Update = function (item) {
                 FormUserAuthorizationService.Update(item.Id, item).then(function (data) {
                     $scope.Search();
+                }, function (error) {
+                    alert(error.data);
                 });
             }
 
@@ -37,6 +41,8 @@
                         var item = { 'FormId': id, 'UserId' :  data[0].Id };
                         FormUserAuthorizationService.Create(item).then(function (data) {
                             $scope.Search();
+                        }, function (error) {
+                            alert(error.data);
                         });
                     }
                     else {

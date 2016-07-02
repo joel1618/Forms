@@ -34,18 +34,20 @@
             $scope.SearchFormDetails(form.Id);
         }
         $scope.DeleteForm = function (item) {
-            //TODO: Alert User
-            //Delete Form
             FormService.Delete(item.Id).then(function (data) {
                 $scope.Forms = null; $scope.FormDetails = null; $scope.FormDetailsOptions = null;
                 $scope.SelectedForm = null; $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null;
                 $scope.Search();
+            }, function (error) {
+                alert(error.data);
             });
         }
         $scope.CreateForm = function () {
             FormService.Create($scope.TempForm).then(function (data) {
                 $scope.Search();
                 $scope.ClearTemp();
+            }, function (error) {
+                alert(error.data);
             });
         }
 
@@ -62,7 +64,9 @@
             FormDetailsService.Create($scope.TempFormItem).then(function (data) {
                 $scope.SearchFormDetails($scope.SelectedForm.Id);
                 $scope.ClearTemp();
-            })
+            }, function (error) {
+                alert(error.data);
+            });
         }
 
         $scope.DeleteFormDetail = function (item) {
@@ -70,6 +74,8 @@
                 $scope.FormDetailsOptions = null;
                 $scope.SelectedFormDetail = null; $scope.SelectedFormDetailOption = null;
                 $scope.SearchFormDetails($scope.SelectedForm.Id);
+            }, function (error) {
+                alert(error.data);
             });
         };
 
@@ -91,6 +97,8 @@
         $scope.DeleteFormDetailOption = function (item) {
             FormDetailsOptionsService.Delete(item.Id).then(function (data) {
                 $scope.SearchFormDetailOptions($scope.SelectedFormDetail.Id);
+            }, function (error) {
+                alert(error.data);
             });
         }
 
@@ -99,6 +107,8 @@
             FormDetailsOptionsService.Create($scope.TempFormDetailOption).then(function (data) {
                 $scope.SearchFormDetailOptions($scope.SelectedFormDetail.Id);
                 $scope.ClearTemp();
+            }, function (error) {
+                alert(error.data);
             });
         };
 

@@ -79,7 +79,7 @@ namespace Forms.Controllers.api.v1.breeze
                 var record = await repository.Get(id);
                 if (!authorizationService.IsAuthorized(record.Id, user.Email, AuthorizationService.AuthorizationType.IsRead, AuthorizationService.EndpointType.Form))
                 {
-                    return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                    return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
                 }
                 model = record.ToViewModel();
                 return Content(HttpStatusCode.OK, model);
@@ -99,7 +99,7 @@ namespace Forms.Controllers.api.v1.breeze
             {
                 if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsCreate, AuthorizationService.EndpointType.Form))
                 {
-                    return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                    return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
                 }
                 item.UserId = User.Identity.GetUserId();
                 var record = await repository.Create(item.ToEntity());
@@ -118,7 +118,7 @@ namespace Forms.Controllers.api.v1.breeze
         {
             if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsUpdate, AuthorizationService.EndpointType.Form))
             {
-                return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
             }
             var record = await repository.Update(id, item.ToEntity());
             var model = record.ToViewModel();
@@ -131,7 +131,7 @@ namespace Forms.Controllers.api.v1.breeze
             var item = await repository.Get(id);
             if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsDelete, AuthorizationService.EndpointType.Form))
             {
-                return Content(HttpStatusCode.Unauthorized, "You are not authorized to perform this action.");
+                return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
             }
             else
             {
