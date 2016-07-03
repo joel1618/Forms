@@ -78,7 +78,6 @@
                     this.SynchronizeValue();
                 }
                 $q.all(promises).then(function () {
-                    debugger;
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, { Id: "0", IsSyncing: false });
                     database.commit();
                     $rootScope.$emit('IsSyncing', { IsSynching: false });
@@ -207,7 +206,7 @@
 
             //TODO: Chain the header to the detail
             this.SynchronizeValue = function () {
-                if (navigator.onLine) {
+                if (this.CanSync()) {
                     var predicate = function (row) { if (row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
                     promises.push(ValueCacheService.Search(predicate, 0, 100, false).then(function (items) {
                         angular.forEach(items, function (value, key) {
@@ -219,7 +218,6 @@
                                 //Set the detail rows ValueId FK to the PK that came back from the server.
                                 predicate = function (row) { if (row.ValueId === value.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
                                 promises.push(ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
-                                    debugger;
                                     angular.forEach(items, function (value, key) {
                                         promises.push(ValueDetailsService.Create(value).then(function (item) {
                                             database.insertOrUpdate("ValueDetails", { Id: item.data.Id }, {
