@@ -9,7 +9,7 @@
         </div>
     </div>
     <div ng-show="!IsSyncing">
-        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+        <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="DeleteAlert($index)">{{alert.msg}}</uib-alert>
         <br />
         <div class="container">
             <div class="row">

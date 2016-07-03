@@ -138,13 +138,17 @@
                         $scope.alerts.push({ type: 'success', msg: 'Data has been saved locally and will be pushed to the server when a connection is available.' });
                     }
                     $timeout(function () {
-                        $scope.alerts.splice(0, 1);
+                        $scope.DeleteAlert(0, 1);
                     }, 5000);
                     //Save tempValueDetails to cache
                     $scope.Init();
                 });
             }
             $scope.IsSaving = false;
+        }
+
+        $scope.DeleteAlert = function (index) {
+            $scope.alerts.splice(index, 1);
         }
 
         $scope.Clear = function () {
