@@ -22,6 +22,7 @@ namespace Forms.Controllers.api.v1.breeze
         AspNetUsersRepository userRepository;
         AuthorizationService authorizationService;
         FormUserAuthorizationRepository formUserAuthorizationRepository;
+        FormDetailsRepository formDetailsRepository;
         private AspNetUser user;
 
         public ValueDetailsApiController()
@@ -30,6 +31,7 @@ namespace Forms.Controllers.api.v1.breeze
             this.userRepository = new AspNetUsersRepository();
             this.authorizationService = new AuthorizationService();
             this.formUserAuthorizationRepository = new FormUserAuthorizationRepository();
+            this.formDetailsRepository = new FormDetailsRepository();
             var currentUserId = User.Identity.GetUserId();
             user = userRepository.Search().Where(e => e.Id == currentUserId).FirstOrDefault();
         }
@@ -37,13 +39,7 @@ namespace Forms.Controllers.api.v1.breeze
         public IQueryable<ValueDetailViewModel> Search()
         {
             var formIds = formUserAuthorizationRepository.Search().Where(e => e.UserId == user.Id && e.IsReadData == true).Select(x => x.FormId).ToList();
-            return repository.Search().Where(e => e.UserId == user.Id || formIds.Contains(e.ValueId) || e.Value1.Form.IsPublic == true).Select(x => new ValueDetailViewModel()
-            {
-                Id = x.Id,
-                ValueId = x.ValueId,
-                FormDetailsId = x.FormDetailsId,
-                Value = x.Value
-            });
+            return repository.Search().Where(e => e.UserId == user.Id || formIds.Contains(e.ValueId) || e.Value1.Form.IsPublic == true).Select(x => x.ToViewModel());
         }
 
         [HttpGet]
@@ -73,7 +69,8 @@ namespace Forms.Controllers.api.v1.breeze
             ValueDetailViewModel model = null;
             try
             {
-                if (!authorizationService.IsAuthorized(item.FormDetail.FormId, user.Email, AuthorizationService.AuthorizationType.IsCreate, AuthorizationService.EndpointType.Data))
+                var formDetail = await formDetailsRepository.Get(item.FormDetailsId);
+                if (!authorizationService.IsAuthorized(formDetail.FormId, user.Email, AuthorizationService.AuthorizationType.IsCreate, AuthorizationService.EndpointType.Data))
                 {
                     return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
                 }
@@ -92,7 +89,7 @@ namespace Forms.Controllers.api.v1.breeze
         [HttpPut]
         public async Task<IHttpActionResult> Update(Guid id, ValueDetailViewModel item)
         {
-            if (!authorizationService.IsAuthorized(item.FormDetail.FormId, user.Email, AuthorizationService.AuthorizationType.IsUpdate, AuthorizationService.EndpointType.Data))
+            if (!authorizationService.IsAuthorized(item.FormDetail.Id, user.Email, AuthorizationService.AuthorizationType.IsUpdate, AuthorizationService.EndpointType.Data))
             {
                 return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
             }

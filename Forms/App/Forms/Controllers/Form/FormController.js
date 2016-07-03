@@ -5,9 +5,10 @@
     function controller($scope, $rootScope, $routeParams, $http, $q, $location, $timeout, breezeservice, breeze,
         LocalDatabaseService, FormCacheService, FormDetailsCacheService, FormDetailsTypeCacheService, FormDetailsOptionsCacheService, ValueCacheService, ValueDetailsCacheService) {
         $scope.IsSyncing = true;
+        $scope.alerts = [];
         LocalDatabaseService.Synchronize();
         $scope.IsInit = false;
-        $scope.IsSaveDisabled = false;
+        $scope.IsSaving = false;
         var id = $routeParams.id.toLowerCase();
         var pageSize = 10;
         $rootScope.$on('IsSyncing', function (event, args) {
@@ -113,7 +114,7 @@
         //TODO: Add IsRequired Validation
         //TODO: Make sure form is valid
         $scope.Save = function () {
-            $scope.IsSaveDisabled = true;
+            $scope.IsSaving = true;
             if ($scope.Validate()) {
                 if ($scope.SelectedFormDetailsType.Name === 'Date') {
                     $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.ValueDate;
@@ -131,11 +132,19 @@
                 $q.all(promises).then(function () {
                     //Fire off sync routine
                     LocalDatabaseService.SynchronizeValue();
+                    if (navigator.onLine) {
+                        $scope.alerts.push({ type: 'success', msg: 'Data has been saved to the server!' });
+                    } else {
+                        $scope.alerts.push({ type: 'success', msg: 'Data has been saved locally and will be pushed to the server when a connection is available.' });
+                    }
+                    $timeout(function () {
+                        $scope.alerts.splice(0, 1);
+                    }, 5000);
                     //Save tempValueDetails to cache
                     $scope.Init();
                 });
             }
-            $scope.IsSaveDisabled = false;
+            $scope.IsSaving = false;
         }
 
         $scope.Clear = function () {

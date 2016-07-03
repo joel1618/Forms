@@ -52,7 +52,6 @@
                 var item = items[0];
                 var duration = moment.duration(moment(moment().format("MM/DD/YYYY HH:mm:ss"), "MM/DD/YYYY HH:mm:ss").diff(moment(item.LastSyncDateTime, "MM/DD/YYYY HH:mm:ss")));
                 var difference = duration.asSeconds();
-                debugger;
                 if ((item.LastSyncDateTime === null && navigator.onLine) || (difference >= lastSyncThresholdInSeconds && !item.IsSyncing && navigator.onLine)) {
                     database.insertOrUpdate("SystemSettings", { Id: "0" }, {
                         Id: "0",
@@ -220,6 +219,7 @@
                                 //Set the detail rows ValueId FK to the PK that came back from the server.
                                 predicate = function (row) { if (row.ValueId === value.Id && row.IsSent === false && row.IsDeleted === false) { return true; } else { return false; } };
                                 promises.push(ValueDetailsCacheService.Search(predicate, 0, 100, false).then(function (items) {
+                                    debugger;
                                     angular.forEach(items, function (value, key) {
                                         promises.push(ValueDetailsService.Create(value).then(function (item) {
                                             database.insertOrUpdate("ValueDetails", { Id: item.data.Id }, {
