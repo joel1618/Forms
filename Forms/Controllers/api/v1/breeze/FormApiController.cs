@@ -75,10 +75,10 @@ namespace Forms.Controllers.api.v1.breeze
             FormViewModel model = null;
             try
             {
-                if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsCreate, AuthorizationService.EndpointType.Form))
-                {
-                    return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
-                }
+                //if (!authorizationService.IsAuthorized(item.Id, user.Email, AuthorizationService.AuthorizationType.IsCreate, AuthorizationService.EndpointType.Form))
+                //{
+                //    return Content(HttpStatusCode.Forbidden, "You are not authorized to perform this action.");
+                //}
                 item.UserId = User.Identity.GetUserId();
                 var record = await repository.Create(item.ToEntity());
                 model = record.ToViewModel();
