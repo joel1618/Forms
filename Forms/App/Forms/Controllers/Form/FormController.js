@@ -38,7 +38,6 @@
                         $scope.tempValueDetail.Name = value.Name;
                         $scope.tempValueDetail.Description = value.Description;
                         $scope.tempValueDetail.IsRequired = value.IsRequired;
-                        $scope.tempValueDetail.Value = '';
                         $scope.tempValueDetails.push(angular.copy($scope.tempValueDetail));
                     });
                     if ($scope.tempValueDetails.length > 0) {

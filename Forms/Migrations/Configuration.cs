@@ -110,12 +110,12 @@ namespace Forms.Migrations
                 Name = "Picture",
                 CreatedDateTime = DateTime.Now
             });
-            context.FormDetailsTypes.Add(new FormDetailsType()
-            {
-                Id = Guid.NewGuid(),
-                Name = "File",
-                CreatedDateTime = DateTime.Now
-            });
+            //context.FormDetailsTypes.Add(new FormDetailsType()
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Name = "File",
+            //    CreatedDateTime = DateTime.Now
+            //});
             context.FormDetailsTypes.Add(new FormDetailsType()
             {
                 Id = Guid.NewGuid(),

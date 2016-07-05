@@ -28,7 +28,7 @@
                         <!--<label>Fields</label>-->
                         <div ng-repeat="Detail in tempValueDetails" ng-click="ClickFormDetailRow(Detail)" ng-style="Detail.FormDetailsId === SelectedTempValueDetail.FormDetailsId ? {'background-color': '#428bca'} : { 'background-color': 'white'} ">
                             <h4>{{Detail.Name}}
-                                <small><span class="pull-right glyphicon glyphicon-exclamation-sign text-danger" ng-show="Detail.IsRequired === true && Detail.Value === ''" data-toggle="tooltip" data-placement="left" title="This is a required field."></span></small>
+                                <small><span class="pull-right glyphicon glyphicon-exclamation-sign text-danger" ng-show="Detail.IsRequired === true" data-toggle="tooltip" data-placement="left" title="This is a required field."></span></small>
                             </h4><br />
                         </div>
                         <button class="btn btn-primary pull-right" ng-click="Save()" ng-disabled="IsSaving">Save</button>
