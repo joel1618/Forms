@@ -65,7 +65,6 @@
                 $scope.SearchFormDetails($scope.SelectedForm.Id);
                 $scope.ClearTemp();
             }, function (error) {
-            debugger;
                 alert(error.data);
             });
         }

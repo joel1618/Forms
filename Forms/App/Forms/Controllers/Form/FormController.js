@@ -82,6 +82,7 @@
         }
 
         $scope.Next = function () {
+            $scope.removeImageFromScreen();
             if ($scope.SelectedFormDetailsType.Name === 'Date') {
                 $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.ValueDate;
             }
@@ -89,11 +90,11 @@
             if (index + 1 < $scope.tempValueDetails.length) {
                 $scope.SelectedTempValueDetail = $scope.tempValueDetails[index + 1];
             }
-
             GetFormDetailType();
         };
 
         $scope.Back = function () {
+            $scope.removeImageFromScreen();
             if ($scope.SelectedFormDetailsType.Name === 'Date') {
                 $scope.SelectedTempValueDetail.Value = $scope.SelectedTempValueDetail.ValueDate;
             }

@@ -10,8 +10,7 @@
 
                 var image = new Image();
                 image.onload = function () {
-                    debugger;
-                    ctx.drawImage(image, 0, 0, image.width, image.height);
+                    ctx.drawImage(image, 0,0);
                 };
                 image.src = ValueDetail.ValuePicture;
             }, 0);

@@ -21,17 +21,13 @@ namespace Forms.Repositories
 
         public async Task<ValueDetailEntity> Get(Guid id)
         {
-            using (var context = new FormsEntities())
-            {
-                var entity = context.ValueDetails.Find(id);
-                return entity;
-            }
+            var entity = context.ValueDetails.Find(id);
+            return entity;
+            
         }
 
         public async Task<ValueDetailEntity> Create(ValueDetailEntity item)
         {
-            using (var context = new FormsEntities())
-            {
                 if (item.Id == null || item.Id == Guid.Empty)
                 {
                     item.Id = Guid.NewGuid();
@@ -48,32 +44,26 @@ namespace Forms.Repositories
                 context.ValueDetails.Add(item);
                 context.SaveChanges();
                 return item;
-            }
         }
 
         public async Task<ValueDetailEntity> Update(Guid id, ValueDetailEntity item)
         {
-            using (var context = new FormsEntities())
-            {
                 var entity = context.ValueDetails.Find(id);
                 entity.ModifiedDateTime = DateTime.Now;
                 entity.Value = item.Value;
                 context.SaveChanges();
                 return entity;
-            }
+         
         }
 
         public async void Delete(Guid id)
         {
-            using (var context = new FormsEntities())
-            {
                 var entity = context.ValueDetails.Find(id);
                 if (entity != null)
                 {
                     context.ValueDetails.Remove(entity);
                     context.SaveChanges();
                 }
-            }
         }
     }
 }

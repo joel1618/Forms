@@ -76,6 +76,18 @@ FormCamera.prototype.SetupCamera = function ($scope) {
             }
         }
 
+        $scope.removeImageFromScreen = function(){
+            if (_video) {
+                var patCanvas = document.querySelector('#snapshot');
+                if (!patCanvas) return;
+
+                patCanvas.width = _video.width;
+                patCanvas.height = _video.height;
+                var ctxPat = patCanvas.getContext('2d');
+                ctxPat.clearRect(0, 0, _video.width, _video.height);
+            }
+        }
+
         /**
          * Redirect the browser to the URL given.
          * Used to download the image by passing a dataURL string
